@@ -1,0 +1,106 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.10.34928.147
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BytLabs.MicroserviceTemplate.Api", "src\BytLabs.MicroserviceTemplate.Api\BytLabs.MicroserviceTemplate.Api.csproj", "{D0AF7406-C330-44DE-9453-4D1F472556FC}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BytLabs.MicroserviceTemplate.Domain", "src\BytLabs.MicroserviceTemplate.Domain\BytLabs.MicroserviceTemplate.Domain.csproj", "{9C688704-726B-492D-8CAE-0C28D6BA9B07}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BytLabs.MicroserviceTemplate.Application", "src\BytLabs.MicroserviceTemplate.Application\BytLabs.MicroserviceTemplate.Application.csproj", "{0288ECAD-E5D0-49B9-95D1-E6E5A6839E8D}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BytLabs.MicroserviceTemplate.Infrastructure", "src\BytLabs.MicroserviceTemplate.Infrastructure\BytLabs.MicroserviceTemplate.Infrastructure.csproj", "{E193274A-7E5B-4168-ABEF-72CFA23578B0}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A2EBC4B4-3235-4C01-B4C0-36689F7DEF96}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{71850665-5E6E-4741-AABF-BD77B004AFC7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Interfaces", "Interfaces", "{41F2F3CA-4226-4CED-BA70-847F723A30A3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{63F9594A-8247-4016-9F11-EFFC4C4D85B1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{D47F314E-E769-4A24-B5A3-5ED6DEC3D504}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "github", "github", "{DEA5D0B9-0059-4085-B4A7-021A6E9A0D49}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{F6D8852B-194F-4963-B674-505713750AF3}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\ci.yml = .github\workflows\ci.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docker", "docker", "{93B441FE-7F71-4927-BD49-9BC9A2DD61F6}"
+	ProjectSection(SolutionItems) = preProject
+		docker-compose.yml = docker-compose.yml
+		Dockerfile = Dockerfile
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "props", "props", "{2779DE13-74C6-4EFE-8145-E0B512522086}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+		Directory.Packages.props = Directory.Packages.props
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BytLabs.MicroserviceTemplate.Tests.Accpetance", "src\BytLabs.MicroserviceTemplate.Tests.Accpetance\BytLabs.MicroserviceTemplate.Tests.Accpetance.csproj", "{6139F278-31F8-40B1-B8C7-1D94577BF854}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BytLabs.MicroserviceTemplate.Tests.Unit", "src\BytLabs.MicroserviceTemplate.Tests.Unit\BytLabs.MicroserviceTemplate.Tests.Unit.csproj", "{7C397B17-BFA8-4CDF-8DA0-D8395ECFE793}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BytLabs.MicroserviceTemplate.Client", "src\BytLabs.MicroserviceTemplate.Client\BytLabs.MicroserviceTemplate.Client.csproj", "{A3CE118C-D1A7-47AC-92A2-37B501F961BB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D0AF7406-C330-44DE-9453-4D1F472556FC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0AF7406-C330-44DE-9453-4D1F472556FC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0AF7406-C330-44DE-9453-4D1F472556FC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0AF7406-C330-44DE-9453-4D1F472556FC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C688704-726B-492D-8CAE-0C28D6BA9B07}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C688704-726B-492D-8CAE-0C28D6BA9B07}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C688704-726B-492D-8CAE-0C28D6BA9B07}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C688704-726B-492D-8CAE-0C28D6BA9B07}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0288ECAD-E5D0-49B9-95D1-E6E5A6839E8D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0288ECAD-E5D0-49B9-95D1-E6E5A6839E8D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0288ECAD-E5D0-49B9-95D1-E6E5A6839E8D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0288ECAD-E5D0-49B9-95D1-E6E5A6839E8D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E193274A-7E5B-4168-ABEF-72CFA23578B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E193274A-7E5B-4168-ABEF-72CFA23578B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E193274A-7E5B-4168-ABEF-72CFA23578B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E193274A-7E5B-4168-ABEF-72CFA23578B0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6139F278-31F8-40B1-B8C7-1D94577BF854}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6139F278-31F8-40B1-B8C7-1D94577BF854}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6139F278-31F8-40B1-B8C7-1D94577BF854}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6139F278-31F8-40B1-B8C7-1D94577BF854}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7C397B17-BFA8-4CDF-8DA0-D8395ECFE793}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7C397B17-BFA8-4CDF-8DA0-D8395ECFE793}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7C397B17-BFA8-4CDF-8DA0-D8395ECFE793}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7C397B17-BFA8-4CDF-8DA0-D8395ECFE793}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A3CE118C-D1A7-47AC-92A2-37B501F961BB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A3CE118C-D1A7-47AC-92A2-37B501F961BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A3CE118C-D1A7-47AC-92A2-37B501F961BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A3CE118C-D1A7-47AC-92A2-37B501F961BB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D0AF7406-C330-44DE-9453-4D1F472556FC} = {41F2F3CA-4226-4CED-BA70-847F723A30A3}
+		{9C688704-726B-492D-8CAE-0C28D6BA9B07} = {63F9594A-8247-4016-9F11-EFFC4C4D85B1}
+		{0288ECAD-E5D0-49B9-95D1-E6E5A6839E8D} = {63F9594A-8247-4016-9F11-EFFC4C4D85B1}
+		{E193274A-7E5B-4168-ABEF-72CFA23578B0} = {D47F314E-E769-4A24-B5A3-5ED6DEC3D504}
+		{41F2F3CA-4226-4CED-BA70-847F723A30A3} = {A2EBC4B4-3235-4C01-B4C0-36689F7DEF96}
+		{63F9594A-8247-4016-9F11-EFFC4C4D85B1} = {A2EBC4B4-3235-4C01-B4C0-36689F7DEF96}
+		{D47F314E-E769-4A24-B5A3-5ED6DEC3D504} = {A2EBC4B4-3235-4C01-B4C0-36689F7DEF96}
+		{F6D8852B-194F-4963-B674-505713750AF3} = {DEA5D0B9-0059-4085-B4A7-021A6E9A0D49}
+		{6139F278-31F8-40B1-B8C7-1D94577BF854} = {71850665-5E6E-4741-AABF-BD77B004AFC7}
+		{7C397B17-BFA8-4CDF-8DA0-D8395ECFE793} = {71850665-5E6E-4741-AABF-BD77B004AFC7}
+		{A3CE118C-D1A7-47AC-92A2-37B501F961BB} = {41F2F3CA-4226-4CED-BA70-847F723A30A3}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7F258F57-E020-4B18-903E-4A4F6188301B}
+	EndGlobalSection
+EndGlobal

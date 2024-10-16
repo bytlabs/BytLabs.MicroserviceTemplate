@@ -1,0 +1,24 @@
+﻿mutation CreateOrder($input: CreateOrderInput!) {
+  createOrder(input: $input) {
+    createOrderResult {
+      orderId
+    }
+    errors {
+      ... on ValidationError {
+        message
+        errors {
+          propertyName
+          errorMessage
+          severity
+          errorCode
+        }
+      }
+      ... on DomainError {
+        message
+      }
+      ... on ApplicationError {
+        message
+      }
+    }
+  }
+}

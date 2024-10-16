@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>8556173f-ea72-491e-a6c9-53e76f2ff2cf</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BytLabs.Api" />
+	<PackageReference Include="BytLabs.Api.Graphql" />
+	<PackageReference Include="HotChocolate.Data.MongoDb" />
+	<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BytLabs.MicroserviceTemplate.Infrastructure\BytLabs.MicroserviceTemplate.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <GraphQL Remove="GraphQLClient\Mutations\CreateOrder.graphql" />
+    <GraphQL Remove="GraphQLClient\Mutations\MarkOrderAsShipped.graphql" />
+    <GraphQL Remove="GraphQLClient\Queries\GetOrders.graphql" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="StrawberryShake.Server" />
+  </ItemGroup>
+
+</Project>

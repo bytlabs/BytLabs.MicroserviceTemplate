@@ -1,0 +1,59 @@
+﻿query GetOrders(
+  $first: Int
+  $after: String
+  $last: Int
+  $before: String
+  $order: [OrderSortInput!]
+  $where: OrderFilterInput
+) {
+  orders(
+    first: $first
+    after: $after
+    last: $last
+    before: $before
+    order: $order
+    where: $where
+  ) {
+    pageInfo {
+      hasNextPage
+      hasPreviousPage
+      startCursor
+      endCursor
+    }
+    edges {
+      cursor
+      node {
+        id
+        orderDate
+        status
+        items {
+          productId
+          quantity
+          price
+        }
+        createdAt
+        createdBy
+        lastModifiedAt
+        lastModifiedBy
+        deletedAt
+        deletedBy
+      }
+    }
+    nodes {
+      id
+      orderDate
+      status
+      items {
+        productId
+        quantity
+        price
+      }
+      createdAt
+      createdBy
+      lastModifiedAt
+      lastModifiedBy
+      deletedAt
+      deletedBy
+    }
+  }
+}

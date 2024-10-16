@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="BytLabs.Api" />
+    <PackageReference Include="BytLabs.Api.Graphql" />
+    <PackageReference Include="BytLabs.DataAccess.MongDB" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <ProjectReference Include="..\BytLabs.MicroserviceTemplate.Application\BytLabs.MicroserviceTemplate.Application.csproj" />
+  </ItemGroup>
+
+</Project>

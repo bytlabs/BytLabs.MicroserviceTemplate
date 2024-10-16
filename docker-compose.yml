@@ -1,0 +1,47 @@
+version: "3.8"
+
+services:
+  bytlabs-mongo:
+    image: mongo:4.0.13
+    container_name: bytlabs-mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - local_network
+
+  bytlabs-template-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: bytlabs-template-service
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    ports:
+      - "8080:8080"
+      - "8081:8081"
+    depends_on:
+      - bytlabs-mongo
+    networks:
+      - local_network
+
+  bytlabs-tests:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: test
+    container_name: bytlabs-tests
+    depends_on:
+      - bytlabs-mongo
+    networks:
+      - local_network
+    volumes:
+      - ./test-results:/app/test-results
+
+volumes:
+  mongo_data:
+
+networks:
+  local_network:
