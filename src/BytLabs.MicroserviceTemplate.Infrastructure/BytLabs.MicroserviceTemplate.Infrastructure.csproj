@@ -9,7 +9,7 @@
   <ItemGroup>
     <PackageReference Include="BytLabs.Api" />
     <PackageReference Include="BytLabs.Api.Graphql" />
-    <PackageReference Include="BytLabs.DataAccess.MongDB" />
+    <PackageReference Include="BytLabs.DataAccess.MongoDB" />
   </ItemGroup>
 
 

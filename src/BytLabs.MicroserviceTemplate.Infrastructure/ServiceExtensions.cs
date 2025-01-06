@@ -1,8 +1,8 @@
 ﻿using BytLabs.Api.Configuration;
-using BytLabs.DataAccess.MongDB.Configuration;
+using BytLabs.DataAccess.MongoDB.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using BytLabs.DataAccess.MongDB;
+using BytLabs.DataAccess.MongoDB;
 using BytLabs.MicroserviceTemplate.Domain.Aggregates.OrderAggregate;
 using BytLabs.Application;
 using BytLabs.MicroserviceTemplate.Application.Commands.CreateOrder;

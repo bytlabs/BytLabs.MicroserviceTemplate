@@ -1,25 +1,35 @@
 <Project>
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-    <BytLabsPackageVersion>1.1.3-alpha.32</BytLabsPackageVersion>
+    <BytLabsPackageVersion>1.2.0</BytLabsPackageVersion>
   </PropertyGroup>
   <ItemGroup>
+	  
     <!-- Bytlabs packages -->
     <PackageVersion Include="BuilderGenerator" Version="2.3.0" />
+    <PackageVersion Include="BytLabs.DataAccess.MongoDB" Version="$(BytLabsPackageVersion)" />
     <PackageVersion Include="BytLabs.Domain" Version="$(BytLabsPackageVersion)" />
     <PackageVersion Include="BytLabs.Application" Version="$(BytLabsPackageVersion)" />
     <PackageVersion Include="BytLabs.DataAccess" Version="$(BytLabsPackageVersion)" />
-    <PackageVersion Include="BytLabs.DataAccess.MongDB" Version="$(BytLabsPackageVersion)" />
     <PackageVersion Include="BytLabs.Api" Version="$(BytLabsPackageVersion)" />
     <PackageVersion Include="BytLabs.Api.Graphql" Version="$(BytLabsPackageVersion)" />
-    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.11" />
+    
+	  
+	  
     <!-- Microsoft packages -->
     <PackageVersion Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.20.1" />
+	<PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.11" />
+	  
+	  
+	  
     <!-- HotChocolate packages -->
     <!-- HotChocolate packages versions should match with HotChocolate version used within BytLabs.Api.Graphql  -->
     <!-- Read https://chillicream.com/docs/hotchocolate/integrations/mongodb  -->
     <PackageVersion Include="HotChocolate.Data.MongoDb" Version="14.3.0" />
-    <!-- Tests packages -->
+    
+	  
+	  
+	<!-- Tests packages -->
     <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.0.0" />
     <PackageVersion Include="Moq" Version="4.20.72" />
     <PackageVersion Include="SpecFlow" Version="3.9.74" />

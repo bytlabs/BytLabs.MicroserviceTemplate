@@ -3,7 +3,7 @@ using HotChocolate.Types;
 using HotChocolate;
 using MongoDB.Driver;
 using BytLabs.MicroserviceTemplate.Domain.Aggregates.OrderAggregate;
-using BytLabs.DataAccess.MongDB.Extensions;
+using BytLabs.DataAccess.MongoDB.Extensions;
 
 namespace BytLabs.MicroserviceTemplate.Api.Graphql.Queries
 {

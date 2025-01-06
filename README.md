@@ -18,14 +18,16 @@ A modern .NET microservice template with GraphQL, MongoDB, Docker support, and c
 
 ## BytLabs Package Integration
 
-This template leverages BytLabs core packages to ensure consistency and standardization across all microservices:
+This template leverages BytLabs [core packages](https://github.com/bytlabs/BytLabs.BackendPackages) to ensure consistency and standardization across all microservices:
 
-- **BytLabs.Core**: Common utilities, extensions, and base classes
-- **BytLabs.Domain**: DDD building blocks and patterns
-- **BytLabs.Infrastructure**: Shared infrastructure components
-- **BytLabs.Testing**: Testing utilities and fixtures
-- **BytLabs.Observability**: Standardized observability setup
-- **BytLabs.GraphQL**: Common GraphQL components and middleware
+| Package | Description |
+|---------|------------|
+| [`BytLabs.Domain`](https://github.com/bytlabs/BytLabs.BackendPackages) | Domain model building blocks |
+| [`BytLabs.Application`](https://github.com/bytlabs/BytLabs.BackendPackages) | CQRS, validation, and application services |
+| [`BytLabs.DataAccess`](https://github.com/bytlabs/BytLabs.BackendPackages) | Data persistence and MongoDB integration |
+| [`BytLabs.DataAccess.MongoDB`](https://github.com/bytlabs/BytLabs.BackendPackages) | Data persistence and MongoDB integration |
+| [`BytLabs.Multitenancy`](https://github.com/bytlabs/BytLabs.BackendPackages) | Multi-tenant infrastructure |
+| [`BytLabs.Observability`](https://github.com/bytlabs/BytLabs.BackendPackages) | Monitoring and logging tools |
 
 Using these packages ensures:
 - Uniform architecture across all microservices
@@ -39,7 +41,6 @@ Using these packages ensures:
 - .NET 8.0 SDK
 - Docker & Docker Compose
 - MongoDB (or use the provided Docker container)
-
 
 ## Getting Started
 
@@ -76,43 +77,44 @@ To get started with the project, follow these steps:
 
    The script will automatically update the project name in all relevant files.
 
-
 4. **Run the application using Docker Compose**
 
    ```bash
    docker-compose up
    ```
 
-The service will be available at:
-- HTTP: http://localhost:8080
-- HTTPS: https://localhost:8081
-- GraphQL Endpoint: http://localhost:8080/graphql/
+   The service will be available at:
+   - HTTP: http://localhost:8080
+   - HTTPS: https://localhost:8081
+   - GraphQL Endpoint: http://localhost:8080/graphql/
 
 ## Configuration
 
 The application can be configured through various settings files:
 
 1. Main Configuration (`appsettings.json`):
-```json
-{
-  "ObservabilityConfiguration": {
-    "CollectorUrl": "http://localhost:4317",
-    "ServiceName": "microservice-template",
-    "Timeout": 1000
-  },
-  "MongoDatabaseConfiguration": {
-    "DatabaseName": "microserviceTemplate",
-    "ConnectionString": "mongodb://localhost:27017?retryWrites=false",
-    "UseTransactions": false
-  }
-}
-```
+
+   ```json
+   {
+     "ObservabilityConfiguration": {
+       "CollectorUrl": "http://localhost:4317",
+       "ServiceName": "microservice-template",
+       "Timeout": 1000
+     },
+     "MongoDatabaseConfiguration": {
+       "DatabaseName": "microserviceTemplate",
+       "ConnectionString": "mongodb://localhost:27017?retryWrites=false",
+       "UseTransactions": false
+     }
+   }
+   ```
 
 ## Development
 
 ### Running Tests
 
 Execute all tests using Docker:
+
 ```bash
 docker-compose up bytlabs-microservice-template-tests
 ```
@@ -122,14 +124,16 @@ docker-compose up bytlabs-microservice-template-tests
 The template uses StrawberryShake for GraphQL client generation. To update the client:
 
 1. Install the StrawberryShake CLI:
-```bash
-dotnet tool restore
-```
+
+   ```bash
+   dotnet tool restore
+   ```
 
 2. Generate the client code:
-```bash
-dotnet graphql generate
-```
+
+   ```bash
+   dotnet graphql generate
+   ```
 
 ## CI/CD Pipeline
 
@@ -150,6 +154,41 @@ The solution follows Clean Architecture and DDD principles:
 - **Application Layer**: Commands, queries, and application logic
 - **Domain Layer**: Aggregates, entities, and domain logic
 - **Infrastructure Layer**: Database access, external services integration
+
+## Roadmap
+
+We are planning to introduce the following enhancements to the BytLabs Microservice Template:
+
+1. **BytLabs MessageBus Package Integration**:
+   - Leverages Dapr's message bus to handle both event-based pub/sub and command-driven point-to-point communication.
+   - Facilitates seamless communication for integration events and commands between microservices.
+   - Supports the outbox pattern to ensure reliable message delivery and consistency.
+
+2. **Grafana and Prometheus Integration**:
+   - Add Docker Compose setup for Grafana and Prometheus to enable monitoring and visualization.
+
+3. **Kubernetes Templates**:
+   - Provide Kubernetes manifests for observability, including configurations for metrics and distributed tracing.
+
+4. **REST API and gRPC Interface Examples**:
+   - Include examples demonstrating REST API and gRPC interfaces within the template.
+
+5. **BytLabs IdentityService using Keycloak**:
+   - Integration with an IdentityService implementation using Keycloak, designed to work seamlessly with this microservice template.
+
+6. **BytLabs IdentityService using IdentityServer**:
+   - Integration with an IdentityService implementation using IdentityServer, designed to work seamlessly with this microservice template.
+
+7. **BytLabs Gateway Service**:
+   - Integration with a new gateway service using Ocelot, supporting interfaces defined in the microservice template.
+
+8. **BytLabs Aggregator Service**:
+   - Integration with a new aggregator service that consolidates data from multiple microservices built with this template.
+
+9. **FileSystem Service**:
+   - Integration with a new FileSystem service managing object storage across all cloud providers, implemented as a separate microservice using this template.
+
+Stay tuned for updates as we continue enhancing the BytLabs ecosystem!
 
 ## Contributing
 
