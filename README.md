@@ -40,20 +40,48 @@ Using these packages ensures:
 - Docker & Docker Compose
 - MongoDB (or use the provided Docker container)
 
+
 ## Getting Started
 
-1. Clone the repository:
+To get started with the project, follow these steps:
 
-```bash
-git clone https://github.com/bytlabs/microservice-template.git
-cd microservice-template
-```
+1. **Create a New Repository from the Template**
 
-2. Run the application using Docker Compose:
+   Instead of cloning the repository directly, use the "Use this template" button on GitHub to create your own repository based on the **microservice-template**. This ensures that you have a copy of the template repository to work with.
 
-```bash
-docker-compose up
-```
+   - Click the **"Use this template"** button (usually found near the top-right corner of the page).
+   - Create your new repository by following the instructions on GitHub.
+
+2. **Clone Your New Repository**
+
+   Once your new repository is created, clone it to your local machine:
+
+   ```bash
+   git clone https://github.com/your-username/your-new-repository.git
+   cd your-new-repository
+   ```
+
+3. **Run the Project Setup Script**
+
+   To rename the project, run the `set-project-name.sh` script. It will prompt you for a new project name:
+
+   ```bash
+   bash set-project-name.sh
+   ```
+
+   **Example Input:**
+   When prompted, enter the new project name. For example:
+   - `Order Management`
+   - `Orders`
+
+   The script will automatically update the project name in all relevant files.
+
+
+4. **Run the application using Docker Compose**
+
+   ```bash
+   docker-compose up
+   ```
 
 The service will be available at:
 - HTTP: http://localhost:8080
@@ -86,7 +114,7 @@ The application can be configured through various settings files:
 
 Execute all tests using Docker:
 ```bash
-docker-compose up bytlabs-tests
+docker-compose up bytlabs-microservice-template-tests
 ```
 
 ### GraphQL Client Generation

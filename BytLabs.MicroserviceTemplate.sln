@@ -49,6 +49,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BytLabs.MicroserviceTemplat
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BytLabs.MicroserviceTemplate.Client", "src\BytLabs.MicroserviceTemplate.Client\BytLabs.MicroserviceTemplate.Client.csproj", "{A3CE118C-D1A7-47AC-92A2-37B501F961BB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{4E2E3A83-0D1F-4EA7-84EE-E572A021B1BD}"
+	ProjectSection(SolutionItems) = preProject
+		set-project-name.sh = set-project-name.sh
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

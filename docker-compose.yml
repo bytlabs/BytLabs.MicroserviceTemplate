@@ -12,11 +12,11 @@ services:
     networks:
       - local_network
 
-  bytlabs-template-service:
+  bytlabs-microservice-template-service:
     build:
       context: .
       dockerfile: Dockerfile
-    container_name: bytlabs-template-service
+    container_name: bytlabs-microservice-template-service
     environment:
       ASPNETCORE_ENVIRONMENT: Development
     ports:
@@ -27,12 +27,12 @@ services:
     networks:
       - local_network
 
-  bytlabs-tests:
+  bytlabs-microservice-template-tests:
     build:
       context: .
       dockerfile: Dockerfile
       target: test
-    container_name: bytlabs-tests
+    container_name: bytlabs-microservice-template-tests
     depends_on:
       - bytlabs-mongo
     networks:
