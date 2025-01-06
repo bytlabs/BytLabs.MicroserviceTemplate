@@ -10,7 +10,6 @@ on:
     types: [published]
   push:
     branches:
-      - "main"
       - "feature/**/*"
 
 jobs:
@@ -72,7 +71,7 @@ jobs:
 
       - name: Build and Pack NuGet Package (Client)
         run: |
-          dotnet pack ./src/BytLabs.MicroserviceTemplate.Client/BytLabs.MicroserviceTemplate.Client.csproj --configuration Release --output ./nuget-packages /p:PackageVersion=${{ env.BUILD_VERSION }}
+          dotnet pack ./src/BytLabs.MicroserviceTemplate.Client/BytLabs.MicroserviceTemplate.Client.csproj --configuration Release --output ./nuget-packages
 
       - name: Publish NuGet Packages
         run: |
