@@ -31,7 +31,7 @@ jobs:
 
       - name: Build and Run Tests Using Docker
         run: |
-          docker-compose up --build bytlabs-tests
+          docker-compose up --build bytlabs-microservice-template-tests
 
   build-and-publish:
     runs-on: ubuntu-latest

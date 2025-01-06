@@ -47,6 +47,9 @@ Using these packages ensures:
 ```bash
 git clone https://github.com/bytlabs/microservice-template.git
 cd microservice-template
+bash set-project-name.sh
+#Here script will prompt for project name
+#In project name you can write your project name in PascalCase (eg. OrderManagement)
 ```
 
 2. Run the application using Docker Compose:
@@ -86,7 +89,7 @@ The application can be configured through various settings files:
 
 Execute all tests using Docker:
 ```bash
-docker-compose up bytlabs-tests
+docker-compose up bytlabs-microservice-template-tests
 ```
 
 ### GraphQL Client Generation
