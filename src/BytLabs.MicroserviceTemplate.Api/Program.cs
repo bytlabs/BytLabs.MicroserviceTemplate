@@ -7,6 +7,7 @@ using BytLabs.MicroserviceTemplate.Api.Graphql.Queries;
 using BytLabs.Api.UserContextResolvers;
 using BytLabs.Api.TenantProvider;
 using Serilog;
+using Microsoft.Extensions.Options;
 
 
 try
@@ -35,9 +36,11 @@ try
 
                 services.AddGraphQLService()
                     .AddCommandTypes()
-                    .AddAggregateTypes()
+                    .AddDtoTypes()
                     .AddMutationType<Mutation>()
-                    .AddQueryType<Query>();
+                    .AddQueryType<Query>()
+                    .ModifyCostOptions(o => o.EnforceCostLimits = false)
+                    .ModifyOptions(o => o.RemoveUnreachableTypes = true );
 
             });
 
