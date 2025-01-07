@@ -3,6 +3,12 @@ using BytLabs.Api.Graphql;
 using BytLabs.MicroserviceTemplate.Application.Commands.CreateOrder;
 using BytLabs.MicroserviceTemplate.Application.Commands.ShipOrder;
 using BytLabs.MicroserviceTemplate.Domain.Aggregates.OrderAggregate;
+using Microsoft.Extensions.DependencyInjection;
+using BytLabs.MicroserviceTemplate.Application.Dtos;
+using HotChocolate.Types;
+using static BytLabs.MicroserviceTemplate.Infrastructure.RequestExecutorBuilderExtensions;
+using HotChocolate.Data.Filters;
+using HotChocolate.Data.Sorting;
 
 namespace BytLabs.MicroserviceTemplate.Infrastructure
 {
@@ -16,10 +22,11 @@ namespace BytLabs.MicroserviceTemplate.Infrastructure
                 .AddCommandType<ShipOrderCommand>();
         }
 
-        public static IRequestExecutorBuilder AddAggregateTypes(this IRequestExecutorBuilder requestExecutorBuilder)
+        public static IRequestExecutorBuilder AddDtoTypes(this IRequestExecutorBuilder requestExecutorBuilder)
         {
             return requestExecutorBuilder
-                .AddAggregateType<Order, Guid>();
+                .AddDtoType<OrderDto>()
+                .AddDtoType<OrderItemDto>();
         }
     }
 }
