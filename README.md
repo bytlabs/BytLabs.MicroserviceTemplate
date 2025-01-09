@@ -88,7 +88,18 @@ To get started with the project, follow these steps:
    - HTTPS: https://localhost:8081
    - GraphQL Endpoint: http://localhost:8080/graphql/
 
-## Configuration
+
+## Tutorial
+
+Learn how to build scalable and maintainable microservices using BytLabs.MicroserviceTemplate through our comprehensive blog series. Each post guides you step by step, from setting up the template to deploying your services in the cloud.
+
+1. **[Getting Started with BytLabs.MicroserviceTemplate: API Project Setup](https://bytlabs.co/blog/getting-started-with-bytlabsmicroservicetemplate-api-project-setup)**  
+2. **[Getting Started with BytLabs.MicroserviceTemplate: Domain and Application Setup](https://bytlabs.co/blog/getting-started-with-bytlabsmicroservicetemplate-domain-and-application-setup)**  
+
+
+## Development
+
+### Configuration
 
 The application can be configured through various settings files:
 
@@ -108,8 +119,6 @@ The application can be configured through various settings files:
      }
    }
    ```
-
-## Development
 
 ### Running Tests
 
