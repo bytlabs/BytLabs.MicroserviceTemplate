@@ -173,29 +173,15 @@ We are planning to introduce the following enhancements to the BytLabs Microserv
    - Facilitates seamless communication for integration events and commands between microservices.
    - Supports the outbox pattern to ensure reliable message delivery and consistency.
 
-2. **Grafana and Prometheus Integration**:
-   - Add Docker Compose setup for Grafana and Prometheus to enable monitoring and visualization.
+2. **BytLabs FileSystem Service**:
+   - The FileSystem Service will provide an abstraction for managing object storage across multiple cloud providers (e.g., AWS S3, Azure Blob Storage, Google Cloud Storage).
+   - It will be implemented as a standalone microservice, built using the BytLabs Microservice Template, ensuring consistency in architecture and design principles.
+    - **Key Features:**
+      - **Multi-Cloud Compatibility**: The service will support major cloud providers, enabling seamless storage operations regardless of the underlying cloud infrastructure.
+      - **Unified API**: Developers can interact with a single API, abstracting the complexities of different cloud provider implementations.
+      - **Core Operations**: Includes file upload, download, metadata retrieval, and secure file sharing.
 
-3. **Kubernetes Templates**:
-   - Provide Kubernetes manifests for observability, including configurations for metrics and distributed tracing.
-
-4. **REST API and gRPC Interface Examples**:
-   - Include examples demonstrating REST API and gRPC interfaces within the template.
-
-5. **BytLabs IdentityService using Keycloak**:
-   - Integration with an IdentityService implementation using Keycloak, designed to work seamlessly with this microservice template.
-
-6. **BytLabs IdentityService using IdentityServer**:
-   - Integration with an IdentityService implementation using IdentityServer, designed to work seamlessly with this microservice template.
-
-7. **BytLabs Gateway Service**:
-   - Integration with a new gateway service using Ocelot, supporting interfaces defined in the microservice template.
-
-8. **BytLabs Aggregator Service**:
-   - Integration with a new aggregator service that consolidates data from multiple microservices built with this template.
-
-9. **FileSystem Service**:
-   - Integration with a new FileSystem service managing object storage across all cloud providers, implemented as a separate microservice using this template.
+This service aims to simplify object storage management and provide a consistent developer experience across varied cloud environments.
 
 Stay tuned for updates as we continue enhancing the BytLabs ecosystem!
 
