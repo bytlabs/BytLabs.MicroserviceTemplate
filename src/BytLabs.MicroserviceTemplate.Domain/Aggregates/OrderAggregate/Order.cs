@@ -10,6 +10,7 @@ namespace BytLabs.MicroserviceTemplate.Domain.Aggregates.OrderAggregate
         public DateTime OrderDate { get; private set; }
         public OrderStatus Status { get; private set; }
         public IReadOnlyCollection<OrderItem> Items { get; private set; }
+        public bool IsEmailSent { get; private set; }
 
         public Order(Guid id, DateTime orderDate, IEnumerable<OrderItem> items) : base(id)
         {
@@ -32,6 +33,11 @@ namespace BytLabs.MicroserviceTemplate.Domain.Aggregates.OrderAggregate
             Status = OrderStatus.Shipped;
 
             AddDomainEvent(new OrderShippedEvent(Id));
+        }
+
+        public void MarkAsEmailSent()
+        {
+            IsEmailSent = true;
         }
     }
 

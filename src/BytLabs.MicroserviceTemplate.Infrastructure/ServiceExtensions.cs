@@ -10,6 +10,9 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Bson;
 using BytLabs.MicroserviceTemplate.Application.MappingProfiles;
+using BytLabs.MicroserviceTemplate.Infrastructure.Services;
+using BytLabs.MicroserviceTemplate.Application.Services;
+using BytLabs.Domain.Entities;
 
 namespace BytLabs.MicroserviceTemplate.Infrastructure;
 
@@ -26,17 +29,18 @@ public static class ServiceExtensions
 
         //Setup Application
         services.AddCQS(new System.Reflection.Assembly[] { typeof(CreateOrderCommand).Assembly });
-
         services.AddAutoMapper(typeof(OrderMappingProfile));
 
 
         //Setup Database
-        var mongoDatabaseConfiguration = configuration.GetConfiguration<MongoDatabaseConfiguration>();
         
-
+        var mongoDatabaseConfiguration = configuration.GetConfiguration<MongoDatabaseConfiguration>();
         services.AddMongoDatabase(mongoDatabaseConfiguration)
             .RegisterMongoDBClassMaps()
             .AddMongoRepository<Order, Guid>();
+
+        //Setup services
+        services.AddSingleton<IEmailService, MyCustomEmailService>();
 
         return services;
     }
