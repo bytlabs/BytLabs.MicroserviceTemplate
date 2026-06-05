@@ -122,7 +122,24 @@ The application can be configured through various settings files:
 
 ### Running Tests
 
-Execute all tests using Docker:
+Tests are plain **xUnit** (no SpecFlow/Gherkin). Acceptance tests boot the API in-process with
+`WebApplicationFactory` and drive it through the generated StrawberryShake client, so they need a
+running MongoDB.
+
+Unit tests (no infrastructure required):
+
+```bash
+dotnet test src/BytLabs.MicroserviceTemplate.Tests.Unit
+```
+
+Acceptance tests (start MongoDB first):
+
+```bash
+docker-compose up -d bytlabs-mongo
+dotnet test src/BytLabs.MicroserviceTemplate.Tests.Accpetance
+```
+
+Or run the full suite in Docker:
 
 ```bash
 docker-compose up bytlabs-microservice-template-tests
@@ -163,6 +180,38 @@ The solution follows Clean Architecture and DDD principles:
 - **Application Layer**: Commands, queries, and application logic
 - **Domain Layer**: Aggregates, entities, and domain logic
 - **Infrastructure Layer**: Database access, external services integration
+
+## Recipes
+
+This template doubles as a **recipe catalog**: `Order` is the minimal example and `Product`
+demonstrates the advanced patterns. Each recipe is documented with links to the real sample code.
+
+See the full index: [docs/recipes/README.md](docs/recipes/README.md).
+
+Highlights:
+
+- Domain: [aggregate root & events](docs/recipes/aggregate-root.md) ·
+  [sub-entity](docs/recipes/sub-entity.md) ·
+  [dynamic data](docs/recipes/dynamic-data.md) ·
+  [soft delete](docs/recipes/soft-delete.md) ·
+  [schema value objects](docs/recipes/schema-value-objects.md)
+- Application: [command + handler](docs/recipes/cqrs-command-handler.md) ·
+  [sub-entity commands](docs/recipes/sub-entity-commands.md) ·
+  [DTOs](docs/recipes/dtos.md) ·
+  [AutoMapper](docs/recipes/automapper-profiles.md) ·
+  [domain event handler](docs/recipes/domain-event-handler.md)
+- API: [GraphQL query](docs/recipes/graphql-query.md) ·
+  [dynamic-data query](docs/recipes/graphql-dynamic-data-query.md) ·
+  [mutation](docs/recipes/graphql-mutation.md) ·
+  [authorization](docs/recipes/authorization.md) ·
+  [type registration](docs/recipes/graphql-type-registration.md)
+- Infrastructure: [service registration](docs/recipes/service-registration.md) ·
+  [BSON class maps](docs/recipes/bson-class-maps.md) ·
+  [custom serializer](docs/recipes/custom-bson-serializer.md)
+- Cross-cutting: [multitenancy](docs/recipes/multitenancy.md)
+- Testing: [unit](docs/recipes/unit-testing.md) ·
+  [acceptance (xUnit)](docs/recipes/acceptance-testing-xunit.md) ·
+  [typed client](docs/recipes/strawberry-shake-client.md)
 
 ## Roadmap
 

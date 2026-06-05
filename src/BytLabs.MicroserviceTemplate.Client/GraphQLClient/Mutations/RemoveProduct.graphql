@@ -1,0 +1,22 @@
+mutation RemoveProduct($input: RemoveProductInput!) {
+  removeProduct(input: $input) {
+    removeProductResult {
+      id
+    }
+    errors {
+      ... on BusinessError {
+        code
+        property
+        message
+      }
+      ... on ValidationError {
+        message
+        fields {
+          field
+          code
+          message
+        }
+      }
+    }
+  }
+}

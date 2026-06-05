@@ -1,0 +1,24 @@
+mutation AddVariant($input: AddVariantInput!) {
+  addVariant(input: $input) {
+    productVariant {
+      id
+      sku
+      price
+    }
+    errors {
+      ... on BusinessError {
+        code
+        property
+        message
+      }
+      ... on ValidationError {
+        message
+        fields {
+          field
+          code
+          message
+        }
+      }
+    }
+  }
+}

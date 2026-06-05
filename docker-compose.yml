@@ -2,7 +2,8 @@ version: "3.8"
 
 services:
   bytlabs-mongo:
-    image: mongo:4.0.13
+    # MongoDB.Driver 3.x (pulled by the BytLabs 4.x packages) requires server >= 4.2.
+    image: mongo:7.0
     container_name: bytlabs-mongo
     restart: always
     ports:
@@ -19,6 +20,8 @@ services:
     container_name: bytlabs-microservice-template-service
     environment:
       ASPNETCORE_ENVIRONMENT: Development
+      # In Docker the API reaches MongoDB by its service name, not localhost.
+      MongoDatabaseConfiguration__ConnectionString: "mongodb://bytlabs-mongo:27017?retryWrites=false"
     ports:
       - "8080:8080"
       - "8081:8081"
@@ -33,6 +36,8 @@ services:
       dockerfile: Dockerfile
       target: test
     container_name: bytlabs-microservice-template-tests
+    environment:
+      MongoDatabaseConfiguration__ConnectionString: "mongodb://bytlabs-mongo:27017?retryWrites=false"
     depends_on:
       - bytlabs-mongo
     networks:

@@ -54,6 +54,25 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "scripts", "scripts", "{4E2E
 		set-project-name.sh = set-project-name.sh
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "recepies", "recepies", "{8A09378B-4333-4BC9-9624-8042696291E7}"
+	ProjectSection(SolutionItems) = preProject
+		docs\recipes\aggregate-root.md = docs\recipes\aggregate-root.md
+		docs\recipes\cqrs-command-handler.md = docs\recipes\cqrs-command-handler.md
+		docs\recipes\data-objects.md = docs\recipes\data-objects.md
+		docs\recipes\domain-events.md = docs\recipes\domain-events.md
+		docs\recipes\dtos.md = docs\recipes\dtos.md
+		docs\recipes\dynamic-data.md = docs\recipes\dynamic-data.md
+		docs\recipes\README.md = docs\recipes\README.md
+		docs\recipes\schema-value-objects.md = docs\recipes\schema-value-objects.md
+		docs\recipes\soft-delete.md = docs\recipes\soft-delete.md
+		docs\recipes\specialized-update-methods.md = docs\recipes\specialized-update-methods.md
+		docs\recipes\sub-entity-commands.md = docs\recipes\sub-entity-commands.md
+		docs\recipes\sub-entity.md = docs\recipes\sub-entity.md
+		docs\recipes\_TEMPLATE.md = docs\recipes\_TEMPLATE.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -104,6 +123,7 @@ Global
 		{6139F278-31F8-40B1-B8C7-1D94577BF854} = {71850665-5E6E-4741-AABF-BD77B004AFC7}
 		{7C397B17-BFA8-4CDF-8DA0-D8395ECFE793} = {71850665-5E6E-4741-AABF-BD77B004AFC7}
 		{A3CE118C-D1A7-47AC-92A2-37B501F961BB} = {41F2F3CA-4226-4CED-BA70-847F723A30A3}
+		{8A09378B-4333-4BC9-9624-8042696291E7} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7F258F57-E020-4B18-903E-4A4F6188301B}

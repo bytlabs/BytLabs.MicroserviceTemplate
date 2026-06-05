@@ -1,4 +1,4 @@
-﻿query GetOrders(
+query GetOrders(
   $first: Int
   $after: String
   $last: Int
@@ -20,25 +20,7 @@
       startCursor
       endCursor
     }
-    edges {
-      cursor
-      node {
-        id
-        orderDate
-        status
-        items {
-          productId
-          quantity
-          price
-        }
-        createdAt
-        createdBy
-        lastModifiedAt
-        lastModifiedBy
-        deletedAt
-        deletedBy
-      }
-    }
+    totalCount
     nodes {
       id
       orderDate
@@ -48,12 +30,14 @@
         quantity
         price
       }
-      createdAt
-      createdBy
-      lastModifiedAt
-      lastModifiedBy
-      deletedAt
-      deletedBy
+      auditInfo {
+        createdAt
+        createdBy
+        lastModifiedAt
+        lastModifiedBy
+        deletedAt
+        deletedBy
+      }
     }
   }
 }

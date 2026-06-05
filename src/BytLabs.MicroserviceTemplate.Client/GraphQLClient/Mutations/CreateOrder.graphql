@@ -1,23 +1,21 @@
-﻿mutation CreateOrder($input: CreateOrderInput!) {
+mutation CreateOrder($input: CreateOrderInput!) {
   createOrder(input: $input) {
     createOrderResult {
       orderId
     }
     errors {
+      ... on BusinessError {
+        code
+        property
+        message
+      }
       ... on ValidationError {
         message
-        errors {
-          propertyName
-          errorMessage
-          severity
-          errorCode
+        fields {
+          field
+          code
+          message
         }
-      }
-      ... on DomainError {
-        message
-      }
-      ... on ApplicationError {
-        message
       }
     }
   }

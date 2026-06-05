@@ -1,0 +1,23 @@
+mutation UpdateProduct($input: UpdateProductInput!) {
+  updateProduct(input: $input) {
+    product {
+      id
+      name
+    }
+    errors {
+      ... on BusinessError {
+        code
+        property
+        message
+      }
+      ... on ValidationError {
+        message
+        fields {
+          field
+          code
+          message
+        }
+      }
+    }
+  }
+}

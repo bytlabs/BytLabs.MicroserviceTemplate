@@ -1,14 +1,13 @@
 using BytLabs.Api.Graphql;
-using Microsoft.AspNetCore.WebSockets;
 using BytLabs.Api;
 using BytLabs.MicroserviceTemplate.Infrastructure;
 using BytLabs.MicroserviceTemplate.Api.Graphql.Mutations;
 using BytLabs.MicroserviceTemplate.Api.Graphql.Queries;
+using BytLabs.MicroserviceTemplate.Api.Utils;
+using BytLabs.MicroserviceTemplate.Api.Extensions;
 using BytLabs.Api.UserContextResolvers;
 using BytLabs.Api.TenantProvider;
-using Serilog;
-using Microsoft.Extensions.Options;
-
+using Microsoft.AspNetCore.WebSockets;
 
 try
 {
@@ -28,24 +27,29 @@ try
             .WithHealthChecks()
             .WithServiceConfiguration(services =>
             {
-
                 services.AddInfrastructure(builder.Configuration);
 
-                services
-                    .AddWebSockets(op => op.KeepAliveInterval = TimeSpan.FromSeconds(30));
+                services.AddJwtAuthentication(builder.Configuration);
+
+                services.AddWebSockets(op => op.KeepAliveInterval = TimeSpan.FromSeconds(30));
 
                 services.AddGraphQLService()
+                    .AddMongoDbQuerySettings()
+                    .AddDynamicDataTypes()
                     .AddCommandTypes()
                     .AddDtoTypes()
+                    .AddAggregateTypes()
                     .AddMutationType<Mutation>()
                     .AddQueryType<Query>()
                     .ModifyCostOptions(o => o.EnforceCostLimits = false)
-                    .ModifyOptions(o => o.RemoveUnreachableTypes = true );
-
+                    .ModifyOptions(o => o.RemoveUnreachableTypes = true)
+                    .ModifyPagingOptions(opt => opt.IncludeTotalCount = true);
             });
 
     WebApplication app = webAppBuilder.BuildWebApp(app =>
     {
+        app.UseAuthentication();
+        app.UseAuthorization();
         app.UseWebSockets();
         app.MapGraphQL();
     });

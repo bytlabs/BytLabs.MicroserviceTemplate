@@ -1,6 +1,9 @@
-﻿using BytLabs.Domain.DomainEvents;
+using BytLabs.Domain.DomainEvents;
 
 namespace BytLabs.MicroserviceTemplate.Domain.Aggregates.OrderAggregate.Events
 {
-    public record class OrderShippedEvent(Guid OrderId) : IDomainEvent;
+    public class OrderShippedEvent(Guid orderId) : DomainEventBase
+    {
+        public Guid OrderId { get; } = orderId;
+    }
 }

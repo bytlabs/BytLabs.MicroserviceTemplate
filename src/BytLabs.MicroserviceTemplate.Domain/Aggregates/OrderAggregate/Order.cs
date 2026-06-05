@@ -12,7 +12,9 @@ namespace BytLabs.MicroserviceTemplate.Domain.Aggregates.OrderAggregate
         public IReadOnlyCollection<OrderItem> Items { get; private set; }
         public bool IsEmailSent { get; private set; }
 
-        public Order(Guid id, DateTime orderDate, IEnumerable<OrderItem> items) : base(id)
+        // Constructor parameter names/types match the members so MongoDB can configure the
+        // creator automatically when deserializing (see Product for the same convention).
+        public Order(Guid id, DateTime orderDate, IReadOnlyCollection<OrderItem> items) : base(id)
         {
             if (!items.Any())
                 throw new DomainException("An order must have at least one item.");

@@ -1,0 +1,28 @@
+query GetProducts(
+  $first: Int
+  $after: String
+  $order: [ProductSortInput!]
+  $where: ProductFilterInput
+) {
+  products(first: $first, after: $after, order: $order, where: $where) {
+    pageInfo {
+      hasNextPage
+      endCursor
+    }
+    totalCount
+    nodes {
+      id
+      name
+      variantCount
+      variants {
+        id
+        sku
+        price
+      }
+      auditInfo {
+        createdAt
+        lastModifiedAt
+      }
+    }
+  }
+}

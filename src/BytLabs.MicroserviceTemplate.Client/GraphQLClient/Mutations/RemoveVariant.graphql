@@ -1,0 +1,23 @@
+mutation RemoveVariant($input: RemoveVariantInput!) {
+  removeVariant(input: $input) {
+    removeVariantResult {
+      productId
+      variantId
+    }
+    errors {
+      ... on BusinessError {
+        code
+        property
+        message
+      }
+      ... on ValidationError {
+        message
+        fields {
+          field
+          code
+          message
+        }
+      }
+    }
+  }
+}

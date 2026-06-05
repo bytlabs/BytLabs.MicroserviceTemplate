@@ -1,6 +1,6 @@
-﻿namespace BytLabs.MicroserviceTemplate.Application.Dtos
+namespace BytLabs.MicroserviceTemplate.Application.Dtos
 {
-    public class OrderItemDto : AuditInfoDto
+    public class OrderItemDto
     {
         public Guid Id { get; set; }
         public Guid ProductId { get; set; }
