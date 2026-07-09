@@ -16,9 +16,10 @@ RUN dotnet restore "./src/BytLabs.MicroserviceTemplate.Api/BytLabs.MicroserviceT
 # Copy all source files
 COPY . .
 
-# Build the main API project
+# Build the main API project. BuildConsoleUi=false: the console is built by the Node stage below,
+# not by the .NET build (this SDK image has no Node).
 WORKDIR "/src/BytLabs.MicroserviceTemplate.Api"
-RUN dotnet build "./BytLabs.MicroserviceTemplate.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build
+RUN dotnet build "./BytLabs.MicroserviceTemplate.Api.csproj" -c $BUILD_CONFIGURATION -o /app/build /p:BuildConsoleUi=false
 
 # Test stage to run all test projects
 FROM build AS test
@@ -26,12 +27,12 @@ ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 
 # Discover and run tests in all projects with 'Tests' in the name
-RUN find . -type f -name "*.csproj" -path "*Tests*" -exec dotnet test {} -c $BUILD_CONFIGURATION --no-restore --results-directory /app/test-results --logger "trx;LogFileName=results.trx" \;
+RUN find . -type f -name "*.csproj" -path "*Tests*" -exec dotnet test {} -c $BUILD_CONFIGURATION --no-restore --results-directory /app/test-results --logger "trx;LogFileName=results.trx" /p:BuildConsoleUi=false \;
 
 # Publish stage for the API
 FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "./BytLabs.MicroserviceTemplate.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "./BytLabs.MicroserviceTemplate.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false /p:BuildConsoleUi=false
 
 # Build the bundled Next.js console (static export). Its registry components are vendored under
 # components/dynamic, so no registry server is needed at build time — just install + export.
