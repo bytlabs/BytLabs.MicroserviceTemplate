@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate, useParams } from 'react-router-dom';
 import { Providers } from './providers';
 import { Home } from './home';
+import { ConsoleLayout } from '@/components/console-layout';
 import { EntityManager } from '@/components/EntityManager';
 import { SchemaAuthoring } from '@/components/SchemaAuthoring';
 
@@ -21,12 +22,14 @@ export function App() {
   return (
     <BrowserRouter basename="/console">
       <Providers>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/entities/:type" element={<EntityRoute />} />
-          <Route path="/schema/:type" element={<SchemaRoute />} />
-          <Route path="*" element={<Navigate to="/" replace />} />
-        </Routes>
+        <ConsoleLayout>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/entities/:type" element={<EntityRoute />} />
+            <Route path="/schema/:type" element={<SchemaRoute />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+        </ConsoleLayout>
       </Providers>
     </BrowserRouter>
   );
