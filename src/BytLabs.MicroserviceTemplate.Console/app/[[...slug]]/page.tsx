@@ -1,9 +1,16 @@
 import { ConsoleRouter } from '@/components/ConsoleRouter';
+import { ENTITIES } from '@/lib/entities';
 
-// Single static shell for the SPA. Only the index is prerendered; deeper routes (/entities/[type],
-// /schema/[type]) resolve client-side after the API serves index.html via its SPA fallback.
+// Prerender the SPA shell PLUS every known entity route, so the static export contains each route's
+// RSC payload. Without this, App Router client navigation to /entities/[type] or /schema/[type]
+// requests a __next._tree.txt that doesn't exist and 404s. Adding a new entity type needs a rebuild.
 export function generateStaticParams() {
-  return [{ slug: [] }];
+  const params: { slug: string[] }[] = [{ slug: [] }];
+  for (const type of Object.keys(ENTITIES)) {
+    params.push({ slug: ['entities', type] });
+    params.push({ slug: ['schema', type] });
+  }
+  return params;
 }
 
 export default function Page() {
