@@ -1,24 +1,35 @@
 using HotChocolate.Data;
 using HotChocolate.Types;
 using HotChocolate;
+using HotChocolate.Resolvers;
 using MongoDB.Driver;
 using BytLabs.MicroserviceTemplate.Domain.Aggregates.OrderAggregate;
 using BytLabs.DataAccess.MongoDB.Extensions;
+using BytLabs.DataAccess.MongoDB.DynamicData;
+using BytLabs.Application.DynamicData;
+using BytLabs.MicroserviceTemplate.Api.Utils;
 using BytLabs.MicroserviceTemplate.Application.Dtos;
 
 namespace BytLabs.MicroserviceTemplate.Api.Graphql.Queries
 {
     public partial class Query
     {
-        // Simple example: paged/filterable/sortable projection over the Order collection.
+        // Order is the "open" dynamic entity (no [Authorize], unlike Product): excludes soft-deleted
+        // rows and supports dynamic-data filtering/sorting so the console can browse it out of the box.
         [UsePaging]
         [UseProjection]
-        [UseSorting(Type = typeof(Order))]
         [UseFiltering(Type = typeof(Order))]
-        public IExecutable<OrderDto> GetOrders([Service] IMongoDatabase db)
+        public IExecutable<OrderDto> GetOrders(
+            [Service] IMongoDatabase db,
+            IResolverContext context,
+            List<SortInput<Order>>? order,
+            CancellationToken cancellationToken)
         {
             return db.GetCollection<Order>()
                      .Aggregate()
+                     .ExcludeSoftDeletedEntites()
+                     .ApplyDynamicDataFilteration(context)
+                     .AppySortingWithDynamicData(order)
                      .Project(Builders<Order>.Projection.As<OrderDto>())
                      .AsExecutable();
         }

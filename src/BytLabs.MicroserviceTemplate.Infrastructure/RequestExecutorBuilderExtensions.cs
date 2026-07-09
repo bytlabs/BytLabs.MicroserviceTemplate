@@ -3,6 +3,8 @@ using HotChocolate.Data.Filters;
 using BytLabs.Api.Graphql;
 using BytLabs.MicroserviceTemplate.Application.Commands.CreateOrder;
 using BytLabs.MicroserviceTemplate.Application.Commands.ShipOrder;
+using BytLabs.MicroserviceTemplate.Application.Commands.UpdateOrder;
+using BytLabs.MicroserviceTemplate.Application.Commands.RemoveOrder;
 using BytLabs.MicroserviceTemplate.Application.Commands.CreateProduct;
 using BytLabs.MicroserviceTemplate.Application.Commands.UpdateProduct;
 using BytLabs.MicroserviceTemplate.Application.Commands.RemoveProduct;
@@ -27,6 +29,8 @@ namespace BytLabs.MicroserviceTemplate.Infrastructure
             return requestExecutorBuilder
                 .AddCommandType<CreateOrderCommand>()
                 .AddCommandType<ShipOrderCommand>()
+                .AddCommandType<UpdateOrderCommand>()
+                .AddCommandType<RemoveOrderCommand>()
                 .AddCommandType<CreateProductCommand>()
                 .AddCommandType<UpdateProductCommand>()
                 .AddCommandType<RemoveProductCommand>()
@@ -52,6 +56,8 @@ namespace BytLabs.MicroserviceTemplate.Infrastructure
             // Only the dynamic-data Product aggregate needs the BytLabs aggregate filter/sort
             // input types. Order uses HotChocolate's built-in [UseFiltering]/[UseSorting].
             return requestExecutorBuilder
+                .AddAggregateSortType<Order, Guid>()
+                .AddAggregateFilterType<Order, Guid>()
                 .AddAggregateSortType<Product, Guid>()
                 .AddAggregateFilterType<Product, Guid>()
                 // EntityDef query uses [UseSorting(Type=typeof(EntityDef))] which generates the sort

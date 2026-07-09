@@ -41,6 +41,30 @@ export const PRODUCT: EntityRegistration = {
   rowToFormData: (row) => ({ name: row.name, ...(row.data ?? {}) }),
 };
 
+export const ORDER: EntityRegistration = {
+  type: 'Order',
+  listRoot: 'orders',
+  knownColumns: [],
+  listQuery: gql`
+    query GetOrders($first: Int, $after: String, $where: OrderFilterInput, $order: [OrderSortInput!]) {
+      orders(first: $first, after: $after, where: $where, order: $order) {
+        totalCount
+        pageInfo { hasNextPage hasPreviousPage startCursor endCursor }
+        nodes { id orderDate status data }
+      }
+    }
+  `,
+  createMutation: gql`mutation CreateOrder($input: CreateOrderInput!) { createOrder(input: $input) { createOrderResult { orderId } errors { ... on ValidationError { message } ... on BusinessError { message } } } }`,
+  updateMutation: gql`mutation UpdateOrder($input: UpdateOrderInput!) { updateOrder(input: $input) { order { id } errors { ... on ValidationError { message } ... on BusinessError { message } } } }`,
+  removeMutation: gql`mutation RemoveOrder($input: RemoveOrderInput!) { removeOrder(input: $input) { order { id } errors { ... on ValidationError { message } ... on BusinessError { message } } } }`,
+  // Order requires OrderId/OrderDate/Items structurally; the dynamic form drives `data`, items default empty.
+  toCreateInput: (f) => ({ orderId: newId(), orderDate: new Date().toISOString(), items: [], data: f ?? {} }),
+  toUpdateInput: (id, f) => ({ id, data: f ?? {} }),
+  toRemoveInput: (id) => ({ id }),
+  rowToFormData: (row) => ({ ...(row.data ?? {}) }),
+};
+
 export const ENTITIES: Record<string, EntityRegistration> = {
   Product: PRODUCT,
+  Order: ORDER,
 };
