@@ -16,7 +16,7 @@ namespace BytLabs.MicroserviceTemplate.Application.Commands.CreateOrder
 
         public async Task<CreateOrderResult> Handle(CreateOrderCommand request, CancellationToken cancellationToken)
         {
-            var order = new Order(request.OrderId, request.OrderDate, request.Items.ToList());
+            var order = new Order(request.OrderId, request.OrderDate, request.Items.ToList(), request.Data);
             await orderRepository.InsertAsync(order, cancellationToken);
             return new CreateOrderResult(request.OrderId);
         }

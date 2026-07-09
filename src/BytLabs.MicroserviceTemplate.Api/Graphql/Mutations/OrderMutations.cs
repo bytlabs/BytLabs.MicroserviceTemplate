@@ -2,6 +2,9 @@ using BytLabs.Api.Graphql.ErrorTypes.Business;
 using BytLabs.Api.Graphql.ErrorTypes.Validation;
 using BytLabs.MicroserviceTemplate.Application.Commands.CreateOrder;
 using BytLabs.MicroserviceTemplate.Application.Commands.ShipOrder;
+using BytLabs.MicroserviceTemplate.Application.Commands.UpdateOrder;
+using BytLabs.MicroserviceTemplate.Application.Commands.RemoveOrder;
+using BytLabs.MicroserviceTemplate.Application.Dtos;
 using HotChocolate;
 using HotChocolate.Types;
 using MediatR;
@@ -23,5 +26,15 @@ namespace BytLabs.MicroserviceTemplate.Api.Graphql.Mutations
         {
             return await mediator.Send(input, cancellationToken);
         }
+
+        [Error(typeof(BusinessError))]
+        [Error(typeof(ValidationError))]
+        public async Task<OrderDto> UpdateOrder(UpdateOrderCommand input, [Service] IMediator mediator, CancellationToken cancellationToken)
+            => await mediator.Send(input, cancellationToken);
+
+        [Error(typeof(BusinessError))]
+        [Error(typeof(ValidationError))]
+        public async Task<OrderDto> RemoveOrder(RemoveOrderCommand input, [Service] IMediator mediator, CancellationToken cancellationToken)
+            => await mediator.Send(input, cancellationToken);
     }
 }

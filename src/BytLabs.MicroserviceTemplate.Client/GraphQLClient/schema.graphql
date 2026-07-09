@@ -15,6 +15,11 @@ type ProductsConnection {
   totalCount: Int!
 }
 
+input UpdateOrderInput {
+  id: ID!
+  data: JSON!
+}
+
 "A connection to a list of items."
 type OrdersConnection {
   "Information to aid in pagination."
@@ -59,29 +64,22 @@ type RemoveVariantPayload {
 input OrderFilterInput {
   and: [OrderFilterInput!]
   or: [OrderFilterInput!]
+  data: DataOperationFilterInput
   orderDate: DateTimeOperationFilterInput
   status: OrderStatusOperationFilterInput
   items: ListFilterInputTypeOfOrderItemFilterInput
   isEmailSent: BooleanOperationFilterInput
-  domainEvents: ListFilterInputTypeOfIDomainEventFilterInput
+  isDeleted: BooleanOperationFilterInput
   auditInfo: AuditInfoFilterInput
   id: UuidOperationFilterInput
 }
 
-input IDomainEventFilterInput {
-  and: [IDomainEventFilterInput!]
-  or: [IDomainEventFilterInput!]
-  createdAt: DateTimeOperationFilterInput
-  createdBy: StringOperationFilterInput
+input OrderSortInput {
+  by: SortOrder
+  path: String!
 }
 
-input OrderSortInput {
-  orderDate: SortEnumType
-  status: SortEnumType
-  isEmailSent: SortEnumType
-  auditInfo: AuditInfoSortInput
-  id: SortEnumType
-}
+union RemoveOrderError = BusinessError | ValidationError
 
 input ListFilterInputTypeOfProductVariantFilterInput {
   all: ProductVariantFilterInput
@@ -163,13 +161,6 @@ input OrderItemFilterInput {
   id: UuidOperationFilterInput
 }
 
-input ListFilterInputTypeOfIDomainEventFilterInput {
-  all: IDomainEventFilterInput
-  none: IDomainEventFilterInput
-  some: IDomainEventFilterInput
-  any: Boolean
-}
-
 type Product {
   variantCount: Int!
   id: ID!
@@ -210,6 +201,11 @@ input AuditInfoFilterInput {
   deletedBy: StringOperationFilterInput
 }
 
+type UpdateOrderPayload {
+  order: Order
+  errors: [UpdateOrderError!]
+}
+
 input TableDataSchemaInput {
   sampleData: DataSchemaInput!
   columns: DataSchemaInput!
@@ -232,6 +228,10 @@ input UpdateEntityDefInput {
 type AddVariantPayload {
   productVariant: ProductVariant
   errors: [AddVariantError!]
+}
+
+input RemoveOrderInput {
+  id: ID!
 }
 
 "A connection to a list of items."
@@ -284,6 +284,7 @@ type Order {
   orderDate: DateTime!
   status: OrderStatus!
   items: [OrderItem!]!
+  data: JSON!
   auditInfo: AuditInfo!
 }
 
@@ -371,6 +372,8 @@ type PageInfo {
 
 union RemoveVariantError = BusinessError | ValidationError
 
+union UpdateOrderError = BusinessError | ValidationError
+
 input AddVariantInput {
   productId: ID!
   variantId: ID!
@@ -391,6 +394,8 @@ type Mutation {
   removeEntityDef(input: RemoveEntityDefInput!): RemoveEntityDefPayload!
   createOrder(input: CreateOrderInput!): CreateOrderPayload!
   markOrderAsShipped(input: MarkOrderAsShippedInput!): MarkOrderAsShippedPayload!
+  updateOrder(input: UpdateOrderInput!): UpdateOrderPayload!
+  removeOrder(input: RemoveOrderInput!): RemoveOrderPayload!
   createProduct(input: CreateProductInput!): CreateProductPayload!
   updateProduct(input: UpdateProductInput!): UpdateProductPayload!
   removeProduct(input: RemoveProductInput!): RemoveProductPayload!
@@ -415,7 +420,7 @@ type FieldError {
 
 type Query {
   entityDefs("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String where: EntityDefFilterInput order: [EntityDefSortInput!]): EntityDefsConnection
-  orders("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [OrderSortInput!] where: OrderFilterInput): OrdersConnection
+  orders(order: [OrderSortInput!] "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String where: OrderFilterInput): OrdersConnection
   products(order: [ProductSortInput!] "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String where: ProductFilterInput): ProductsConnection
 }
 
@@ -525,6 +530,11 @@ input ListFilterInputTypeOfOrderItemFilterInput {
 
 scalar JSON
 
+type RemoveOrderPayload {
+  order: Order
+  errors: [RemoveOrderError!]
+}
+
 input BooleanOperationFilterInput {
   eq: Boolean
   neq: Boolean
@@ -628,6 +638,7 @@ input CreateOrderInput {
   orderId: ID!
   orderDate: DateTime!
   items: [OrderItemInput!]!
+  data: JSON!
 }
 
 union AddVariantError = BusinessError | ValidationError
