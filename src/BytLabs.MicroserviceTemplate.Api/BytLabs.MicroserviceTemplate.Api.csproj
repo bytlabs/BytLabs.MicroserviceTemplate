@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <!--
-    Build the Next.js console (static export) and publish it into wwwroot/console before the API
+    Build the console (Vite React SPA) and publish its dist/ into wwwroot/console before the API
     builds, so running the API locally (VS F5 or `dotnet run`) serves the latest console.
 
     - Incremental: only rebuilds when a console source file changes (Inputs/Outputs stamp).
@@ -57,7 +57,7 @@
     <Copy SourceFiles="@(ConsoleExport)"
           DestinationFiles="@(ConsoleExport->'$(ConsoleWwwroot)\%(RecursiveDir)%(Filename)%(Extension)')" />
     <Touch Files="$(ConsoleBuildStamp)" AlwaysCreate="true" />
-    <Message Importance="high" Text="[console] Published $(ConsoleExport->Count()) files to wwwroot/console" />
+    <Message Importance="high" Text="[console] Published console (dist) to wwwroot/console" />
   </Target>
 
 </Project>

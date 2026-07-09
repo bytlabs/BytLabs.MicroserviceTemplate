@@ -49,7 +49,9 @@ try
 
     WebApplication app = webAppBuilder.BuildWebApp(app =>
     {
-        // Serve the bundled static console (Next.js export) from wwwroot/console.
+        // Serve the bundled console SPA (Vite build) from wwwroot/console.
+        // UseDefaultFiles maps /console/ -> /console/index.html; UseStaticFiles serves the hashed
+        // /console/assets/* files.
         app.UseDefaultFiles();
         app.UseStaticFiles();
 
@@ -59,8 +61,12 @@ try
         app.MapGraphQL();
         app.MapConsoleEndpoints();
 
-        // SPA fallback so client-side console routes resolve to the exported shell.
+        // SPA fallback: client-side routes (e.g. /console/entities/Product) resolve to the console
+        // shell. `:nonfile` excludes asset requests so a missing asset 404s instead of returning HTML.
+        // The bare /console (no trailing slash, which UseDefaultFiles doesn't rewrite) also serves the
+        // shell. (/console/ is served as index.html by UseDefaultFiles.)
         app.MapFallbackToFile("/console/{*path:nonfile}", "console/index.html");
+        app.MapFallbackToFile("/console", "console/index.html");
     });
 
     app.Run();
