@@ -2,7 +2,6 @@ using System.Text.Json;
 using BytLabs.MicroserviceTemplate.Domain.Aggregates.ProductAggregate;
 using BytLabs.MicroserviceTemplate.Domain.Aggregates.ProductAggregate.DataObjects;
 using BytLabs.MicroserviceTemplate.Domain.Aggregates.ProductAggregate.Events;
-using BytLabs.MicroserviceTemplate.Domain.Shared.DynamicData;
 using FluentAssertions;
 using Xunit;
 
@@ -13,7 +12,7 @@ public class ProductTests
     private static JsonElement Json(string raw) => JsonDocument.Parse(raw).RootElement;
 
     private static CreateProduct NewCreate(string name = "Widget", string data = "{\"color\":\"red\"}")
-        => new(Guid.NewGuid(), name, Json(data), FormDataSchema.Empty());
+        => new(Guid.NewGuid(), name, Json(data));
 
     [Fact]
     public void Create_sets_fields_and_raises_ProductCreated()
@@ -68,19 +67,4 @@ public class ProductTests
         product.DomainEvents.Should().Contain(e => e is ProductVariantRemoved);
     }
 
-    [Fact]
-    public void UpdateAttributesSchema_replaces_schema_and_raises_event()
-    {
-        var product = Product.Create(NewCreate());
-        var schema = new FormDataSchema(
-            "specs",
-            new DataSchema("json", "{}"),
-            new DataSchema("schema", "{\"type\":\"object\"}"),
-            new DataSchema("ui", "{}"));
-
-        product.UpdateAttributesSchema(schema);
-
-        product.AttributesSchema.Key.Should().Be("specs");
-        product.DomainEvents.Should().Contain(e => e is ProductAttributesSchemaUpdated);
-    }
 }
