@@ -5,6 +5,7 @@ using BytLabs.MicroserviceTemplate.Api.Graphql.Mutations;
 using BytLabs.MicroserviceTemplate.Api.Graphql.Queries;
 using BytLabs.MicroserviceTemplate.Api.Utils;
 using BytLabs.MicroserviceTemplate.Api.Extensions;
+using BytLabs.MicroserviceTemplate.Api.ConsoleApp;
 using BytLabs.Api.UserContextResolvers;
 using BytLabs.Api.TenantProvider;
 using Microsoft.AspNetCore.WebSockets;
@@ -48,10 +49,18 @@ try
 
     WebApplication app = webAppBuilder.BuildWebApp(app =>
     {
+        // Serve the bundled static console (Next.js export) from wwwroot/console.
+        app.UseDefaultFiles();
+        app.UseStaticFiles();
+
         app.UseAuthentication();
         app.UseAuthorization();
         app.UseWebSockets();
         app.MapGraphQL();
+        app.MapConsoleEndpoints();
+
+        // SPA fallback so client-side console routes resolve to the exported shell.
+        app.MapFallbackToFile("/console/{*path:nonfile}", "console/index.html");
     });
 
     app.Run();
