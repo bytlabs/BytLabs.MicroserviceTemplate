@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# BytLabs Console (admin SPA)
 
-## Getting Started
+A **Vite + React** admin console that manages an entity's records (list / paginate / view / create /
+edit) and authors their form/table/view schema. It is built to a static client SPA and **served by the
+API under `/console`** — one container, one port. It consumes the dynamic-UI components from the
+[BytLabs UI registry](../../../bytlabs-ui-registry) (vendored under `src/components/dynamic`).
 
-First, run the development server:
+> Full architecture write-up: [`docs/recipes/console-app.md`](../../docs/recipes/console-app.md) and
+> [`docs/recipes/ui-registry-integration.md`](../../docs/recipes/ui-registry-integration.md).
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+## Layout
+
+```
+index.html               # SPA entry (loads /src/main.tsx)
+vite.config.ts           # base:'/console/', alias @→./src, dev proxy to the API (:5024)
+components.json          # shadcn config (base-nova style, css: src/index.css)
+src/
+  main.tsx App.tsx       # bootstrap + React Router (basename="/console")
+  providers.tsx          # config fetch + ApolloProvider + AuthGate
+  auth-gate.tsx login-form.tsx
+  home.tsx
+  components/
+    console-layout.tsx app-sidebar.tsx nav-user.tsx   # sidebar-07 shell + logout
+    EntityManager.tsx SchemaAuthoring.tsx             # generic CRUD page + schema editor
+    dynamic/**           # VENDORED registry components (form, table, view, editor)
+    ui/**                # shadcn primitives (base-nova / Base UI)
+  lib/{config,apollo,entities}.ts
+  hooks/**
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Run
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm install
+npm run dev      # Vite dev server on http://localhost:5173, proxying /graphql, /console/config,
+                 # and /auth to the API at http://localhost:5024
+npm run build    # → dist/  (copied to the API's wwwroot/console)
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- **Via the API (recommended):** building/running the **API** triggers the `BuildConsoleUi` MSBuild
+  target, which runs `npm run build` and publishes `dist/` into `wwwroot/console`. Then browse
+  `http://localhost:5024/console/`. Disable with `-p:BuildConsoleUi=false`.
+- **In Visual Studio:** F5 on the Console `.esproj` runs `npm run dev`.
 
-## Learn More
+## Config & auth (no rebuild needed)
 
-To learn more about Next.js, take a look at the following resources:
+On boot the SPA fetches `GET /console/config` → `{ authMode, oidc, graphqlEndpoint }`, driven by the
+API's `ConsoleAuth` appsettings section:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `None` — open (default, runs out of the box)
+- `Basic` — login form → `POST /auth/login` → API issues an HS256 JWT its own JwtBearer accepts
+- `Oidc` — external IdP
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Adding an entity
 
-## Deploy on Vercel
+Register the entity's GraphQL operations once in [`src/lib/entities.ts`](src/lib/entities.ts) (list /
+create / update / remove + input mappers). The generic `EntityManager` and the vendored dynamic
+components do the rest — **no new UI code per entity**. Sidebar links are generated from the `ENTITIES`
+map.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Consuming registry updates
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The `src/components/dynamic/**` components are a **vendored copy** of the registry. When a shared
+component changes, fix it in the [registry](../../../bytlabs-ui-registry) first (and rebuild its
+`public/r`), then sync the change here. Keep both copies in step.
+
+**Gotcha — date widgets.** `DatePickerWidget` must emit a value matching the schema's `format`: a
+`date` field wants `"YYYY-MM-DD"` (a full ISO datetime fails AJV's `date` format check); only
+`date-time` fields keep the ISO string.

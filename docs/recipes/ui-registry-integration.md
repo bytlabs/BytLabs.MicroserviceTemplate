@@ -34,14 +34,38 @@ layout chrome and an `ApolloProvider`. They install under `components/dynamic/**
 > The registry components use the Radix `asChild` idiom in source; the shadcn CLI auto-converts these to
 > the Base UI `render` prop when installing into a `base-nova` project, so they work on either base.
 
+**Authoring → build → publish → consume (the flow).** In the `bytlabs-ui-registry` repo:
+
+1. **Author** a component under `registry/<item>/…` and declare it (files, `registryDependencies`, npm
+   `dependencies`) in **`registry.json`** — the manifest and source of truth.
+2. **Build** with `npm run registry:build` (`shadcn build`) → emits **`public/r/*.json`**. This is the
+   step people forget: **`public/r/*.json` is what `npx shadcn add` downloads, not the `.tsx` source.**
+   Editing a component without rebuilding ships nothing.
+3. **Publish** by hosting `public/` so items resolve at `https://<host>/r/<item>.json`.
+4. **Consume** with `npx shadcn add https://<host>/r/dynamic-entity.json`.
+
+**How the console consumes it (vendored, not live).** The bundled console does **not** fetch from a
+registry server at build time — the registry components are **vendored** (copied) into
+`src/components/dynamic/**`, so it builds offline. When a shared component changes, fix it in the
+registry first (rebuild `public/r`), then sync the change into the console's vendored copy. Both copies
+must stay in step.
+
 **Plugging in a flat entity (Product / Order).** Register the entity's GraphQL operations once in the
-console's `lib/entities.ts`; the generic `EntityManager` + `useEntityDef`/`useDynamicEntity` hooks do
+console's `src/lib/entities.ts`; the generic `EntityManager` + `useEntityDef`/`useDynamicEntity` hooks do
 the rest (list, paginate, view, create, edit). No new UI code per entity.
 
+**Gotcha — date widgets & AJV formats.** `DatePickerWidget` must emit a value matching the schema's
+declared `format`. A `date` field (JSON Schema full-date) requires `"YYYY-MM-DD"`; emitting a full ISO
+datetime (`toISOString()`) fails AJV's `date` format check with *`must match format "date"`*. Only
+`date-time` fields keep the ISO string. Parse stored `"YYYY-MM-DD"` values as **local** dates (not UTC)
+so the calendar doesn't drift a day in negative-offset timezones. This fix lives in **both** the registry
+source and the console's vendored copy.
+
 **Sample code in this template.**
-- [`Console/lib/entities.ts`](../../src/BytLabs.MicroserviceTemplate.Console/lib/entities.ts) — per-entity registration (Product)
-- [`Console/components/EntityManager.tsx`](../../src/BytLabs.MicroserviceTemplate.Console/components/EntityManager.tsx) — generic CRUD page composing the registry components
-- [`Console/components/SchemaAuthoring.tsx`](../../src/BytLabs.MicroserviceTemplate.Console/components/SchemaAuthoring.tsx) — Monaco schema editor backed by `EntityDef`
+- [`Console/src/lib/entities.ts`](../../src/BytLabs.MicroserviceTemplate.Console/src/lib/entities.ts) — per-entity registration (Product, Order)
+- [`Console/src/components/EntityManager.tsx`](../../src/BytLabs.MicroserviceTemplate.Console/src/components/EntityManager.tsx) — generic CRUD page composing the registry components
+- [`Console/src/components/SchemaAuthoring.tsx`](../../src/BytLabs.MicroserviceTemplate.Console/src/components/SchemaAuthoring.tsx) — Monaco schema editor backed by `EntityDef`
+- [`Console/src/components/dynamic/**`](../../src/BytLabs.MicroserviceTemplate.Console/src/components/dynamic) — vendored registry components
 
 **Reference.** [shadcn registry docs](https://ui.shadcn.com/docs/registry), [shadcn components](https://ui.shadcn.com/docs/components).
 

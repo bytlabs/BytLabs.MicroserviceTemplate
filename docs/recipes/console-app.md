@@ -41,7 +41,8 @@ client-side routing with **no per-route build** and none of the static-export/RS
   Console `.esproj` runs this.
 - **Manual/CI:** `bash build-console.sh`, or the `Dockerfile`'s Node stage (`npm ci && npm run build`)
   copies `dist/` into the image's `wwwroot/console`. Registry components are vendored under
-  `components/dynamic`, so no registry server is needed at build time.
+  `src/components/dynamic`, so no registry server is needed at build time (see
+  [ui-registry-integration.md](ui-registry-integration.md) for how the vendored copy stays in sync).
 
 **Sample code in this template.**
 - [`src/BytLabs.MicroserviceTemplate.Console/`](../../src/BytLabs.MicroserviceTemplate.Console) — the Vite SPA (`main.tsx`, `App.tsx`, `components/`, `lib/`)
