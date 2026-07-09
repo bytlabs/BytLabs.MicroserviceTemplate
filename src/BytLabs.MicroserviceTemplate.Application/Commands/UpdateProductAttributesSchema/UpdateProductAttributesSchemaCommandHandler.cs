@@ -3,7 +3,6 @@ using BytLabs.Application.CQS.Commands;
 using BytLabs.Application.DataAccess;
 using BytLabs.MicroserviceTemplate.Application.Dtos;
 using BytLabs.MicroserviceTemplate.Domain.Aggregates.ProductAggregate;
-using BytLabs.MicroserviceTemplate.Domain.Shared.DynamicData;
 
 namespace BytLabs.MicroserviceTemplate.Application.Commands.UpdateProductAttributesSchema
 {
@@ -20,15 +19,8 @@ namespace BytLabs.MicroserviceTemplate.Application.Commands.UpdateProductAttribu
 
         public async Task<ProductDto> Handle(UpdateProductAttributesSchemaCommand request, CancellationToken cancellationToken)
         {
-            var s = request.Schema;
-            var schema = new FormDataSchema(
-                s.Key,
-                new DataSchema(s.SampleData.Type, s.SampleData.Data),
-                new DataSchema(s.FormSchema.Type, s.FormSchema.Data),
-                new DataSchema(s.FormUi.Type, s.FormUi.Data));
-
             var product = await productRepository.GetByIdAsync(request.Id, cancellationToken);
-            product.UpdateAttributesSchema(schema);
+            product.UpdateAttributesSchema(request.Schema);
             var result = await productRepository.UpdateAsync(product, cancellationToken);
             return mapper.Map<ProductDto>(result);
         }

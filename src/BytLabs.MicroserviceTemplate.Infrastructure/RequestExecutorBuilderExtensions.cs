@@ -56,7 +56,10 @@ namespace BytLabs.MicroserviceTemplate.Infrastructure
             return requestExecutorBuilder
                 .AddAggregateSortType<Product, Guid>()
                 .AddAggregateFilterType<Product, Guid>()
-                .AddAggregateSortType<EntityDef, Guid>()
+                // EntityDef query uses [UseSorting(Type=typeof(EntityDef))] which generates the sort
+                // input itself, so only the aggregate filter type is registered here (mirrors
+                // CandidateManagement's OrganizationSubEntityDef). Registering the sort type too
+                // would duplicate `EntityDefSortInput`.
                 .AddAggregateFilterType<EntityDef, Guid>();
         }
     }
