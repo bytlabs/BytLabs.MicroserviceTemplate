@@ -40,6 +40,10 @@ sample code in this repository.
 - [MongoDB BSON class maps](bson-class-maps.md)
 - [Custom BSON serializer](custom-bson-serializer.md)
 
+## Frontend / Console
+- [Bundled console app (static export, single-port)](console-app.md)
+- [shadcn UI registry integration](ui-registry-integration.md)
+
 ## Cross-cutting
 - [Multitenancy (database-per-tenant)](multitenancy.md)
 
