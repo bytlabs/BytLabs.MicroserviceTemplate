@@ -3,7 +3,6 @@ using BytLabs.Domain.DynamicData;
 using BytLabs.Domain.Entities;
 using BytLabs.MicroserviceTemplate.Domain.Aggregates.ProductAggregate.DataObjects;
 using BytLabs.MicroserviceTemplate.Domain.Aggregates.ProductAggregate.Events;
-using BytLabs.MicroserviceTemplate.Domain.Shared.DynamicData;
 using BytLabs.MicroserviceTemplate.Domain.Utils;
 
 namespace BytLabs.MicroserviceTemplate.Domain.Aggregates.ProductAggregate
@@ -14,21 +13,19 @@ namespace BytLabs.MicroserviceTemplate.Domain.Aggregates.ProductAggregate
     {
         public string Name { get; private set; }
         public JsonElement Data { get; private set; }
-        public FormDataSchema AttributesSchema { get; private set; }
         public IReadOnlySet<ProductVariant> Variants { get; private set; }
         public bool IsDeleted { get; private set; }
 
-        private Product(Guid id, string name, JsonElement data, FormDataSchema attributesSchema) : base(id)
+        private Product(Guid id, string name, JsonElement data) : base(id)
         {
             Name = name;
             Data = data;
-            AttributesSchema = attributesSchema;
             Variants = new HashSet<ProductVariant>();
         }
 
         public static Product Create(CreateProduct details)
         {
-            var product = new Product(details.Id, details.Name, details.Data, details.AttributesSchema);
+            var product = new Product(details.Id, details.Name, details.Data);
             product.AddDomainEvent(new ProductCreated(product.Id, details));
             return product;
         }
@@ -39,13 +36,6 @@ namespace BytLabs.MicroserviceTemplate.Domain.Aggregates.ProductAggregate
             Name = value.Name;
             Data = Data.Merge(value.Data);
             AddDomainEvent(new ProductUpdated(Id, value));
-        }
-
-        // Specialized update: the attributes schema only.
-        public void UpdateAttributesSchema(FormDataSchema schema)
-        {
-            AttributesSchema = schema;
-            AddDomainEvent(new ProductAttributesSchemaUpdated(Id, schema));
         }
 
         public void AddVariant(AddVariant value)

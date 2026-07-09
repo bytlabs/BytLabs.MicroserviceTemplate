@@ -6,7 +6,6 @@ using BytLabs.MicroserviceTemplate.Application.Commands.ShipOrder;
 using BytLabs.MicroserviceTemplate.Application.Commands.CreateProduct;
 using BytLabs.MicroserviceTemplate.Application.Commands.UpdateProduct;
 using BytLabs.MicroserviceTemplate.Application.Commands.RemoveProduct;
-using BytLabs.MicroserviceTemplate.Application.Commands.UpdateProductAttributesSchema;
 using BytLabs.MicroserviceTemplate.Application.Commands.AddVariant;
 using BytLabs.MicroserviceTemplate.Application.Commands.RemoveVariant;
 using BytLabs.MicroserviceTemplate.Application.Commands.CreateEntityDef;
@@ -31,7 +30,6 @@ namespace BytLabs.MicroserviceTemplate.Infrastructure
                 .AddCommandType<CreateProductCommand>()
                 .AddCommandType<UpdateProductCommand>()
                 .AddCommandType<RemoveProductCommand>()
-                .AddCommandType<UpdateProductAttributesSchemaCommand>()
                 .AddCommandType<AddVariantCommand>()
                 .AddCommandType<RemoveVariantCommand>()
                 .AddCommandType<CreateEntityDefCommand>()

@@ -4,7 +4,6 @@ using BytLabs.Application.DataAccess;
 using BytLabs.MicroserviceTemplate.Application.Dtos;
 using BytLabs.MicroserviceTemplate.Domain.Aggregates.ProductAggregate;
 using BytLabs.MicroserviceTemplate.Domain.Aggregates.ProductAggregate.DataObjects;
-using BytLabs.MicroserviceTemplate.Domain.Shared.DynamicData;
 
 namespace BytLabs.MicroserviceTemplate.Application.Commands.CreateProduct
 {
@@ -21,7 +20,7 @@ namespace BytLabs.MicroserviceTemplate.Application.Commands.CreateProduct
 
         public async Task<ProductDto> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
-            var product = Product.Create(new(request.Id, request.Name, request.Data, FormDataSchema.Empty()));
+            var product = Product.Create(new(request.Id, request.Name, request.Data));
             var result = await productRepository.InsertAsync(product, cancellationToken);
             return mapper.Map<ProductDto>(result);
         }
