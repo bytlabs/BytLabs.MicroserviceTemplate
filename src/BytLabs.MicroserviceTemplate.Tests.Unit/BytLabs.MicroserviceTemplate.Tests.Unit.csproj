@@ -12,10 +12,12 @@
     <PackageReference Include="xunit" />
     <PackageReference Include="xunit.runner.visualstudio" />
     <PackageReference Include="FluentAssertions" />
+    <PackageReference Include="Moq" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BytLabs.MicroserviceTemplate.Domain\BytLabs.MicroserviceTemplate.Domain.csproj" />
+    <ProjectReference Include="..\BytLabs.MicroserviceTemplate.Application\BytLabs.MicroserviceTemplate.Application.csproj" />
   </ItemGroup>
 
 </Project>
