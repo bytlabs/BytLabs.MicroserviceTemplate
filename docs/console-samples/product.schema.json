@@ -1,0 +1,68 @@
+{
+  "formSchema": {
+    "type": "object",
+    "required": ["name"],
+    "properties": {
+      "name": { "type": "string", "title": "Name" },
+      "category": { "type": "string", "title": "Category", "enum": ["Furniture", "Electronics", "Apparel", "Home"] },
+      "color": { "type": "string", "title": "Color" },
+      "size": { "type": "string", "title": "Size", "enum": ["S", "M", "L", "XL"] },
+      "price": { "type": "number", "title": "Price (USD)" },
+      "inStock": { "type": "boolean", "title": "In stock" },
+      "releaseDate": { "type": "string", "title": "Release date", "format": "date" },
+      "description": { "type": "string", "title": "Description" }
+    }
+  },
+  "uiSchema": {
+    "name": { "ui:widget": "TextWidget", "ui:placeholder": "Product name" },
+    "category": { "ui:widget": "SelectWidget" },
+    "color": { "ui:widget": "TextWidget" },
+    "size": { "ui:widget": "SelectWidget" },
+    "price": { "ui:widget": "UpDownWidget" },
+    "inStock": { "ui:widget": "CheckboxWidget" },
+    "releaseDate": { "ui:widget": "DatePickerWidget" },
+    "description": { "ui:widget": "TextareaWidget" }
+  },
+  "formData": {
+    "name": "Aeron Chair",
+    "category": "Furniture",
+    "color": "Graphite",
+    "size": "M",
+    "price": 1395,
+    "inStock": true,
+    "releaseDate": "2024-01-15T00:00:00.000Z",
+    "description": "Ergonomic office chair with adjustable lumbar support."
+  },
+  "columns": [
+    { "id": "name", "accessorKey": "name", "header": "Name", "enableSorting": true, "enableColumnFilter": true },
+    { "id": "data.category", "accessorKey": "data.category", "header": "Category", "enableSorting": true, "enableColumnFilter": true },
+    { "id": "data.color", "accessorKey": "data.color", "header": "Color", "enableSorting": false, "enableColumnFilter": true },
+    { "id": "data.price", "accessorKey": "data.price", "header": "Price", "enableSorting": true, "enableColumnFilter": false },
+    { "id": "data.inStock", "accessorKey": "data.inStock", "header": "In stock", "enableSorting": false, "enableColumnFilter": false }
+  ],
+  "details": {
+    "type": "container",
+    "title": "Product",
+    "content": [
+      {
+        "type": "card",
+        "title": "Overview",
+        "content": [
+          { "type": "dt", "label": "Name", "bind": "name" },
+          { "type": "dt", "label": "Category", "bind": "data.category" },
+          { "type": "dt", "label": "Color", "bind": "data.color" },
+          { "type": "dt", "label": "Size", "bind": "data.size" },
+          { "type": "dt", "label": "Price", "bind": "data.price", "format": { "type": "number", "format": "currency", "options": { "currency": "USD", "minimumFractionDigits": 0, "maximumFractionDigits": 0 } } },
+          { "type": "dt", "label": "In stock", "bind": "data.inStock" },
+          { "type": "dt", "label": "Release date", "bind": "data.releaseDate", "format": { "type": "date", "format": "MMM dd, yyyy", "fallback": "—" } },
+          { "type": "dt", "label": "Description", "bind": "data.description" }
+        ]
+      }
+    ]
+  },
+  "tableData": [
+    { "id": "11111111-1111-1111-1111-111111111111", "name": "Aeron Chair", "data": { "category": "Furniture", "color": "Graphite", "size": "M", "price": 1395, "inStock": true, "releaseDate": "2024-01-15T00:00:00.000Z" } },
+    { "id": "22222222-2222-2222-2222-222222222222", "name": "USB-C Hub", "data": { "category": "Electronics", "color": "Silver", "size": "S", "price": 49, "inStock": false, "releaseDate": "2023-11-02T00:00:00.000Z" } },
+    { "id": "33333333-3333-3333-3333-333333333333", "name": "Wool Sweater", "data": { "category": "Apparel", "color": "Navy", "size": "L", "price": 89, "inStock": true, "releaseDate": "2024-09-20T00:00:00.000Z" } }
+  ]
+}

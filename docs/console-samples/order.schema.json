@@ -1,0 +1,65 @@
+{
+  "formSchema": {
+    "type": "object",
+    "required": ["customerName"],
+    "properties": {
+      "customerName": { "type": "string", "title": "Customer name" },
+      "customerEmail": { "type": "string", "title": "Customer email", "format": "email" },
+      "priority": { "type": "string", "title": "Priority", "enum": ["Low", "Normal", "High", "Urgent"] },
+      "shippingCountry": { "type": "string", "title": "Shipping country", "enum": ["US", "CA", "UK", "DE", "IN"] },
+      "totalAmount": { "type": "number", "title": "Total amount (USD)" },
+      "expedited": { "type": "boolean", "title": "Expedited shipping" },
+      "notes": { "type": "string", "title": "Notes" }
+    }
+  },
+  "uiSchema": {
+    "customerName": { "ui:widget": "TextWidget", "ui:placeholder": "Full name" },
+    "customerEmail": { "ui:widget": "TextWidget", "ui:placeholder": "name@example.com" },
+    "priority": { "ui:widget": "SelectWidget" },
+    "shippingCountry": { "ui:widget": "SelectWidget" },
+    "totalAmount": { "ui:widget": "UpDownWidget" },
+    "expedited": { "ui:widget": "CheckboxWidget" },
+    "notes": { "ui:widget": "TextareaWidget" }
+  },
+  "formData": {
+    "customerName": "Jane Cooper",
+    "customerEmail": "jane@example.com",
+    "priority": "High",
+    "shippingCountry": "US",
+    "totalAmount": 249.99,
+    "expedited": true,
+    "notes": "Leave at the front desk."
+  },
+  "columns": [
+    { "id": "orderDate", "accessorKey": "orderDate", "header": "Order date", "enableSorting": true, "enableColumnFilter": false },
+    { "id": "status", "accessorKey": "status", "header": "Status", "enableSorting": true, "enableColumnFilter": true },
+    { "id": "data.customerName", "accessorKey": "data.customerName", "header": "Customer", "enableSorting": false, "enableColumnFilter": true },
+    { "id": "data.priority", "accessorKey": "data.priority", "header": "Priority", "enableSorting": false, "enableColumnFilter": true },
+    { "id": "data.totalAmount", "accessorKey": "data.totalAmount", "header": "Total", "enableSorting": true, "enableColumnFilter": false }
+  ],
+  "details": {
+    "type": "container",
+    "title": "Order",
+    "content": [
+      {
+        "type": "card",
+        "title": "Summary",
+        "content": [
+          { "type": "dt", "label": "Status", "bind": "status" },
+          { "type": "dt", "label": "Order date", "bind": "orderDate", "format": { "type": "date", "format": "MMM dd, yyyy HH:mm", "fallback": "—" } },
+          { "type": "dt", "label": "Customer", "bind": "data.customerName" },
+          { "type": "dt", "label": "Email", "bind": "data.customerEmail" },
+          { "type": "dt", "label": "Priority", "bind": "data.priority" },
+          { "type": "dt", "label": "Shipping country", "bind": "data.shippingCountry" },
+          { "type": "dt", "label": "Total", "bind": "data.totalAmount", "format": { "type": "number", "format": "currency", "options": { "currency": "USD", "minimumFractionDigits": 2, "maximumFractionDigits": 2 } } },
+          { "type": "dt", "label": "Notes", "bind": "data.notes" }
+        ]
+      }
+    ]
+  },
+  "tableData": [
+    { "id": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa", "orderDate": "2026-06-01T10:30:00.000Z", "status": "PENDING", "data": { "customerName": "Jane Cooper", "customerEmail": "jane@example.com", "priority": "High", "shippingCountry": "US", "totalAmount": 249.99 } },
+    { "id": "bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb", "orderDate": "2026-06-03T14:05:00.000Z", "status": "SHIPPED", "data": { "customerName": "Wade Warren", "customerEmail": "wade@example.com", "priority": "Normal", "shippingCountry": "CA", "totalAmount": 89.5 } },
+    { "id": "cccccccc-cccc-cccc-cccc-cccccccccccc", "orderDate": "2026-06-05T09:15:00.000Z", "status": "PENDING", "data": { "customerName": "Esther Howard", "customerEmail": "esther@example.com", "priority": "Urgent", "shippingCountry": "UK", "totalAmount": 512.0 } }
+  ]
+}
