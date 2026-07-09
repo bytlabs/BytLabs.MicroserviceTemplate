@@ -1,0 +1,100 @@
+name: Tests
+
+# Runs the unit and acceptance test suites on every push and pull request.
+# (The separate ci.yml only runs tests as a gate before publishing on release/feature pushes.)
+
+on:
+  push:
+    branches:
+      - main
+      - "feature/**"
+      - "feat/**"
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+env:
+  DOTNET_VERSION: "8.0"
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "true"
+  DOTNET_NOLOGO: "true"
+
+jobs:
+  unit-tests:
+    name: Unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore
+        run: dotnet restore src/BytLabs.MicroserviceTemplate.Tests.Unit/BytLabs.MicroserviceTemplate.Tests.Unit.csproj
+
+      - name: Run unit tests
+        run: >-
+          dotnet test src/BytLabs.MicroserviceTemplate.Tests.Unit/BytLabs.MicroserviceTemplate.Tests.Unit.csproj
+          --configuration Release
+          --no-restore
+          --logger "trx;LogFileName=unit-tests.trx"
+          --results-directory ./test-results
+
+      - name: Upload unit test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: unit-test-results
+          path: ./test-results/*.trx
+          if-no-files-found: ignore
+
+  acceptance-tests:
+    name: Acceptance tests
+    runs-on: ubuntu-latest
+
+    # The acceptance tests drive the API in-process (WebApplicationFactory) and hit MongoDB at
+    # localhost:27017 (see appsettings.json). A service container provides that MongoDB.
+    services:
+      mongo:
+        image: mongo:7.0
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --quiet --eval 'db.runCommand({ ping: 1 }).ok' || mongo --quiet --eval 'db.runCommand({ ping: 1 }).ok'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: ${{ env.DOTNET_VERSION }}
+
+      - name: Restore
+        run: dotnet restore src/BytLabs.MicroserviceTemplate.Tests.Accpetance/BytLabs.MicroserviceTemplate.Tests.Accpetance.csproj
+
+      - name: Run acceptance tests
+        run: >-
+          dotnet test src/BytLabs.MicroserviceTemplate.Tests.Accpetance/BytLabs.MicroserviceTemplate.Tests.Accpetance.csproj
+          --configuration Release
+          --no-restore
+          --logger "trx;LogFileName=acceptance-tests.trx"
+          --results-directory ./test-results
+
+      - name: Upload acceptance test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: acceptance-test-results
+          path: ./test-results/*.trx
+          if-no-files-found: ignore
