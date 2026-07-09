@@ -1,0 +1,33 @@
+query EntityDefs($first: Int, $after: String, $order: [EntityDefSortInput!], $where: EntityDefFilterInput) {
+  entityDefs(first: $first, after: $after, order: $order, where: $where) {
+    totalCount
+    pageInfo { hasNextPage hasPreviousPage startCursor endCursor }
+    nodes {
+      id
+      entityType
+      form { key formSchema { type data } formUi { type data } sampleData { type data } }
+      table { columns { type data } filter { type data } sampleData { type data } details { type data } }
+    }
+  }
+}
+
+mutation CreateEntityDef($input: CreateEntityDefInput!) {
+  createEntityDef(input: $input) {
+    entityDef { id entityType }
+    errors { ... on ValidationError { message fields { field message } } ... on BusinessError { message } }
+  }
+}
+
+mutation UpdateEntityDef($input: UpdateEntityDefInput!) {
+  updateEntityDef(input: $input) {
+    entityDef { id }
+    errors { ... on ValidationError { message fields { field message } } ... on BusinessError { message } }
+  }
+}
+
+mutation RemoveEntityDef($input: RemoveEntityDefInput!) {
+  removeEntityDef(input: $input) {
+    entityDef { id }
+    errors { ... on ValidationError { message fields { field message } } ... on BusinessError { message } }
+  }
+}

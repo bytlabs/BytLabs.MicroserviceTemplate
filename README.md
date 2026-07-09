@@ -215,6 +215,8 @@ Highlights:
 - Infrastructure: [service registration](docs/recipes/service-registration.md) ·
   [BSON class maps](docs/recipes/bson-class-maps.md) ·
   [custom serializer](docs/recipes/custom-bson-serializer.md)
+- Frontend/Console: [bundled console app](docs/recipes/console-app.md) ·
+  [shadcn UI registry integration](docs/recipes/ui-registry-integration.md)
 - Cross-cutting: [multitenancy](docs/recipes/multitenancy.md)
 - Testing: [unit](docs/recipes/unit-testing.md) ·
   [acceptance (xUnit)](docs/recipes/acceptance-testing-xunit.md) ·
