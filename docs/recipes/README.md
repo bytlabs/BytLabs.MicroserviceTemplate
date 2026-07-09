@@ -7,16 +7,27 @@ sample code in this repository.
 > Built on [BytLabs.BackendPackages](https://github.com/bytlabs/BytLabs.BackendPackages). Recipes that
 > reuse a package building block link to the relevant base type.
 
+## Dynamic Entity (runtime-configurable forms & tables)
+The flagship feature: entities whose form/table/view are configured at runtime via an `EntityDef`
+schema and rendered by a generic console + shadcn UI registry — no per-entity code, no redeploy.
+**Start with the schema flow**, then drill into the backend, GraphQL, and frontend pieces.
+
+- [EntityDef schema flow (define → store → render)](entity-def-schema-flow.md) — **start here:** end-to-end overview, import/export, and the low-code payoff
+- [EntityDef aggregate (dynamic form + table)](entity-def.md) — the aggregate that stores the schema, keyed by `EntityType`
+- [Schema value objects](schema-value-objects.md) — `DataSchema` / `FormDataSchema` / `TableDataSchema`
+- [Dynamic data (schema-less JSON)](dynamic-data.md) — the record's `JsonElement Data` where values live
+- [Dynamic table (TableDataSchema)](dynamic-table.md) — columns / filter / detail-view schema
+- [GraphQL EntityDef contract (create/update/remove)](graphql-entity-def.md) — authoring surface
+- [Dynamic-data query + soft-delete filter](graphql-dynamic-data-query.md) — reading records with dynamic fields
+- [shadcn UI registry integration](ui-registry-integration.md) — the dynamic-UI components (form/table/view/editor)
+- [Bundled console app (client SPA, single-port)](console-app.md) — the admin UI that consumes it all
+
 ## Domain
 - [Aggregate root & domain events](aggregate-root.md)
 - [Sub-entity inside an aggregate](sub-entity.md)
 - [Data objects (Create/Update)](data-objects.md)
 - [Typed domain events](domain-events.md)
-- [Dynamic data (schema-less JSON)](dynamic-data.md)
 - [Soft delete](soft-delete.md)
-- [Schema value objects](schema-value-objects.md)
-- [EntityDef aggregate (dynamic form + table)](entity-def.md)
-- [Dynamic table (TableDataSchema)](dynamic-table.md)
 - [Specialized update methods](specialized-update-methods.md)
 
 ## Application (CQRS)
@@ -28,8 +39,6 @@ sample code in this repository.
 
 ## API (GraphQL)
 - [Query with paging/projection/filtering/sorting](graphql-query.md)
-- [Dynamic-data query + soft-delete filter](graphql-dynamic-data-query.md)
-- [GraphQL EntityDef contract (create/update/remove)](graphql-entity-def.md)
 - [Mutation with error types](graphql-mutation.md)
 - [Authorization](authorization.md)
 - [Mutation conventions](mutation-conventions.md)
@@ -39,10 +48,6 @@ sample code in this repository.
 - [Service registration](service-registration.md)
 - [MongoDB BSON class maps](bson-class-maps.md)
 - [Custom BSON serializer](custom-bson-serializer.md)
-
-## Frontend / Console
-- [Bundled console app (static export, single-port)](console-app.md)
-- [shadcn UI registry integration](ui-registry-integration.md)
 
 ## Cross-cutting
 - [Multitenancy (database-per-tenant)](multitenancy.md)

@@ -12,6 +12,7 @@ A modern .NET microservice template with GraphQL, MongoDB, Docker support, and c
 - 📊 OpenTelemetry integration
 - 🔄 CI/CD pipeline with GitHub Actions
 - 🎯 Domain-Driven Design (DDD) architecture
+- 🧩 Runtime-configurable **dynamic entities** — low-code forms & tables (`EntityDef` + bundled console)
 - 🔍 Health checks
 - 👥 Multi-tenant support
 - 📝 Logging with Serilog
@@ -190,33 +191,35 @@ See the full index: [docs/recipes/README.md](docs/recipes/README.md).
 
 Highlights:
 
+- **Dynamic Entity (runtime-configurable forms & tables):** entities whose form/table/view are
+  configured at runtime via an `EntityDef` schema and rendered by a generic console + shadcn UI
+  registry — no per-entity code, no redeploy. The schema lives once per `EntityType` on `EntityDef`;
+  each record carries only its `Data`. **Start with the flow**, then drill in:
+  [schema flow (define → store → render)](docs/recipes/entity-def-schema-flow.md) ·
+  [EntityDef aggregate](docs/recipes/entity-def.md) ·
+  [schema value objects](docs/recipes/schema-value-objects.md) ·
+  [dynamic data](docs/recipes/dynamic-data.md) ·
+  [dynamic table](docs/recipes/dynamic-table.md) ·
+  [GraphQL EntityDef contract](docs/recipes/graphql-entity-def.md) ·
+  [dynamic-data query](docs/recipes/graphql-dynamic-data-query.md) ·
+  [shadcn UI registry integration](docs/recipes/ui-registry-integration.md) ·
+  [bundled console app](docs/recipes/console-app.md)
 - Domain: [aggregate root & events](docs/recipes/aggregate-root.md) ·
   [sub-entity](docs/recipes/sub-entity.md) ·
-  [dynamic data](docs/recipes/dynamic-data.md) ·
   [soft delete](docs/recipes/soft-delete.md) ·
-  [schema value objects](docs/recipes/schema-value-objects.md) ·
-  [EntityDef (dynamic form + table)](docs/recipes/entity-def.md) ·
-  [dynamic table](docs/recipes/dynamic-table.md)
-- Dynamic entities: `EntityDef` describes a flat entity's form (`FormDataSchema`) and table
-  (`TableDataSchema`) at runtime; entities carry only their `Data`. See
-  [EntityDef aggregate](docs/recipes/entity-def.md) and
-  [GraphQL EntityDef contract](docs/recipes/graphql-entity-def.md).
+  [specialized update methods](docs/recipes/specialized-update-methods.md)
 - Application: [command + handler](docs/recipes/cqrs-command-handler.md) ·
   [sub-entity commands](docs/recipes/sub-entity-commands.md) ·
   [DTOs](docs/recipes/dtos.md) ·
   [AutoMapper](docs/recipes/automapper-profiles.md) ·
   [domain event handler](docs/recipes/domain-event-handler.md)
 - API: [GraphQL query](docs/recipes/graphql-query.md) ·
-  [dynamic-data query](docs/recipes/graphql-dynamic-data-query.md) ·
-  [EntityDef contract](docs/recipes/graphql-entity-def.md) ·
   [mutation](docs/recipes/graphql-mutation.md) ·
   [authorization](docs/recipes/authorization.md) ·
   [type registration](docs/recipes/graphql-type-registration.md)
 - Infrastructure: [service registration](docs/recipes/service-registration.md) ·
   [BSON class maps](docs/recipes/bson-class-maps.md) ·
   [custom serializer](docs/recipes/custom-bson-serializer.md)
-- Frontend/Console: [bundled console app](docs/recipes/console-app.md) ·
-  [shadcn UI registry integration](docs/recipes/ui-registry-integration.md)
 - Cross-cutting: [multitenancy](docs/recipes/multitenancy.md)
 - Testing: [unit](docs/recipes/unit-testing.md) ·
   [acceptance (xUnit)](docs/recipes/acceptance-testing-xunit.md) ·

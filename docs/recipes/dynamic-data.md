@@ -29,4 +29,4 @@ public void Update(UpdateProduct value)
 
 **Reference (BytLabs.BackendPackages).** `BytLabs.Domain.DynamicData.IHaveDynamicData`.
 
-**Related recipes.** [Soft delete](soft-delete.md), [Schema value objects](schema-value-objects.md), [Dynamic-data query](graphql-dynamic-data-query.md).
+**Related recipes.** [EntityDef schema flow (define → store → render)](entity-def-schema-flow.md), [Soft delete](soft-delete.md), [Schema value objects](schema-value-objects.md), [Dynamic-data query](graphql-dynamic-data-query.md).
