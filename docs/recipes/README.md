@@ -15,6 +15,8 @@ sample code in this repository.
 - [Dynamic data (schema-less JSON)](dynamic-data.md)
 - [Soft delete](soft-delete.md)
 - [Schema value objects](schema-value-objects.md)
+- [EntityDef aggregate (dynamic form + table)](entity-def.md)
+- [Dynamic table (TableDataSchema)](dynamic-table.md)
 - [Specialized update methods](specialized-update-methods.md)
 
 ## Application (CQRS)
@@ -27,6 +29,7 @@ sample code in this repository.
 ## API (GraphQL)
 - [Query with paging/projection/filtering/sorting](graphql-query.md)
 - [Dynamic-data query + soft-delete filter](graphql-dynamic-data-query.md)
+- [GraphQL EntityDef contract (create/update/remove)](graphql-entity-def.md)
 - [Mutation with error types](graphql-mutation.md)
 - [Authorization](authorization.md)
 - [Mutation conventions](mutation-conventions.md)

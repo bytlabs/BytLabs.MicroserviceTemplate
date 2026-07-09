@@ -21,9 +21,11 @@ public class DataSchema : ValueObject
 
 **Sample code in this template.**
 - [`Shared/DynamicData/`](../../src/BytLabs.MicroserviceTemplate.Domain/Shared/DynamicData) — `DataSchema`, `FormDataSchema`, `TableDataSchema`
-- [`Product.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Aggregates/ProductAggregate/Product.cs) — `AttributesSchema`
-- [`UpdateProductAttributesSchemaCommand.cs`](../../src/BytLabs.MicroserviceTemplate.Application/Commands/UpdateProductAttributesSchema/UpdateProductAttributesSchemaCommand.cs) — input mapping
+- [`EntityDef.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Aggregates/EntityDefAggregate/EntityDef.cs) — holds `Form` (`FormDataSchema`) + `Table` (`TableDataSchema`) on a definition aggregate, with create/update/remove (see [GraphQL EntityDef contract](graphql-entity-def.md))
+
+> Note: the render schema lives on the `EntityDef` aggregate (keyed by `EntityType`), not on the
+> entity being described. Flat entities like `Product` carry only their `Data`.
 
 **Reference (BytLabs.BackendPackages).** `BytLabs.Domain.ValueObjects.ValueObject`.
 
-**Related recipes.** [Dynamic data](dynamic-data.md), [BSON class maps](bson-class-maps.md), [Specialized update methods](specialized-update-methods.md).
+**Related recipes.** [Dynamic data](dynamic-data.md), [Dynamic table](dynamic-table.md), [EntityDef aggregate](entity-def.md), [BSON class maps](bson-class-maps.md), [Specialized update methods](specialized-update-methods.md).

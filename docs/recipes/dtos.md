@@ -11,7 +11,7 @@ works both with AutoMapper (command results) and MongoDB `As<TDto>` projection (
 
 ```csharp
 public record ProductDto(
-    Guid Id, string Name, JsonElement Data, FormDataSchema AttributesSchema,
+    Guid Id, string Name, JsonElement Data,
     IReadOnlyCollection<ProductVariantDto> Variants, AuditInfo AuditInfo)
     : IAuditable, IHaveDynamicData;
 ```
