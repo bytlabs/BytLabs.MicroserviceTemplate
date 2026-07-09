@@ -1,0 +1,9 @@
+mutation UpdateEntityDef($input: UpdateEntityDefInput!) {
+  updateEntityDef(input: $input) {
+    entityDef { id table { columns { type data } } }
+    errors {
+      ... on BusinessError { code property message }
+      ... on ValidationError { message fields { field code message } }
+    }
+  }
+}

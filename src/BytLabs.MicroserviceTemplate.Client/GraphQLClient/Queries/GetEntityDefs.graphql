@@ -1,0 +1,18 @@
+query GetEntityDefs(
+  $first: Int
+  $after: String
+  $order: [EntityDefSortInput!]
+  $where: EntityDefFilterInput
+) {
+  entityDefs(first: $first, after: $after, order: $order, where: $where) {
+    pageInfo { hasNextPage endCursor }
+    totalCount
+    nodes {
+      id
+      entityType
+      form { key formSchema { type data } formUi { type data } sampleData { type data } }
+      table { columns { type data } filter { type data } details { type data } sampleData { type data } }
+      auditInfo { createdAt lastModifiedAt }
+    }
+  }
+}
