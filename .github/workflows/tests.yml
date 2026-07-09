@@ -88,6 +88,7 @@ jobs:
           dotnet test src/BytLabs.MicroserviceTemplate.Tests.Accpetance/BytLabs.MicroserviceTemplate.Tests.Accpetance.csproj
           --configuration Release
           --no-restore
+          -p:BuildConsoleUi=false
           --logger "trx;LogFileName=acceptance-tests.trx"
           --results-directory ./test-results
 
