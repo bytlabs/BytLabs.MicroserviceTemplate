@@ -16,8 +16,8 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "baseUrl": ".",
-    "paths": { "@/*": ["./*"] }
+    "paths": { "@/*": ["./src/*"] }
   },
-  "include": ["**/*.ts", "**/*.tsx"],
+  "include": ["src"],
   "exclude": ["node_modules", "dist"]
 }
