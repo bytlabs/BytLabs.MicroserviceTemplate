@@ -194,7 +194,13 @@ Highlights:
   [sub-entity](docs/recipes/sub-entity.md) ·
   [dynamic data](docs/recipes/dynamic-data.md) ·
   [soft delete](docs/recipes/soft-delete.md) ·
-  [schema value objects](docs/recipes/schema-value-objects.md)
+  [schema value objects](docs/recipes/schema-value-objects.md) ·
+  [EntityDef (dynamic form + table)](docs/recipes/entity-def.md) ·
+  [dynamic table](docs/recipes/dynamic-table.md)
+- Dynamic entities: `EntityDef` describes a flat entity's form (`FormDataSchema`) and table
+  (`TableDataSchema`) at runtime; entities carry only their `Data`. See
+  [EntityDef aggregate](docs/recipes/entity-def.md) and
+  [GraphQL EntityDef contract](docs/recipes/graphql-entity-def.md).
 - Application: [command + handler](docs/recipes/cqrs-command-handler.md) ·
   [sub-entity commands](docs/recipes/sub-entity-commands.md) ·
   [DTOs](docs/recipes/dtos.md) ·
@@ -202,6 +208,7 @@ Highlights:
   [domain event handler](docs/recipes/domain-event-handler.md)
 - API: [GraphQL query](docs/recipes/graphql-query.md) ·
   [dynamic-data query](docs/recipes/graphql-dynamic-data-query.md) ·
+  [EntityDef contract](docs/recipes/graphql-entity-def.md) ·
   [mutation](docs/recipes/graphql-mutation.md) ·
   [authorization](docs/recipes/authorization.md) ·
   [type registration](docs/recipes/graphql-type-registration.md)

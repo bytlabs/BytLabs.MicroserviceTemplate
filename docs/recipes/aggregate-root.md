@@ -11,7 +11,7 @@ state and append domain events, which are dispatched after the aggregate is pers
 ```csharp
 public static Product Create(CreateProduct details)
 {
-    var product = new Product(details.Id, details.Name, details.Data, details.AttributesSchema);
+    var product = new Product(details.Id, details.Name, details.Data);
     product.AddDomainEvent(new ProductCreated(product.Id, details));
     return product;
 }

@@ -10,7 +10,7 @@ instead of a long parameter list, keeping the signature stable as fields evolve.
 methods accept them and (for create/update) embed them in the corresponding domain event.
 
 ```csharp
-public record CreateProduct(Guid Id, string Name, JsonElement Data, FormDataSchema AttributesSchema);
+public record CreateProduct(Guid Id, string Name, JsonElement Data);
 ```
 
 **Sample code in this template.**
