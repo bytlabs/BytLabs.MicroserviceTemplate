@@ -3,272 +3,16 @@ schema {
   mutation: Mutation
 }
 
-union UpdateProductError = BusinessError | ValidationError
-
-enum FilterOperation {
-  EQ
-  NE
-  GT
-  LT
-  GTE
-  LTE
-  CONTAINS
-}
-
-input MarkOrderAsShippedInput {
-  input: ShipOrderInput!
-}
-
-type CreateProductPayload {
-  product: Product
-  errors: [CreateProductError!]
-}
-
-input CreateProductInput {
-  id: ID!
-  name: String!
-  data: JSON!
-}
-
-input RemoveProductInput {
-  id: ID!
-}
-
-type AddVariantPayload {
-  productVariant: ProductVariant
-  errors: [AddVariantError!]
-}
-
-input ProductFilterInput {
-  and: [ProductFilterInput!]
-  or: [ProductFilterInput!]
-  data: DataOperationFilterInput
-  name: StringOperationFilterInput
-  attributesSchema: FormDataSchemaFilterInput
-  variants: ListFilterInputTypeOfProductVariantFilterInput
-  isDeleted: BooleanOperationFilterInput
-  auditInfo: AuditInfoFilterInput
-  id: UuidOperationFilterInput
-}
-
-input FormDataSchemaInput {
-  key: String!
-  sampleData: DataSchemaInput!
-  formSchema: DataSchemaInput!
-  formUi: DataSchemaInput!
-}
-
-type RemoveProductPayload {
-  removeProductResult: RemoveProductResult
-  errors: [RemoveProductError!]
-}
-
-type ProductVariant {
-  id: ID!
-  sku: String!
-  price: Decimal!
-}
-
-scalar JSON
-
-input ProductSortInput {
-  by: SortOrder
-  path: String!
-}
-
-input ProductVariantFilterInput {
-  and: [ProductVariantFilterInput!]
-  or: [ProductVariantFilterInput!]
-  sku: StringOperationFilterInput
-  price: DecimalOperationFilterInput
-  id: UuidOperationFilterInput
-}
-
-type ShipOrderResult {
-  orderId: ID!
-}
-
-input AuditInfoFilterInput {
-  and: [AuditInfoFilterInput!]
-  or: [AuditInfoFilterInput!]
-  createdAt: DateTimeOperationFilterInput
-  createdBy: StringOperationFilterInput
-  lastModifiedAt: DateTimeOperationFilterInput
-  lastModifiedBy: StringOperationFilterInput
-  deletedAt: DateTimeOperationFilterInput
-  deletedBy: StringOperationFilterInput
-}
-
-"Information about pagination in a connection."
-type PageInfo {
-  "Indicates whether more edges exist following the set defined by the clients arguments."
-  hasNextPage: Boolean!
-  "Indicates whether more edges exist prior the set defined by the clients arguments."
-  hasPreviousPage: Boolean!
-  "When paginating backwards, the cursor to continue."
-  startCursor: String
-  "When paginating forwards, the cursor to continue."
-  endCursor: String
-}
-
-input OrderItemFilterInput {
-  and: [OrderItemFilterInput!]
-  or: [OrderItemFilterInput!]
-  productId: UuidOperationFilterInput
-  quantity: IntOperationFilterInput
-  price: DecimalOperationFilterInput
-  id: UuidOperationFilterInput
-}
-
-union UpdateProductAttributesSchemaError = BusinessError | ValidationError
-
-type UpdateProductAttributesSchemaPayload {
-  product: Product
-  errors: [UpdateProductAttributesSchemaError!]
-}
-
-type DataSchema {
-  type: String!
-  data: String!
-}
-
-"An edge in a connection."
-type OrdersEdge {
-  "A cursor for use in pagination."
-  cursor: String!
-  "The item at the end of the edge."
-  node: Order!
-}
-
-input AuditInfoSortInput {
-  createdAt: SortEnumType
-  createdBy: SortEnumType
-  lastModifiedAt: SortEnumType
-  lastModifiedBy: SortEnumType
-  deletedAt: SortEnumType
-  deletedBy: SortEnumType
-}
-
-input UuidOperationFilterInput {
-  eq: UUID
-  neq: UUID
-  in: [UUID]
-  nin: [UUID]
-  gt: UUID
-  ngt: UUID
-  gte: UUID
-  ngte: UUID
-  lt: UUID
-  nlt: UUID
-  lte: UUID
-  nlte: UUID
-}
-
-input OrderFilterInput {
-  and: [OrderFilterInput!]
-  or: [OrderFilterInput!]
-  orderDate: DateTimeOperationFilterInput
-  status: OrderStatusOperationFilterInput
-  items: ListFilterInputTypeOfOrderItemFilterInput
-  isEmailSent: BooleanOperationFilterInput
-  domainEvents: ListFilterInputTypeOfIDomainEventFilterInput
-  auditInfo: AuditInfoFilterInput
-  id: UuidOperationFilterInput
-}
-
-type Mutation {
-  createOrder(input: CreateOrderInput!): CreateOrderPayload!
-  markOrderAsShipped(input: MarkOrderAsShippedInput!): MarkOrderAsShippedPayload!
-  createProduct(input: CreateProductInput!): CreateProductPayload!
-  updateProduct(input: UpdateProductInput!): UpdateProductPayload!
-  removeProduct(input: RemoveProductInput!): RemoveProductPayload!
-  updateProductAttributesSchema(input: UpdateProductAttributesSchemaInput!): UpdateProductAttributesSchemaPayload!
-  addVariant(input: AddVariantInput!): AddVariantPayload!
-  removeVariant(input: RemoveVariantInput!): RemoveVariantPayload!
-}
-
-input BooleanOperationFilterInput {
-  eq: Boolean
-  neq: Boolean
-}
-
-enum SortEnumType {
-  ASC
-  DESC
-}
-
-"An edge in a connection."
-type ProductsEdge {
-  "A cursor for use in pagination."
-  cursor: String!
-  "The item at the end of the edge."
-  node: Product!
-}
-
-type RemoveProductResult {
-  id: ID!
-}
-
-input DataSchemaFilterInput {
-  and: [DataSchemaFilterInput!]
-  or: [DataSchemaFilterInput!]
-  type: StringOperationFilterInput
-  data: StringOperationFilterInput
-}
-
-type UpdateProductPayload {
-  product: Product
-  errors: [UpdateProductError!]
-}
-
-enum ValueKind {
-  STRING
-  NUMBER
-  BOOLEAN
-  DATE_TIME
-}
-
-input UpdateProductInput {
-  id: ID!
-  name: String!
-  data: JSON!
-}
-
-union MarkOrderAsShippedError = BusinessError | ValidationError
-
-input OrderItemInput {
-  productId: ID!
-  quantity: Int!
-  price: Decimal!
-  id: ID!
-}
-
-input CreateOrderInput {
-  orderId: ID!
-  orderDate: DateTime!
-  items: [OrderItemInput!]!
-}
-
-input IDomainEventFilterInput {
-  and: [IDomainEventFilterInput!]
-  or: [IDomainEventFilterInput!]
-  createdAt: DateTimeOperationFilterInput
-  createdBy: StringOperationFilterInput
-}
-
-input StringOperationFilterInput {
-  and: [StringOperationFilterInput!]
-  or: [StringOperationFilterInput!]
-  eq: String
-  neq: String
-  contains: String
-  ncontains: String
-  in: [String]
-  nin: [String]
-  startsWith: String
-  nstartsWith: String
-  endsWith: String
-  nendsWith: String
+"A connection to a list of items."
+type ProductsConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [ProductsEdge!]
+  "A flattened list of the nodes."
+  nodes: [Product!]
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
 }
 
 "A connection to a list of items."
@@ -283,98 +27,60 @@ type OrdersConnection {
   totalCount: Int!
 }
 
+"An edge in a connection."
+type EntityDefsEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: EntityDef!
+}
+
+type ValidationError implements Error {
+  fields: [FieldError!]!
+  message: String!
+}
+
+input EntityDefFilterInput {
+  and: [EntityDefFilterInput!]
+  or: [EntityDefFilterInput!]
+  entityType: StringOperationFilterInput
+  form: FormDataSchemaFilterInput
+  table: TableDataSchemaFilterInput
+  isDeleted: BooleanOperationFilterInput
+  auditInfo: AuditInfoFilterInput
+  id: UuidOperationFilterInput
+}
+
 type RemoveVariantPayload {
   removeVariantResult: RemoveVariantResult
   errors: [RemoveVariantError!]
 }
 
-input DataSchemaInput {
-  type: String!
-  data: String!
+input OrderFilterInput {
+  and: [OrderFilterInput!]
+  or: [OrderFilterInput!]
+  orderDate: DateTimeOperationFilterInput
+  status: OrderStatusOperationFilterInput
+  items: ListFilterInputTypeOfOrderItemFilterInput
+  isEmailSent: BooleanOperationFilterInput
+  domainEvents: ListFilterInputTypeOfIDomainEventFilterInput
+  auditInfo: AuditInfoFilterInput
+  id: UuidOperationFilterInput
 }
 
-input AddVariantInput {
-  productId: ID!
-  variantId: ID!
-  sku: String!
-  price: Decimal!
+input IDomainEventFilterInput {
+  and: [IDomainEventFilterInput!]
+  or: [IDomainEventFilterInput!]
+  createdAt: DateTimeOperationFilterInput
+  createdBy: StringOperationFilterInput
 }
 
-type BusinessError implements Error {
-  code: String
-  property: String
-  message: String!
-}
-
-type MarkOrderAsShippedPayload {
-  shipOrderResult: ShipOrderResult
-  errors: [MarkOrderAsShippedError!]
-}
-
-input DecimalOperationFilterInput {
-  eq: Decimal
-  neq: Decimal
-  in: [Decimal]
-  nin: [Decimal]
-  gt: Decimal
-  ngt: Decimal
-  gte: Decimal
-  ngte: Decimal
-  lt: Decimal
-  nlt: Decimal
-  lte: Decimal
-  nlte: Decimal
-}
-
-input ShipOrderInput {
-  orderId: ID!
-}
-
-input ListFilterInputTypeOfIDomainEventFilterInput {
-  all: IDomainEventFilterInput
-  none: IDomainEventFilterInput
-  some: IDomainEventFilterInput
-  any: Boolean
-}
-
-enum OrderStatus {
-  PENDING
-  SHIPPED
-  DELIVERED
-}
-
-input OrderStatusOperationFilterInput {
-  eq: OrderStatus
-  neq: OrderStatus
-  in: [OrderStatus!]
-  nin: [OrderStatus!]
-}
-
-union RemoveProductError = BusinessError | ValidationError
-
-type Query {
-  orders("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [OrderSortInput!] where: OrderFilterInput): OrdersConnection
-  products(order: [ProductSortInput!] "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String where: ProductFilterInput): ProductsConnection
-}
-
-input IntOperationFilterInput {
-  eq: Int
-  neq: Int
-  in: [Int]
-  nin: [Int]
-  gt: Int
-  ngt: Int
-  gte: Int
-  ngte: Int
-  lt: Int
-  nlt: Int
-  lte: Int
-  nlte: Int
-}
-
-enum SortOrder {
-  ASC
-  DESC
+input OrderSortInput {
+  orderDate: SortEnumType
+  status: SortEnumType
+  isEmailSent: SortEnumType
+  auditInfo: AuditInfoSortInput
+  id: SortEnumType
 }
 
 input ListFilterInputTypeOfProductVariantFilterInput {
@@ -382,62 +88,6 @@ input ListFilterInputTypeOfProductVariantFilterInput {
   none: ProductVariantFilterInput
   some: ProductVariantFilterInput
   any: Boolean
-}
-
-type OrderItem {
-  id: ID!
-  productId: ID!
-  quantity: Int!
-  price: Decimal!
-}
-
-input FormDataSchemaFilterInput {
-  and: [FormDataSchemaFilterInput!]
-  or: [FormDataSchemaFilterInput!]
-  key: StringOperationFilterInput
-  sampleData: DataSchemaFilterInput
-  formSchema: DataSchemaFilterInput
-  formUi: DataSchemaFilterInput
-}
-
-input ListFilterInputTypeOfOrderItemFilterInput {
-  all: OrderItemFilterInput
-  none: OrderItemFilterInput
-  some: OrderItemFilterInput
-  any: Boolean
-}
-
-union CreateProductError = BusinessError | ValidationError
-
-"A connection to a list of items."
-type ProductsConnection {
-  "Information to aid in pagination."
-  pageInfo: PageInfo!
-  "A list of edges."
-  edges: [ProductsEdge!]
-  "A flattened list of the nodes."
-  nodes: [Product!]
-  "Identifies the total count of items in the connection."
-  totalCount: Int!
-}
-
-type FormDataSchema {
-  key: String!
-  sampleData: DataSchema!
-  formSchema: DataSchema!
-  formUi: DataSchema!
-}
-
-"The `Decimal` scalar type represents a decimal floating-point number."
-scalar Decimal
-
-type AuditInfo {
-  createdAt: DateTime
-  createdBy: String
-  lastModifiedAt: DateTime
-  lastModifiedBy: String
-  deletedAt: DateTime
-  deletedBy: String
 }
 
 input DateTimeOperationFilterInput {
@@ -455,24 +105,81 @@ input DateTimeOperationFilterInput {
   nlte: DateTime
 }
 
-type ValidationError implements Error {
-  fields: [FieldError!]!
-  message: String!
+type FormDataSchema {
+  key: String!
+  sampleData: DataSchema!
+  formSchema: DataSchema!
+  formUi: DataSchema!
 }
 
-input OrderSortInput {
-  orderDate: SortEnumType
-  status: SortEnumType
-  isEmailSent: SortEnumType
-  auditInfo: AuditInfoSortInput
-  id: SortEnumType
+type EntityDef {
+  id: ID!
+  entityType: String!
+  form: FormDataSchema!
+  table: TableDataSchema!
+  auditInfo: AuditInfo!
 }
 
-interface Error {
-  message: String!
+input ShipOrderInput {
+  orderId: ID!
 }
 
-union RemoveVariantError = BusinessError | ValidationError
+input TableDataSchemaFilterInput {
+  and: [TableDataSchemaFilterInput!]
+  or: [TableDataSchemaFilterInput!]
+  sampleData: DataSchemaFilterInput
+  columns: DataSchemaFilterInput
+  filter: DataSchemaFilterInput
+  details: DataSchemaFilterInput
+}
+
+union RemoveProductError = BusinessError | ValidationError
+
+input DecimalOperationFilterInput {
+  eq: Decimal
+  neq: Decimal
+  in: [Decimal]
+  nin: [Decimal]
+  gt: Decimal
+  ngt: Decimal
+  gte: Decimal
+  ngte: Decimal
+  lt: Decimal
+  nlt: Decimal
+  lte: Decimal
+  nlte: Decimal
+}
+
+input RemoveEntityDefInput {
+  id: ID!
+}
+
+input OrderItemFilterInput {
+  and: [OrderItemFilterInput!]
+  or: [OrderItemFilterInput!]
+  productId: UuidOperationFilterInput
+  quantity: IntOperationFilterInput
+  price: DecimalOperationFilterInput
+  id: UuidOperationFilterInput
+}
+
+input ListFilterInputTypeOfIDomainEventFilterInput {
+  all: IDomainEventFilterInput
+  none: IDomainEventFilterInput
+  some: IDomainEventFilterInput
+  any: Boolean
+}
+
+type Product {
+  variantCount: Int!
+  id: ID!
+  name: String!
+  data: JSON!
+  variants: [ProductVariant!]!
+  auditInfo: AuditInfo!
+}
+
+union MarkOrderAsShippedError = BusinessError | ValidationError
 
 input DataOperationFilterInput {
   path: String!
@@ -481,15 +188,223 @@ input DataOperationFilterInput {
   value: String!
 }
 
-type CreateOrderResult {
-  orderId: ID!
+input ProductVariantFilterInput {
+  and: [ProductVariantFilterInput!]
+  or: [ProductVariantFilterInput!]
+  sku: StringOperationFilterInput
+  price: DecimalOperationFilterInput
+  id: UuidOperationFilterInput
+}
+
+"The `Decimal` scalar type represents a decimal floating-point number."
+scalar Decimal
+
+input AuditInfoFilterInput {
+  and: [AuditInfoFilterInput!]
+  or: [AuditInfoFilterInput!]
+  createdAt: DateTimeOperationFilterInput
+  createdBy: StringOperationFilterInput
+  lastModifiedAt: DateTimeOperationFilterInput
+  lastModifiedBy: StringOperationFilterInput
+  deletedAt: DateTimeOperationFilterInput
+  deletedBy: StringOperationFilterInput
+}
+
+input TableDataSchemaInput {
+  sampleData: DataSchemaInput!
+  columns: DataSchemaInput!
+  filter: DataSchemaInput!
+  details: DataSchemaInput!
+}
+
+type BusinessError implements Error {
+  code: String
+  property: String
+  message: String!
+}
+
+input UpdateEntityDefInput {
+  id: ID!
+  form: FormDataSchemaInput!
+  table: TableDataSchemaInput!
+}
+
+type AddVariantPayload {
+  productVariant: ProductVariant
+  errors: [AddVariantError!]
+}
+
+"A connection to a list of items."
+type EntityDefsConnection {
+  "Information to aid in pagination."
+  pageInfo: PageInfo!
+  "A list of edges."
+  edges: [EntityDefsEdge!]
+  "A flattened list of the nodes."
+  nodes: [EntityDef!]
+  "Identifies the total count of items in the connection."
+  totalCount: Int!
+}
+
+type ProductVariant {
+  id: ID!
+  sku: String!
+  price: Decimal!
+}
+
+input StringOperationFilterInput {
+  and: [StringOperationFilterInput!]
+  or: [StringOperationFilterInput!]
+  eq: String
+  neq: String
+  contains: String
+  ncontains: String
+  in: [String]
+  nin: [String]
+  startsWith: String
+  nstartsWith: String
+  endsWith: String
+  nendsWith: String
+}
+
+type RemoveProductPayload {
+  removeProductResult: RemoveProductResult
+  errors: [RemoveProductError!]
+}
+
+input FormDataSchemaSortInput {
+  key: SortEnumType
+  sampleData: DataSchemaSortInput
+  formSchema: DataSchemaSortInput
+  formUi: DataSchemaSortInput
+}
+
+type Order {
+  id: ID!
+  orderDate: DateTime!
+  status: OrderStatus!
+  items: [OrderItem!]!
+  auditInfo: AuditInfo!
+}
+
+input UpdateProductInput {
+  id: ID!
+  name: String!
+  data: JSON!
+}
+
+enum SortOrder {
+  ASC
+  DESC
+}
+
+enum FilterOperation {
+  EQ
+  NE
+  GT
+  LT
+  GTE
+  LTE
+  CONTAINS
+}
+
+type DataSchema {
+  type: String!
+  data: String!
+}
+
+input CreateEntityDefInput {
+  id: ID!
+  entityType: String!
+  form: FormDataSchemaInput!
+  table: TableDataSchemaInput!
 }
 
 union CreateOrderError = BusinessError | ValidationError
 
-input RemoveVariantInput {
+"An edge in a connection."
+type OrdersEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: Order!
+}
+
+interface Error {
+  message: String!
+}
+
+input MarkOrderAsShippedInput {
+  input: ShipOrderInput!
+}
+
+enum ValueKind {
+  STRING
+  NUMBER
+  BOOLEAN
+  DATE_TIME
+}
+
+type UpdateProductPayload {
+  product: Product
+  errors: [UpdateProductError!]
+}
+
+input DataSchemaFilterInput {
+  and: [DataSchemaFilterInput!]
+  or: [DataSchemaFilterInput!]
+  type: StringOperationFilterInput
+  data: StringOperationFilterInput
+}
+
+"Information about pagination in a connection."
+type PageInfo {
+  "Indicates whether more edges exist following the set defined by the clients arguments."
+  hasNextPage: Boolean!
+  "Indicates whether more edges exist prior the set defined by the clients arguments."
+  hasPreviousPage: Boolean!
+  "When paginating backwards, the cursor to continue."
+  startCursor: String
+  "When paginating forwards, the cursor to continue."
+  endCursor: String
+}
+
+union RemoveVariantError = BusinessError | ValidationError
+
+input AddVariantInput {
   productId: ID!
   variantId: ID!
+  sku: String!
+  price: Decimal!
+}
+
+input FormDataSchemaInput {
+  key: String!
+  sampleData: DataSchemaInput!
+  formSchema: DataSchemaInput!
+  formUi: DataSchemaInput!
+}
+
+type Mutation {
+  createEntityDef(input: CreateEntityDefInput!): CreateEntityDefPayload!
+  updateEntityDef(input: UpdateEntityDefInput!): UpdateEntityDefPayload!
+  removeEntityDef(input: RemoveEntityDefInput!): RemoveEntityDefPayload!
+  createOrder(input: CreateOrderInput!): CreateOrderPayload!
+  markOrderAsShipped(input: MarkOrderAsShippedInput!): MarkOrderAsShippedPayload!
+  createProduct(input: CreateProductInput!): CreateProductPayload!
+  updateProduct(input: UpdateProductInput!): UpdateProductPayload!
+  removeProduct(input: RemoveProductInput!): RemoveProductPayload!
+  addVariant(input: AddVariantInput!): AddVariantPayload!
+  removeVariant(input: RemoveVariantInput!): RemoveVariantPayload!
+}
+
+input FormDataSchemaFilterInput {
+  and: [FormDataSchemaFilterInput!]
+  or: [FormDataSchemaFilterInput!]
+  key: StringOperationFilterInput
+  sampleData: DataSchemaFilterInput
+  formSchema: DataSchemaFilterInput
+  formUi: DataSchemaFilterInput
 }
 
 type FieldError {
@@ -498,9 +413,126 @@ type FieldError {
   message: String!
 }
 
-type RemoveVariantResult {
+type Query {
+  entityDefs("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String where: EntityDefFilterInput order: [EntityDefSortInput!]): EntityDefsConnection
+  orders("Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String order: [OrderSortInput!] where: OrderFilterInput): OrdersConnection
+  products(order: [ProductSortInput!] "Returns the first _n_ elements from the list." first: Int "Returns the elements in the list that come after the specified cursor." after: String "Returns the last _n_ elements from the list." last: Int "Returns the elements in the list that come before the specified cursor." before: String where: ProductFilterInput): ProductsConnection
+}
+
+input AuditInfoSortInput {
+  createdAt: SortEnumType
+  createdBy: SortEnumType
+  lastModifiedAt: SortEnumType
+  lastModifiedBy: SortEnumType
+  deletedAt: SortEnumType
+  deletedBy: SortEnumType
+}
+
+union UpdateEntityDefError = BusinessError | ValidationError
+
+input ProductFilterInput {
+  and: [ProductFilterInput!]
+  or: [ProductFilterInput!]
+  data: DataOperationFilterInput
+  name: StringOperationFilterInput
+  variants: ListFilterInputTypeOfProductVariantFilterInput
+  isDeleted: BooleanOperationFilterInput
+  auditInfo: AuditInfoFilterInput
+  id: UuidOperationFilterInput
+}
+
+type OrderItem {
+  id: ID!
   productId: ID!
-  variantId: ID!
+  quantity: Int!
+  price: Decimal!
+}
+
+type CreateEntityDefPayload {
+  entityDef: EntityDef
+  errors: [CreateEntityDefError!]
+}
+
+input ProductSortInput {
+  by: SortOrder
+  path: String!
+}
+
+enum OrderStatus {
+  PENDING
+  SHIPPED
+  DELIVERED
+}
+
+input EntityDefSortInput {
+  entityType: SortEnumType
+  form: FormDataSchemaSortInput
+  table: TableDataSchemaSortInput
+  isDeleted: SortEnumType
+  auditInfo: AuditInfoSortInput
+  id: SortEnumType
+}
+
+type CreateOrderResult {
+  orderId: ID!
+}
+
+union RemoveEntityDefError = BusinessError | ValidationError
+
+input IntOperationFilterInput {
+  eq: Int
+  neq: Int
+  in: [Int]
+  nin: [Int]
+  gt: Int
+  ngt: Int
+  gte: Int
+  ngte: Int
+  lt: Int
+  nlt: Int
+  lte: Int
+  nlte: Int
+}
+
+type AuditInfo {
+  createdAt: DateTime
+  createdBy: String
+  lastModifiedAt: DateTime
+  lastModifiedBy: String
+  deletedAt: DateTime
+  deletedBy: String
+}
+
+"The `DateTime` scalar represents an ISO-8601 compliant date time type."
+scalar DateTime
+
+type RemoveEntityDefPayload {
+  entityDef: EntityDef
+  errors: [RemoveEntityDefError!]
+}
+
+type CreateOrderPayload {
+  createOrderResult: CreateOrderResult
+  errors: [CreateOrderError!]
+}
+
+input ListFilterInputTypeOfOrderItemFilterInput {
+  all: OrderItemFilterInput
+  none: OrderItemFilterInput
+  some: OrderItemFilterInput
+  any: Boolean
+}
+
+scalar JSON
+
+input BooleanOperationFilterInput {
+  eq: Boolean
+  neq: Boolean
+}
+
+enum SortEnumType {
+  ASC
+  DESC
 }
 
 "Defines when a policy shall be executed."
@@ -513,39 +545,124 @@ enum ApplyPolicy {
   VALIDATION
 }
 
-type CreateOrderPayload {
-  createOrderResult: CreateOrderResult
-  errors: [CreateOrderError!]
+union UpdateProductError = BusinessError | ValidationError
+
+input DataSchemaInput {
+  type: String!
+  data: String!
+}
+
+input OrderItemInput {
+  productId: ID!
+  quantity: Int!
+  price: Decimal!
+  id: ID!
 }
 
 scalar UUID
 
-type Product {
-  variantCount: Int!
+input TableDataSchemaSortInput {
+  sampleData: DataSchemaSortInput
+  columns: DataSchemaSortInput
+  filter: DataSchemaSortInput
+  details: DataSchemaSortInput
+}
+
+type RemoveVariantResult {
+  productId: ID!
+  variantId: ID!
+}
+
+type ShipOrderResult {
+  orderId: ID!
+}
+
+input CreateProductInput {
   id: ID!
   name: String!
   data: JSON!
-  attributesSchema: FormDataSchema!
-  variants: [ProductVariant!]!
-  auditInfo: AuditInfo!
 }
 
-"The `DateTime` scalar represents an ISO-8601 compliant date time type."
-scalar DateTime
+type MarkOrderAsShippedPayload {
+  shipOrderResult: ShipOrderResult
+  errors: [MarkOrderAsShippedError!]
+}
 
-input UpdateProductAttributesSchemaInput {
+input UuidOperationFilterInput {
+  eq: UUID
+  neq: UUID
+  in: [UUID]
+  nin: [UUID]
+  gt: UUID
+  ngt: UUID
+  gte: UUID
+  ngte: UUID
+  lt: UUID
+  nlt: UUID
+  lte: UUID
+  nlte: UUID
+}
+
+input RemoveVariantInput {
+  productId: ID!
+  variantId: ID!
+}
+
+type TableDataSchema {
+  sampleData: DataSchema!
+  columns: DataSchema!
+  filter: DataSchema!
+  details: DataSchema!
+}
+
+input DataSchemaSortInput {
+  type: SortEnumType
+  data: SortEnumType
+}
+
+input RemoveProductInput {
   id: ID!
-  schema: FormDataSchemaInput!
+}
+
+input CreateOrderInput {
+  orderId: ID!
+  orderDate: DateTime!
+  items: [OrderItemInput!]!
 }
 
 union AddVariantError = BusinessError | ValidationError
 
-type Order {
+union CreateEntityDefError = BusinessError | ValidationError
+
+type UpdateEntityDefPayload {
+  entityDef: EntityDef
+  errors: [UpdateEntityDefError!]
+}
+
+"An edge in a connection."
+type ProductsEdge {
+  "A cursor for use in pagination."
+  cursor: String!
+  "The item at the end of the edge."
+  node: Product!
+}
+
+type CreateProductPayload {
+  product: Product
+  errors: [CreateProductError!]
+}
+
+input OrderStatusOperationFilterInput {
+  eq: OrderStatus
+  neq: OrderStatus
+  in: [OrderStatus!]
+  nin: [OrderStatus!]
+}
+
+union CreateProductError = BusinessError | ValidationError
+
+type RemoveProductResult {
   id: ID!
-  orderDate: DateTime!
-  status: OrderStatus!
-  items: [OrderItem!]!
-  auditInfo: AuditInfo!
 }
 
 "The purpose of the `@listSize` directive is to either inform the static analysis about the size of returned lists (if that information is statically available), or to point the analysis to where to find that information."
