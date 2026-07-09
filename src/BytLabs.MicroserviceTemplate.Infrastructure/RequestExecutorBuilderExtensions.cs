@@ -9,8 +9,12 @@ using BytLabs.MicroserviceTemplate.Application.Commands.RemoveProduct;
 using BytLabs.MicroserviceTemplate.Application.Commands.UpdateProductAttributesSchema;
 using BytLabs.MicroserviceTemplate.Application.Commands.AddVariant;
 using BytLabs.MicroserviceTemplate.Application.Commands.RemoveVariant;
+using BytLabs.MicroserviceTemplate.Application.Commands.CreateEntityDef;
+using BytLabs.MicroserviceTemplate.Application.Commands.UpdateEntityDef;
+using BytLabs.MicroserviceTemplate.Application.Commands.RemoveEntityDef;
 using BytLabs.MicroserviceTemplate.Domain.Aggregates.OrderAggregate;
 using BytLabs.MicroserviceTemplate.Domain.Aggregates.ProductAggregate;
+using BytLabs.MicroserviceTemplate.Domain.Aggregates.EntityDefAggregate;
 using BytLabs.MicroserviceTemplate.Application.Dtos;
 using BytLabs.MicroserviceTemplate.Infrastructure.DtoTypes;
 using Microsoft.Extensions.DependencyInjection;
@@ -29,7 +33,10 @@ namespace BytLabs.MicroserviceTemplate.Infrastructure
                 .AddCommandType<RemoveProductCommand>()
                 .AddCommandType<UpdateProductAttributesSchemaCommand>()
                 .AddCommandType<AddVariantCommand>()
-                .AddCommandType<RemoveVariantCommand>();
+                .AddCommandType<RemoveVariantCommand>()
+                .AddCommandType<CreateEntityDefCommand>()
+                .AddCommandType<UpdateEntityDefCommand>()
+                .AddCommandType<RemoveEntityDefCommand>();
         }
 
         public static IRequestExecutorBuilder AddDtoTypes(this IRequestExecutorBuilder requestExecutorBuilder)
@@ -38,7 +45,8 @@ namespace BytLabs.MicroserviceTemplate.Infrastructure
                 .AddDtoType<OrderDto>()
                 .AddDtoType<OrderItemDto>()
                 .AddType<ProductDtoType>()          // custom DtoType for Product
-                .AddDtoType<ProductVariantDto>();
+                .AddDtoType<ProductVariantDto>()
+                .AddDtoType<EntityDefDto>();
         }
 
         public static IRequestExecutorBuilder AddAggregateTypes(this IRequestExecutorBuilder requestExecutorBuilder)
@@ -47,7 +55,9 @@ namespace BytLabs.MicroserviceTemplate.Infrastructure
             // input types. Order uses HotChocolate's built-in [UseFiltering]/[UseSorting].
             return requestExecutorBuilder
                 .AddAggregateSortType<Product, Guid>()
-                .AddAggregateFilterType<Product, Guid>();
+                .AddAggregateFilterType<Product, Guid>()
+                .AddAggregateSortType<EntityDef, Guid>()
+                .AddAggregateFilterType<EntityDef, Guid>();
         }
     }
 }

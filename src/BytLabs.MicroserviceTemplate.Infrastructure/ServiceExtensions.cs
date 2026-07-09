@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using BytLabs.DataAccess.MongoDB;
 using BytLabs.MicroserviceTemplate.Domain.Aggregates.OrderAggregate;
 using BytLabs.MicroserviceTemplate.Domain.Aggregates.ProductAggregate;
+using BytLabs.MicroserviceTemplate.Domain.Aggregates.EntityDefAggregate;
 using BytLabs.Application;
 using BytLabs.MicroserviceTemplate.Application.Commands.CreateOrder;
 using MongoDB.Bson.Serialization;
@@ -30,7 +31,7 @@ public static class ServiceExtensions
 
         // Setup Application (CQS scans the whole Application assembly, so Product commands are included)
         services.AddCQS(new System.Reflection.Assembly[] { typeof(CreateOrderCommand).Assembly });
-        services.AddAutoMapper(typeof(OrderMappingProfile), typeof(ProductMappingProfile));
+        services.AddAutoMapper(typeof(OrderMappingProfile), typeof(ProductMappingProfile), typeof(EntityDefMappingProfile));
 
         // Setup Database
         var mongoDatabaseConfiguration = configuration.GetConfiguration<MongoDatabaseConfiguration>();
@@ -38,7 +39,8 @@ public static class ServiceExtensions
             .RegisterMongoDBClassMaps()
             .RegisterDynamicDataClassMaps()
             .AddMongoRepository<Order, Guid>()
-            .AddMongoRepository<Product, Guid>();
+            .AddMongoRepository<Product, Guid>()
+            .AddMongoRepository<EntityDef, Guid>();
 
         // Setup services
         services.AddSingleton<IEmailService, MyCustomEmailService>();
