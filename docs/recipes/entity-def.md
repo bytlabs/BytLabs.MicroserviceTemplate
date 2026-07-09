@@ -34,4 +34,4 @@ public sealed class EntityDef : AggregateRootBase<Guid>, ISoftDeletable
 
 **Reference (BytLabs.BackendPackages).** `BytLabs.Domain.Entities.AggregateRootBase<TId>`, `ISoftDeletable`.
 
-**Related recipes.** [Schema value objects](schema-value-objects.md), [Dynamic table](dynamic-table.md), [GraphQL EntityDef contract](graphql-entity-def.md), [Soft delete](soft-delete.md).
+**Related recipes.** [EntityDef schema flow (define → store → render)](entity-def-schema-flow.md), [Schema value objects](schema-value-objects.md), [Dynamic table](dynamic-table.md), [GraphQL EntityDef contract](graphql-entity-def.md), [Soft delete](soft-delete.md).

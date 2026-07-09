@@ -28,4 +28,4 @@ public class DataSchema : ValueObject
 
 **Reference (BytLabs.BackendPackages).** `BytLabs.Domain.ValueObjects.ValueObject`.
 
-**Related recipes.** [Dynamic data](dynamic-data.md), [Dynamic table](dynamic-table.md), [EntityDef aggregate](entity-def.md), [BSON class maps](bson-class-maps.md), [Specialized update methods](specialized-update-methods.md).
+**Related recipes.** [EntityDef schema flow (define → store → render)](entity-def-schema-flow.md), [Dynamic data](dynamic-data.md), [Dynamic table](dynamic-table.md), [EntityDef aggregate](entity-def.md), [BSON class maps](bson-class-maps.md), [Specialized update methods](specialized-update-methods.md).
