@@ -36,17 +36,20 @@ public class CreateOrderTests
     }
 
     [Fact]
-    public async Task Invalid_input_returns_errors()
+    public async Task Order_without_items_is_allowed()
     {
+        // Order is now a flexible dynamic entity: an order can be created with no line items (its
+        // dynamic fields live in `data`), so an empty items list is valid input.
+        var orderId = Guid.NewGuid();
         var input = new CreateOrderInputBuilder()
-            .WithOrderId(GuidExtensions.GUID_0002)
+            .WithOrderId(orderId.ToString())
             .WithItems(new List<OrderItemInput>())
             .WithOrderDate(DateTimeExtensions.DDMMYYYY_01_01_2000)
             .Build();
 
         var result = await _client.CreateOrder.ExecuteAsync(input, CancellationToken.None);
 
-        result.Data!.CreateOrder.CreateOrderResult.Should().BeNull();
-        result.Data.CreateOrder.Errors.Should().NotBeNullOrEmpty();
+        result.Data!.CreateOrder.Errors.Should().BeNullOrEmpty();
+        Guid.Parse(result.Data.CreateOrder.CreateOrderResult!.OrderId).Should().Be(orderId);
     }
 }

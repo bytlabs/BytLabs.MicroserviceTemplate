@@ -18,8 +18,10 @@ namespace BytLabs.MicroserviceTemplate.Domain.Aggregates.OrderAggregate
         public JsonElement Data { get; private set; }
         public bool IsDeleted { get; private set; }
 
-        // Constructor parameter names/types match the members so MongoDB can configure the
-        // creator automatically when deserializing (see Product for the same convention).
+        // IMPORTANT: the constructor MUST stay side-effect free. MongoDB reconstructs the aggregate by
+        // calling this constructor on every load, so raising a domain event here would re-fire
+        // OrderCreatedEvent on every read (see Order.Create). Parameter names/types match the members
+        // so the Mongo creator can be configured automatically.
         public Order(Guid id, DateTime orderDate, IReadOnlyCollection<OrderItem> items, JsonElement data) : base(id)
         {
             Id = id;
@@ -27,8 +29,14 @@ namespace BytLabs.MicroserviceTemplate.Domain.Aggregates.OrderAggregate
             Status = OrderStatus.Pending;
             Items = items.ToList();
             Data = data;
+        }
 
-            AddDomainEvent(new OrderCreatedEvent(Id));
+        // Factory: the ONLY place OrderCreatedEvent is raised (not the constructor).
+        public static Order Create(Guid id, DateTime orderDate, IReadOnlyCollection<OrderItem> items, JsonElement data)
+        {
+            var order = new Order(id, orderDate, items, data);
+            order.AddDomainEvent(new OrderCreatedEvent(id));
+            return order;
         }
 
         public void MarkAsShipped()

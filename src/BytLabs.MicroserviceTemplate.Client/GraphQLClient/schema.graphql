@@ -638,7 +638,7 @@ input CreateOrderInput {
   orderId: ID!
   orderDate: DateTime!
   items: [OrderItemInput!]!
-  data: JSON!
+  data: JSON
 }
 
 union AddVariantError = BusinessError | ValidationError
