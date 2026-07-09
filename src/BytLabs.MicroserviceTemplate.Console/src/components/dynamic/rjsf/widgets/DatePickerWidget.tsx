@@ -6,6 +6,18 @@ import { format } from "date-fns";
 import { CalendarIcon } from "lucide-react";
 import { WidgetProps } from "@rjsf/utils";
 
+// Parse the stored value into a Date for display. A plain "YYYY-MM-DD" is parsed as a *local*
+// date (not UTC) so the calendar shows the day the user picked regardless of timezone.
+const parseValue = (value: unknown): Date | undefined => {
+  if (!value) return undefined;
+  if (typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value)) {
+    const [y, m, d] = value.split("-").map(Number);
+    return new Date(y, m - 1, d);
+  }
+  const parsed = new Date(value as string);
+  return Number.isNaN(parsed.getTime()) ? undefined : parsed;
+};
+
 const DatePickerWidget = ({
   id,
   value,
@@ -14,8 +26,12 @@ const DatePickerWidget = ({
   readonly,
   onChange,
   label,
+  schema,
 }: WidgetProps) => {
-  const date = value ? new Date(value) : undefined;
+  const date = parseValue(value);
+  // Emit a value matching the schema's declared format. `date` (JSON Schema full-date) requires
+  // "YYYY-MM-DD"; a full ISO datetime fails AJV's `date` format check. `date-time` keeps the ISO string.
+  const isDateTime = schema?.format === "date-time";
 
   return (
     <Popover modal={true}>
@@ -39,7 +55,11 @@ const DatePickerWidget = ({
           mode="single"
           selected={date}
           onSelect={(date) => {
-            onChange(date?.toISOString());
+            if (!date) {
+              onChange(undefined);
+              return;
+            }
+            onChange(isDateTime ? date.toISOString() : format(date, "yyyy-MM-dd"));
           }}
           disabled={disabled || readonly}
           captionLayout="dropdown"
