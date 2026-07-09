@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/1.0.5984942">
   <PropertyGroup>
-    <!-- Shows the Next.js console as a project in the solution (Solution Explorer, npm scripts).
-         F5 / Debug runs the dev server; Build produces the static export in ./out.
-         Note: the production console output is built by the Dockerfile / build-console.sh and copied
-         into the API's wwwroot/console — this .esproj is primarily for editing and running locally. -->
+    <!-- Shows the Vite console as a project in the solution (Solution Explorer, npm scripts).
+         F5 / Debug runs the Vite dev server (npm run dev, which proxies the API); Build runs the Vite
+         build into ./dist. The production console is built by the Dockerfile / build-console.sh (and by
+         the API's BuildConsoleUi target) and copied into the API's wwwroot/console. -->
     <StartupCommand>npm run dev</StartupCommand>
     <BuildCommand>npm run build</BuildCommand>
     <ProductionBuildCommand>npm run build</ProductionBuildCommand>
-    <BuildOutputFolder>$(MSBuildProjectDirectory)\out</BuildOutputFolder>
+    <BuildOutputFolder>$(MSBuildProjectDirectory)\dist</BuildOutputFolder>
   </PropertyGroup>
 </Project>

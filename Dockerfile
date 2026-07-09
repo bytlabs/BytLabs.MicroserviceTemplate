@@ -34,8 +34,8 @@ FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./BytLabs.MicroserviceTemplate.Api.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false /p:BuildConsoleUi=false
 
-# Build the bundled Next.js console (static export). Its registry components are vendored under
-# components/dynamic, so no registry server is needed at build time — just install + export.
+# Build the bundled console (Vite client SPA -> ./dist). Its registry components are vendored under
+# components/dynamic, so no registry server is needed at build time — just install + build.
 FROM node:20 AS console
 WORKDIR /console
 COPY src/BytLabs.MicroserviceTemplate.Console/package*.json ./
@@ -47,6 +47,6 @@ RUN npm run build
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-# Overlay the exported console so the API serves it under /console.
-COPY --from=console /console/out /app/wwwroot/console
+# Overlay the built console so the API serves it under /console.
+COPY --from=console /console/dist /app/wwwroot/console
 ENTRYPOINT ["dotnet", "BytLabs.MicroserviceTemplate.Api.dll"]

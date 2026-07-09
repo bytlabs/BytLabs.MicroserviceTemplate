@@ -5,10 +5,10 @@ set -euo pipefail
 cd "$(dirname "$0")"
 
 npm ci
-npm run build   # produces ./out (basePath /console)
+npm run build   # Vite build -> ./dist (base /console)
 
 DEST="../BytLabs.MicroserviceTemplate.Api/wwwroot/console"
 rm -rf "$DEST"
 mkdir -p "$DEST"
-cp -r out/* "$DEST/"
+cp -r dist/* "$DEST/"
 echo "Console copied to $DEST"

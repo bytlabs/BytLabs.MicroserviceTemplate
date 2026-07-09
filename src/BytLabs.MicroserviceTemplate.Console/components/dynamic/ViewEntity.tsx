@@ -8,7 +8,6 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { get } from "lodash";
 import { cn } from "@/lib/utils";
 import { format, parseISO, isValid } from "date-fns";
-import Link from "next/link";
 
 // Schema Types
 type ComponentType =
@@ -230,16 +229,17 @@ function renderComponent(component: ViewComponent, data: any, options: RenderCom
       return (
         <div className="space-y-2 mb-2">
           {component.links.map((link) => {
-            const finalUrl = link.template ? replaceTemplateValues(link.url, resolvedBind) : link.url;
+            const base = link.template ? replaceTemplateValues(link.url, resolvedBind) : link.url;
+            const finalUrl = options.organizationId ? `${base}${base.includes('?') ? '&' : '?'}teamId=${options.organizationId}` : base;
             return (
-              <Link key={link.url} href={{ pathname: finalUrl, query: options.organizationId ? { teamId: options.organizationId } : undefined }} className="block hover:bg-muted rounded-lg transition-colors">
+              <a key={link.url} href={finalUrl} className="block hover:bg-muted rounded-lg transition-colors">
                 <Card className="p-3">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">{link.icon}<div><div className="text-sm font-medium text-primary">{link.label}</div></div></div>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-muted-foreground"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
                   </div>
                 </Card>
-              </Link>
+              </a>
             );
           })}
         </div>

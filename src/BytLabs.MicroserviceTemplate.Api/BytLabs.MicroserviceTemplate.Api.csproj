@@ -32,14 +32,14 @@
   <PropertyGroup>
     <BuildConsoleUi Condition="'$(BuildConsoleUi)' == ''">true</BuildConsoleUi>
     <ConsoleDir>$(MSBuildProjectDirectory)\..\BytLabs.MicroserviceTemplate.Console</ConsoleDir>
-    <ConsoleOutDir>$(ConsoleDir)\out</ConsoleOutDir>
+    <ConsoleOutDir>$(ConsoleDir)\dist</ConsoleOutDir>
     <ConsoleWwwroot>$(MSBuildProjectDirectory)\wwwroot\console</ConsoleWwwroot>
     <ConsoleBuildStamp>$(ConsoleWwwroot)\.console-build-stamp</ConsoleBuildStamp>
   </PropertyGroup>
 
   <ItemGroup Condition="'$(BuildConsoleUi)' == 'true'">
     <ConsoleInputs Include="$(ConsoleDir)\**\*"
-                   Exclude="$(ConsoleDir)\node_modules\**;$(ConsoleDir)\out\**;$(ConsoleDir)\.next\**" />
+                   Exclude="$(ConsoleDir)\node_modules\**;$(ConsoleDir)\dist\**" />
   </ItemGroup>
 
   <Target Name="BuildConsoleUi"
@@ -47,7 +47,7 @@
           Condition="'$(BuildConsoleUi)' == 'true'"
           Inputs="@(ConsoleInputs)"
           Outputs="$(ConsoleBuildStamp)">
-    <Message Importance="high" Text="[console] Building Next.js console -> $(ConsoleWwwroot)" />
+    <Message Importance="high" Text="[console] Building console (Vite) -> $(ConsoleWwwroot)" />
     <Exec Command="npm ci" WorkingDirectory="$(ConsoleDir)" Condition="!Exists('$(ConsoleDir)\node_modules')" />
     <Exec Command="npm run build" WorkingDirectory="$(ConsoleDir)" />
     <RemoveDir Directories="$(ConsoleWwwroot)" />
