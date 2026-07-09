@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.VisualStudio.JavaScript.Sdk/1.0.5984942">
+  <PropertyGroup>
+    <!-- Shows the Next.js console as a project in the solution (Solution Explorer, npm scripts).
+         F5 / Debug runs the dev server; Build produces the static export in ./out.
+         Note: the production console output is built by the Dockerfile / build-console.sh and copied
+         into the API's wwwroot/console — this .esproj is primarily for editing and running locally. -->
+    <StartupCommand>npm run dev</StartupCommand>
+    <BuildCommand>npm run build</BuildCommand>
+    <ProductionBuildCommand>npm run build</ProductionBuildCommand>
+    <BuildOutputFolder>$(MSBuildProjectDirectory)\out</BuildOutputFolder>
+  </PropertyGroup>
+</Project>
