@@ -1,11 +1,11 @@
 using BytLabs.Api.Graphql.ErrorTypes.Business;
 using BytLabs.Api.Graphql.ErrorTypes.Validation;
-using BytLabs.MicroserviceTemplate.Application.Commands.CreateProduct;
-using BytLabs.MicroserviceTemplate.Application.Commands.UpdateProduct;
-using BytLabs.MicroserviceTemplate.Application.Commands.RemoveProduct;
-using BytLabs.MicroserviceTemplate.Application.Commands.AddVariant;
-using BytLabs.MicroserviceTemplate.Application.Commands.RemoveVariant;
-using BytLabs.MicroserviceTemplate.Application.Dtos;
+using BytLabs.MicroserviceTemplate.Application.Products.Commands.CreateProduct;
+using BytLabs.MicroserviceTemplate.Application.Products.Commands.UpdateProduct;
+using BytLabs.MicroserviceTemplate.Application.Products.Commands.RemoveProduct;
+using BytLabs.MicroserviceTemplate.Application.Products.Commands.AddVariant;
+using BytLabs.MicroserviceTemplate.Application.Products.Commands.RemoveVariant;
+using BytLabs.MicroserviceTemplate.Application.Products.Dtos;
 using HotChocolate;
 using HotChocolate.Authorization;
 using HotChocolate.Types;

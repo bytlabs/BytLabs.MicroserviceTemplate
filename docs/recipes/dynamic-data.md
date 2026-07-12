@@ -24,8 +24,8 @@ public void Update(UpdateProduct value)
 ```
 
 **Sample code in this template.**
-- [`Product.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Aggregates/ProductAggregate/Product.cs) — `Data` property + merge on update
-- [`JsonElementExtensions.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Utils/JsonElementExtensions.cs) — the `Merge` helper
+- [`Product.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Products/Product.cs) — `Data` property + merge on update
+- [`JsonElementExtensions.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Common/Utils/JsonElementExtensions.cs) — the `Merge` helper
 
 **Reference (BytLabs.BackendPackages).** `BytLabs.Domain.DynamicData.IHaveDynamicData`.
 

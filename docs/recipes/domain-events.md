@@ -17,9 +17,9 @@ public class ProductRemoved(Guid productId) : DomainEventBase { public Guid Prod
 ```
 
 **Sample code in this template.**
-- [`ProductCreated.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Aggregates/ProductAggregate/Events/ProductCreated.cs) — typed event with payload
-- [`ProductRemoved.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Aggregates/ProductAggregate/Events/ProductRemoved.cs) — payload-less event
-- [`OrderCreatedEvent.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Aggregates/OrderAggregate/Events/OrderCreatedEvent.cs)
+- [`ProductCreated.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Products/Events/ProductCreated.cs) — typed event with payload
+- [`ProductRemoved.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Products/Events/ProductRemoved.cs) — payload-less event
+- [`OrderCreatedEvent.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Orders/Events/OrderCreatedEvent.cs)
 
 **Reference (BytLabs.BackendPackages).** `BytLabs.Domain.DomainEvents.DomainEventBase` / `DomainEventBase<TId,TData>` / `IDomainEvent`.
 

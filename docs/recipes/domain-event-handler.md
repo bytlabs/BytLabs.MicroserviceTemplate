@@ -23,7 +23,7 @@ public class SendEmailOrderCreatedEventHandler : DomainEventHandler<OrderCreated
 ```
 
 **Sample code in this template.**
-- [`Events/OrderCreatedEvents/SendEmailOrderCreatedEventHandler.cs`](../../src/BytLabs.MicroserviceTemplate.Application/Events/OrderCreatedEvents/SendEmailOrderCreatedEventHandler.cs)
+- [`Orders/Events/OrderCreatedEvents/SendEmailOrderCreatedEventHandler.cs`](../../src/BytLabs.MicroserviceTemplate.Application/Orders/Events/OrderCreatedEvents/SendEmailOrderCreatedEventHandler.cs)
 
 **Reference (BytLabs.BackendPackages).** `BytLabs.Application.DomainEvents.DomainEventHandler<T>`.
 

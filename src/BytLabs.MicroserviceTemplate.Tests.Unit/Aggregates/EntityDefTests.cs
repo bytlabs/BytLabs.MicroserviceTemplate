@@ -1,7 +1,7 @@
-using BytLabs.MicroserviceTemplate.Domain.Aggregates.EntityDefAggregate;
-using BytLabs.MicroserviceTemplate.Domain.Aggregates.EntityDefAggregate.DataObjects;
-using BytLabs.MicroserviceTemplate.Domain.Aggregates.EntityDefAggregate.Events;
-using BytLabs.MicroserviceTemplate.Domain.Shared.DynamicData;
+using BytLabs.MicroserviceTemplate.Domain.EntityDefs;
+using BytLabs.MicroserviceTemplate.Domain.EntityDefs.DataObjects;
+using BytLabs.MicroserviceTemplate.Domain.EntityDefs.Events;
+using BytLabs.MicroserviceTemplate.Domain.Common.DynamicData;
 using FluentAssertions;
 using Xunit;
 

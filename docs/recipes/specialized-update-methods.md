@@ -15,8 +15,8 @@ public void AddVariant(AddVariant value) { /* append a sub-entity */ }
 ```
 
 **Sample code in this template.**
-- [`Product.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Aggregates/ProductAggregate/Product.cs) — `Update`, `AddVariant`, `RemoveVariant`, `Remove`
-- [`EntityDef.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Aggregates/EntityDefAggregate/EntityDef.cs) — `Update` replaces form + table schemas
+- [`Product.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Products/Product.cs) — `Update`, `AddVariant`, `RemoveVariant`, `Remove`
+- [`EntityDef.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/EntityDefs/EntityDef.cs) — `Update` replaces form + table schemas
 
 **Reference (BytLabs.BackendPackages).** n/a (a DDD aggregate-design convention).
 

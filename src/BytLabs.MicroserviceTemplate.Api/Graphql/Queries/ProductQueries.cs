@@ -1,5 +1,5 @@
-using BytLabs.MicroserviceTemplate.Application.Dtos;
-using BytLabs.MicroserviceTemplate.Domain.Aggregates.ProductAggregate;
+using BytLabs.MicroserviceTemplate.Application.Products.Dtos;
+using BytLabs.MicroserviceTemplate.Domain.Products;
 using HotChocolate.Data;
 using HotChocolate.Types;
 using HotChocolate;

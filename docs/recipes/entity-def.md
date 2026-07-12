@@ -28,9 +28,9 @@ public sealed class EntityDef : AggregateRootBase<Guid>, ISoftDeletable
 ```
 
 **Sample code in this template.**
-- [`EntityDef.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Aggregates/EntityDefAggregate/EntityDef.cs) — aggregate + Create/Update/Remove
-- [`DataObjects/`](../../src/BytLabs.MicroserviceTemplate.Domain/Aggregates/EntityDefAggregate/DataObjects) — `CreateEntityDef`, `UpdateEntityDef`
-- [`Commands/`](../../src/BytLabs.MicroserviceTemplate.Application/Commands) — `CreateEntityDef`, `UpdateEntityDef`, `RemoveEntityDef`
+- [`EntityDef.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/EntityDefs/EntityDef.cs) — aggregate + Create/Update/Remove
+- [`DataObjects/`](../../src/BytLabs.MicroserviceTemplate.Domain/EntityDefs/DataObjects) — `CreateEntityDef`, `UpdateEntityDef`
+- [`EntityDefs/Commands/`](../../src/BytLabs.MicroserviceTemplate.Application/EntityDefs/Commands) — `CreateEntityDef`, `UpdateEntityDef`, `RemoveEntityDef`
 
 **Reference (BytLabs.BackendPackages).** `BytLabs.Domain.Entities.AggregateRootBase<TId>`, `ISoftDeletable`.
 

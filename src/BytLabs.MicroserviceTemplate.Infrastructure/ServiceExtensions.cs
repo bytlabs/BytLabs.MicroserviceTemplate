@@ -3,19 +3,20 @@ using BytLabs.DataAccess.MongoDB.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using BytLabs.DataAccess.MongoDB;
-using BytLabs.MicroserviceTemplate.Domain.Aggregates.OrderAggregate;
-using BytLabs.MicroserviceTemplate.Domain.Aggregates.ProductAggregate;
-using BytLabs.MicroserviceTemplate.Domain.Aggregates.EntityDefAggregate;
 using BytLabs.Application;
-using BytLabs.MicroserviceTemplate.Application.Commands.CreateOrder;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Bson;
-using BytLabs.MicroserviceTemplate.Application.MappingProfiles;
-using BytLabs.MicroserviceTemplate.Infrastructure.Services;
-using BytLabs.MicroserviceTemplate.Application.Services;
-using BytLabs.MicroserviceTemplate.Infrastructure.Shared.DynamicData;
-using BytLabs.MicroserviceTemplate.Infrastructure.Utils.Serializers;
+using BytLabs.MicroserviceTemplate.Infrastructure.MongoDB;
+using BytLabs.MicroserviceTemplate.Application.Orders.Commands.CreateOrder;
+using BytLabs.MicroserviceTemplate.Application.Common.Services;
+using BytLabs.MicroserviceTemplate.Application.Products.Mapping;
+using BytLabs.MicroserviceTemplate.Application.Orders.Mapping;
+using BytLabs.MicroserviceTemplate.Application.EntityDefs.Mapping;
+using BytLabs.MicroserviceTemplate.Domain.EntityDefs;
+using BytLabs.MicroserviceTemplate.Domain.Products;
+using BytLabs.MicroserviceTemplate.Domain.Orders;
+using BytLabs.MicroserviceTemplate.Infrastructure.Common.Services;
 
 namespace BytLabs.MicroserviceTemplate.Infrastructure;
 
@@ -30,8 +31,11 @@ public static class ServiceExtensions
         if (configuration == null) throw new ArgumentNullException(nameof(configuration));
 
         // Setup Application (CQS scans the whole Application assembly, so Product commands are included)
-        services.AddCQS(new System.Reflection.Assembly[] { typeof(CreateOrderCommand).Assembly });
-        services.AddAutoMapper(typeof(OrderMappingProfile), typeof(ProductMappingProfile), typeof(EntityDefMappingProfile));
+        services.AddCQS([typeof(CreateOrderCommand).Assembly]);
+        services.AddAutoMapper(
+            typeof(OrderMappingProfile), 
+            typeof(ProductMappingProfile), 
+            typeof(EntityDefMappingProfile));
 
         // Setup Database
         var mongoDatabaseConfiguration = configuration.GetConfiguration<MongoDatabaseConfiguration>();

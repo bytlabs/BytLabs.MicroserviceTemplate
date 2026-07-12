@@ -24,7 +24,7 @@ BsonClassMap.TryRegisterClassMap<FormDataSchema>(cm =>
 
 **Sample code in this template.**
 - [`Infrastructure/ServiceExtensions.cs`](../../src/BytLabs.MicroserviceTemplate.Infrastructure/ServiceExtensions.cs) — `RegisterMongoDBClassMaps` (OrderItem, ProductVariant)
-- [`Infrastructure/Shared/DynamicData/DynamicDataExtensions.cs`](../../src/BytLabs.MicroserviceTemplate.Infrastructure/Shared/DynamicData/DynamicDataExtensions.cs) — schema value objects
+- [`Infrastructure/MongoDB/DynamicDataExtensions.cs`](../../src/BytLabs.MicroserviceTemplate.Infrastructure/MongoDB/DynamicDataExtensions.cs) — schema value objects
 
 **Reference (BytLabs.BackendPackages).** `MongoDB.Bson.Serialization.BsonClassMap`.
 

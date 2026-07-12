@@ -22,8 +22,8 @@ services.AddGraphQLService()
 ```
 
 **Sample code in this template.**
-- [`Infrastructure/RequestExecutorBuilderExtensions.cs`](../../src/BytLabs.MicroserviceTemplate.Infrastructure/RequestExecutorBuilderExtensions.cs)
-- [`Infrastructure/DtoTypes/ProductDtoType.cs`](../../src/BytLabs.MicroserviceTemplate.Infrastructure/DtoTypes/ProductDtoType.cs) — computed `variantCount` field
+- [`Infrastructure/HotChocolate/RequestExecutorBuilderExtensions.cs`](../../src/BytLabs.MicroserviceTemplate.Infrastructure/HotChocolate/RequestExecutorBuilderExtensions.cs)
+- [`Infrastructure/HotChocolate/ProductDtoType.cs`](../../src/BytLabs.MicroserviceTemplate.Infrastructure/HotChocolate/ProductDtoType.cs) — computed `variantCount` field
 - [`Api/Program.cs`](../../src/BytLabs.MicroserviceTemplate.Api/Program.cs)
 
 **Reference (BytLabs.BackendPackages).** `BytLabs.Api.Graphql` (`AddCommandType`, `AddDtoType`, `AddAggregateFilterType`, `AddAggregateSortType`, `AddDynamicDataTypes`), `DtoType<T>`.

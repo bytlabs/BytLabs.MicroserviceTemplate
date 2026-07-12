@@ -21,7 +21,7 @@ public class IReadOnlySetSerializer<T> : SerializerBase<IReadOnlySet<T>>
 ```
 
 **Sample code in this template.**
-- [`Infrastructure/Utils/Serializers/IReadOnlySetSerializer.cs`](../../src/BytLabs.MicroserviceTemplate.Infrastructure/Utils/Serializers/IReadOnlySetSerializer.cs)
+- [`Infrastructure/MongoDB/IReadOnlySetSerializer.cs`](../../src/BytLabs.MicroserviceTemplate.Infrastructure/MongoDB/IReadOnlySetSerializer.cs)
 - [`Infrastructure/ServiceExtensions.cs`](../../src/BytLabs.MicroserviceTemplate.Infrastructure/ServiceExtensions.cs) — `BsonSerializer.TryRegisterSerializer(new IReadOnlySetSerializer<ProductVariant>())`
 
 **Reference (BytLabs.BackendPackages).** `MongoDB.Bson.Serialization.SerializerBase<T>`.

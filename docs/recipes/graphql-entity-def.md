@@ -28,7 +28,7 @@ public async Task<EntityDefDto> UpdateEntityDef(UpdateEntityDefCommand input, [S
 **Sample code in this template.**
 - [`Graphql/Queries/EntityDefQueries.cs`](../../src/BytLabs.MicroserviceTemplate.Api/Graphql/Queries/EntityDefQueries.cs)
 - [`Graphql/Mutations/EntityDefMutations.cs`](../../src/BytLabs.MicroserviceTemplate.Api/Graphql/Mutations/EntityDefMutations.cs)
-- [`Infrastructure/RequestExecutorBuilderExtensions.cs`](../../src/BytLabs.MicroserviceTemplate.Infrastructure/RequestExecutorBuilderExtensions.cs) — `AddCommandType`/`AddDtoType`/`AddAggregateFilterType`
+- [`Infrastructure/HotChocolate/RequestExecutorBuilderExtensions.cs`](../../src/BytLabs.MicroserviceTemplate.Infrastructure/HotChocolate/RequestExecutorBuilderExtensions.cs) — `AddCommandType`/`AddDtoType`/`AddAggregateFilterType`
 
 **Reference (BytLabs.BackendPackages).** `BytLabs.Api.Graphql` (`AddCommandType`, `AddDtoType`, `AddAggregateFilterType`, error types).
 

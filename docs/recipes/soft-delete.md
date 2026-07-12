@@ -22,8 +22,8 @@ public void Remove()
 ```
 
 **Sample code in this template.**
-- [`Product.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Aggregates/ProductAggregate/Product.cs) — `IsDeleted` + `Remove()`
-- [`RemoveProductCommandHandler.cs`](../../src/BytLabs.MicroserviceTemplate.Application/Commands/RemoveProduct/RemoveProductCommandHandler.cs) — soft delete via update
+- [`Product.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Products/Product.cs) — `IsDeleted` + `Remove()`
+- [`RemoveProductCommandHandler.cs`](../../src/BytLabs.MicroserviceTemplate.Application/Products/Commands/RemoveProduct/RemoveProductCommandHandler.cs) — soft delete via update
 - [`ProductQueries.cs`](../../src/BytLabs.MicroserviceTemplate.Api/Graphql/Queries/ProductQueries.cs) — `.ExcludeSoftDeletedEntites()`
 
 **Reference (BytLabs.BackendPackages).** `BytLabs.Domain.Entities.ISoftDeletable`, `ExcludeSoftDeletedEntites()` (in `BytLabs.DataAccess.MongoDB.DynamicData`).

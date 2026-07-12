@@ -17,9 +17,9 @@ public record ProductDto(
 ```
 
 **Sample code in this template.**
-- [`Dtos/ProductDto.cs`](../../src/BytLabs.MicroserviceTemplate.Application/Dtos/ProductDto.cs)
-- [`Dtos/OrderDto.cs`](../../src/BytLabs.MicroserviceTemplate.Application/Dtos/OrderDto.cs)
-- [`Dtos/ProductVariantDto.cs`](../../src/BytLabs.MicroserviceTemplate.Application/Dtos/ProductVariantDto.cs)
+- [`Products/Dtos/ProductDto.cs`](../../src/BytLabs.MicroserviceTemplate.Application/Products/Dtos/ProductDto.cs)
+- [`Orders/Dtos/OrderDto.cs`](../../src/BytLabs.MicroserviceTemplate.Application/Orders/Dtos/OrderDto.cs)
+- [`Products/Dtos/ProductVariantDto.cs`](../../src/BytLabs.MicroserviceTemplate.Application/Products/Dtos/ProductVariantDto.cs)
 
 **Reference (BytLabs.BackendPackages).** `BytLabs.Domain.Audit.IAuditable` / `AuditInfo`, `BytLabs.Domain.DynamicData.IHaveDynamicData`.
 
