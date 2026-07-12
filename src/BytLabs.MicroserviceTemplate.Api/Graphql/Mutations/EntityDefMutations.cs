@@ -1,9 +1,9 @@
 using BytLabs.Api.Graphql.ErrorTypes.Business;
 using BytLabs.Api.Graphql.ErrorTypes.Validation;
-using BytLabs.MicroserviceTemplate.Application.Commands.CreateEntityDef;
-using BytLabs.MicroserviceTemplate.Application.Commands.RemoveEntityDef;
-using BytLabs.MicroserviceTemplate.Application.Commands.UpdateEntityDef;
-using BytLabs.MicroserviceTemplate.Application.Dtos;
+using BytLabs.MicroserviceTemplate.Application.EntityDefs.Commands.CreateEntityDef;
+using BytLabs.MicroserviceTemplate.Application.EntityDefs.Commands.RemoveEntityDef;
+using BytLabs.MicroserviceTemplate.Application.EntityDefs.Commands.UpdateEntityDef;
+using BytLabs.MicroserviceTemplate.Application.EntityDefs.Dtos;
 using HotChocolate;
 using HotChocolate.Authorization;
 using HotChocolate.Types;

@@ -18,9 +18,9 @@ consumer. The `DataSchema.Type` tags tell the frontend which renderer receives e
 | `Filter` | (app-defined) | column filters |
 
 **Sample code in this template.**
-- [`Shared/DynamicData/TableDataSchema.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Shared/DynamicData/TableDataSchema.cs)
-- [`EntityDef.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Aggregates/EntityDefAggregate/EntityDef.cs) — `Table`
-- [`Infrastructure/Shared/DynamicData/DynamicDataExtensions.cs`](../../src/BytLabs.MicroserviceTemplate.Infrastructure/Shared/DynamicData/DynamicDataExtensions.cs) — BSON class map
+- [`Common/DynamicData/TableDataSchema.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Common/DynamicData/TableDataSchema.cs)
+- [`EntityDef.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/EntityDefs/EntityDef.cs) — `Table`
+- [`Infrastructure/MongoDB/DynamicDataExtensions.cs`](../../src/BytLabs.MicroserviceTemplate.Infrastructure/MongoDB/DynamicDataExtensions.cs) — BSON class map
 
 **Reference (BytLabs.BackendPackages).** `BytLabs.Domain.ValueObjects.ValueObject`.
 

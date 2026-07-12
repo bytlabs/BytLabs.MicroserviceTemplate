@@ -21,8 +21,8 @@ public class ProductMappingProfile : Profile
 ```
 
 **Sample code in this template.**
-- [`MappingProfiles/ProductMappingProfile.cs`](../../src/BytLabs.MicroserviceTemplate.Application/MappingProfiles/ProductMappingProfile.cs)
-- [`MappingProfiles/OrderMappingProfile.cs`](../../src/BytLabs.MicroserviceTemplate.Application/MappingProfiles/OrderMappingProfile.cs)
+- [`Products/Mapping/ProductMappingProfile.cs`](../../src/BytLabs.MicroserviceTemplate.Application/Products/Mapping/ProductMappingProfile.cs)
+- [`Orders/Mapping/OrderMappingProfile.cs`](../../src/BytLabs.MicroserviceTemplate.Application/Orders/Mapping/OrderMappingProfile.cs)
 - [`ServiceExtensions.cs`](../../src/BytLabs.MicroserviceTemplate.Infrastructure/ServiceExtensions.cs) — `AddAutoMapper(...)`
 
 **Reference (BytLabs.BackendPackages).** AutoMapper (third-party).

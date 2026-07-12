@@ -20,9 +20,9 @@ public sealed class ProductVariant : Entity<Guid>
 ```
 
 **Sample code in this template.**
-- [`ProductVariant.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Aggregates/ProductAggregate/ProductVariant.cs) — sub-entity
-- [`OrderItem.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Aggregates/OrderAggregate/OrderItem.cs) — sub-entity
-- [`Product.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Aggregates/ProductAggregate/Product.cs) — owns the `Variants` set
+- [`ProductVariant.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Products/ProductVariant.cs) — sub-entity
+- [`OrderItem.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Orders/OrderItem.cs) — sub-entity
+- [`Product.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Products/Product.cs) — owns the `Variants` set
 
 **Reference (BytLabs.BackendPackages).** `BytLabs.Domain.Entities.Entity<TId>`.
 

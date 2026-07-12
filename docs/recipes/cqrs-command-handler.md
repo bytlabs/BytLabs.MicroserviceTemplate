@@ -24,8 +24,8 @@ public class CreateProductCommandHandler : ICommandHandler<CreateProductCommand,
 ```
 
 **Sample code in this template.**
-- [`Commands/CreateProduct/`](../../src/BytLabs.MicroserviceTemplate.Application/Commands/CreateProduct) — command + handler
-- [`Commands/CreateOrder/`](../../src/BytLabs.MicroserviceTemplate.Application/Commands/CreateOrder) — minimal example
+- [`Products/Commands/CreateProduct/`](../../src/BytLabs.MicroserviceTemplate.Application/Products/Commands/CreateProduct) — command + handler
+- [`Orders/Commands/CreateOrder/`](../../src/BytLabs.MicroserviceTemplate.Application/Orders/Commands/CreateOrder) — minimal example
 
 **Reference (BytLabs.BackendPackages).** `BytLabs.Application.CQS.Commands.ICommand`/`ICommandHandler`, `BytLabs.Application.DataAccess.IRepository<,>`, `AddCQS`.
 

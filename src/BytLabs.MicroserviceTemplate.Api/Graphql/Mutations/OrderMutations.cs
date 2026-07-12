@@ -1,10 +1,10 @@
 using BytLabs.Api.Graphql.ErrorTypes.Business;
 using BytLabs.Api.Graphql.ErrorTypes.Validation;
-using BytLabs.MicroserviceTemplate.Application.Commands.CreateOrder;
-using BytLabs.MicroserviceTemplate.Application.Commands.ShipOrder;
-using BytLabs.MicroserviceTemplate.Application.Commands.UpdateOrder;
-using BytLabs.MicroserviceTemplate.Application.Commands.RemoveOrder;
-using BytLabs.MicroserviceTemplate.Application.Dtos;
+using BytLabs.MicroserviceTemplate.Application.Orders.Commands.CreateOrder;
+using BytLabs.MicroserviceTemplate.Application.Orders.Commands.ShipOrder;
+using BytLabs.MicroserviceTemplate.Application.Orders.Commands.UpdateOrder;
+using BytLabs.MicroserviceTemplate.Application.Orders.Commands.RemoveOrder;
+using BytLabs.MicroserviceTemplate.Application.Orders.Dtos;
 using HotChocolate;
 using HotChocolate.Types;
 using MediatR;

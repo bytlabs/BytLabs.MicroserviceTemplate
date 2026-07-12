@@ -18,8 +18,8 @@ public static Product Create(CreateProduct details)
 ```
 
 **Sample code in this template.**
-- [`Order.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Aggregates/OrderAggregate/Order.cs) — minimal aggregate
-- [`Product.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Aggregates/ProductAggregate/Product.cs) — advanced aggregate
+- [`Order.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Orders/Order.cs) — minimal aggregate
+- [`Product.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Products/Product.cs) — advanced aggregate
 
 **Reference (BytLabs.BackendPackages).** `BytLabs.Domain.Entities.AggregateRootBase<TId>`.
 

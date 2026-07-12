@@ -143,6 +143,6 @@ frontend build, and no redeploy:
 - [`EntityManager.tsx`](../../src/BytLabs.MicroserviceTemplate.Console/src/components/EntityManager.tsx) — fetches the def, maps parts → components, wires CRUD
 - [`SchemaAuthoring.tsx`](../../src/BytLabs.MicroserviceTemplate.Console/src/components/SchemaAuthoring.tsx) — Monaco editor → `updateEntityDef`
 - [`entities.ts`](../../src/BytLabs.MicroserviceTemplate.Console/src/lib/entities.ts) — per-entity ops + `toCreateInput`/`toUpdateInput`/`rowToFormData`
-- [`FormDataSchema.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Shared/DynamicData/FormDataSchema.cs), [`TableDataSchema.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Shared/DynamicData/TableDataSchema.cs) — the schema value objects
+- [`FormDataSchema.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Common/DynamicData/FormDataSchema.cs), [`TableDataSchema.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Common/DynamicData/TableDataSchema.cs) — the schema value objects
 
 **Related recipes.** [EntityDef aggregate](entity-def.md), [Schema value objects](schema-value-objects.md), [Dynamic data](dynamic-data.md), [GraphQL EntityDef contract](graphql-entity-def.md), [Dynamic table](dynamic-table.md), [UI registry integration](ui-registry-integration.md), [Bundled console app](console-app.md).

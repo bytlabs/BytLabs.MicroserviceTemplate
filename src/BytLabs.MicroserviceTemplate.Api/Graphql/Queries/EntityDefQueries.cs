@@ -1,7 +1,7 @@
 using BytLabs.DataAccess.MongoDB.Extensions;
 using BytLabs.DataAccess.MongoDB.DynamicData;
-using BytLabs.MicroserviceTemplate.Application.Dtos;
-using BytLabs.MicroserviceTemplate.Domain.Aggregates.EntityDefAggregate;
+using BytLabs.MicroserviceTemplate.Application.EntityDefs.Dtos;
+using BytLabs.MicroserviceTemplate.Domain.EntityDefs;
 using HotChocolate;
 using HotChocolate.Authorization;
 using HotChocolate.Data;
