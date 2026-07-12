@@ -17,7 +17,7 @@ pascalName=$(echo "$projectName" | sed -r 's/[_ ]+([a-z])/\U\1/g' | sed -r 's/^[
 kebabName=$(echo "$projectName" | sed -r 's/[_ ]+/-/g' | awk '{print tolower($0)}')
 
 # Convert to camelCase (capitalize words after the first, remove spaces/underscores)
-camelName=$(echo "$projectName" | sed -r 's/[_ ]+([a-z])/\U\1/g' | sed -r 's/^[A-Z]/\L&/' | sed 's/ //g') 
+camelName=$(echo "$projectName" | sed -r 's/[_ ]+([a-z])/\U\1/g' | sed -r 's/^[A-Z]/\L&/' | sed 's/ //g')
 
 echo "lowerName: '$lowerName'"
 echo "upperName: '$upperName'"
@@ -29,24 +29,34 @@ echo "camelName: '$camelName'"
 replace_text() {
   local input=$1
 
-  # Replace MicroserviceTemplate variations
+  # Skip binary files so sed -i cannot corrupt them (e.g. images, fonts).
+  grep -Iq . "$input" 2>/dev/null || return 0
+
+  # Replace MicroserviceTemplate variations (spaced form covers display text like
+  # "BytLabs Microservice Template" in prose/README).
   sed -i \
       -e "s/MicroserviceTemplate/${pascalName}/g" \
       -e "s/microserviceTemplate/${camelName}/g" \
       -e "s/microservice-template/${kebabName}/g" \
       -e "s/microservicetemplate/${lowerName}/g" \
-      -e "s/MICROSERVICETEMPLATE/${upperName}/g" "$input"
+      -e "s/MICROSERVICETEMPLATE/${upperName}/g" \
+      -e "s/Microservice Template/${projectName}/g" \
+      -e "s/microservice template/${lowerName}/g" "$input"
 }
 
-# Function to recursively rename directories and files, excluding certain directories and the script itself
+# Function to recursively rename directories and files. Build output (bin/obj),
+# dependencies (node_modules), build artifacts (dist), and VCS/IDE folders are skipped
+# at ANY depth so the script only touches source — not the ~33k files those dirs hold.
 rename_files_and_dirs() {
-  # Process directories first (in reverse order of depth)
+  # Process directories first (deepest-first via -depth, so children are renamed before
+  # their parents). -depth is incompatible with -prune, so exclude by path at any depth.
   find . -depth -type d \
-    ! -path './.git' \
-    ! -path './.vs*' \
-    ! -path './bin*' \
-    ! -path './obj*' \
-    ! -path './set-project-name.sh' | while read -r dir; do
+    ! -path './.git' ! -path './.git/*' \
+    ! -path './.vs' ! -path './.vs/*' \
+    ! -path '*/bin' ! -path '*/bin/*' \
+    ! -path '*/obj' ! -path '*/obj/*' \
+    ! -path '*/node_modules' ! -path '*/node_modules/*' \
+    ! -path '*/dist' ! -path '*/dist/*' | while read -r dir; do
     newDir=$(echo "$dir" | sed -r \
       -e "s/MicroserviceTemplate/${pascalName}/g" \
       -e "s/microserviceTemplate/${camelName}/g" \
@@ -59,13 +69,11 @@ rename_files_and_dirs() {
     fi
   done
 
-  # Process files after directories
-  find . -type f \
-    ! -path './.git/*' \
-    ! -path './.vs*' \
-    ! -path './bin*' \
-    ! -path './obj*' \
-    ! -path './set-project-name.sh' | while read -r file; do
+  # Process files after directories. Prune the excluded dirs entirely (fast; never descends
+  # into node_modules) and skip the script itself.
+  find . \
+    -type d \( -name .git -o -name .vs -o -name bin -o -name obj -o -name node_modules -o -name dist \) -prune \
+    -o -type f ! -name set-project-name.sh -print | while read -r file; do
     newFile=$(echo "$file" | sed -r \
       -e "s/MicroserviceTemplate/${pascalName}/g" \
       -e "s/microserviceTemplate/${camelName}/g" \
@@ -79,14 +87,11 @@ rename_files_and_dirs() {
   done
 }
 
-# Replace content in files, excluding certain directories and the script itself
+# Replace content in files, pruning build/dependency/VCS dirs and skipping the script itself.
 process_files() {
-  find . -type f \
-    ! -path './.git/*' \
-    ! -path './.vs*' \
-    ! -path './bin*' \
-    ! -path './obj*' \
-    ! -path './set-project-name.sh' | while read -r file; do
+  find . \
+    -type d \( -name .git -o -name .vs -o -name bin -o -name obj -o -name node_modules -o -name dist \) -prune \
+    -o -type f ! -name set-project-name.sh -print | while read -r file; do
     replace_text "$file"
   done
 }
