@@ -14,7 +14,6 @@ using BytLabs.MicroserviceTemplate.Application.EntityDefs.Commands.CreateEntityD
 using BytLabs.MicroserviceTemplate.Application.EntityDefs.Commands.UpdateEntityDef;
 using BytLabs.MicroserviceTemplate.Application.EntityDefs.Commands.RemoveEntityDef;
 using Microsoft.Extensions.DependencyInjection;
-using BytLabs.MicroserviceTemplate.Infrastructure.HotChocolate;
 using BytLabs.MicroserviceTemplate.Application.Orders.Dtos;
 using BytLabs.MicroserviceTemplate.Application.Products.Dtos;
 using BytLabs.MicroserviceTemplate.Application.EntityDefs.Dtos;
@@ -22,7 +21,7 @@ using BytLabs.MicroserviceTemplate.Domain.Orders;
 using BytLabs.MicroserviceTemplate.Domain.Products;
 using BytLabs.MicroserviceTemplate.Domain.EntityDefs;
 
-namespace BytLabs.MicroserviceTemplate.Infrastructure
+namespace BytLabs.MicroserviceTemplate.Infrastructure.HotChocolate
 {
     public static class RequestExecutorBuilderExtensions
     {

@@ -9,6 +9,7 @@ using BytLabs.MicroserviceTemplate.Api.ConsoleApp;
 using BytLabs.Api.UserContextResolvers;
 using BytLabs.Api.TenantProvider;
 using Microsoft.AspNetCore.WebSockets;
+using BytLabs.MicroserviceTemplate.Infrastructure.HotChocolate;
 
 try
 {
