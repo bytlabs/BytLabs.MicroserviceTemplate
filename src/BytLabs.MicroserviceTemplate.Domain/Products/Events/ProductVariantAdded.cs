@@ -3,5 +3,5 @@ using BytLabs.MicroserviceTemplate.Domain.Products.DataObjects;
 
 namespace BytLabs.MicroserviceTemplate.Domain.Products.Events
 {
-    public class ProductVariantAdded(Guid id, AddVariant data) : DomainEventBase<Guid, AddVariant>(id, data);
+    public record ProductVariantAdded(Guid Id, AddVariant Data) : DomainEventBase<Guid, AddVariant>(Id, Data);
 }

@@ -2,10 +2,6 @@ using BytLabs.Domain.DomainEvents;
 
 namespace BytLabs.MicroserviceTemplate.Domain.Orders.Events
 {
-    // Data-less domain event: derive from DomainEventBase (records cannot inherit it),
-    // which supplies the CreatedAt/CreatedBy members required by IDomainEvent in 4.x.
-    public class OrderCreatedEvent(Guid orderId) : DomainEventBase
-    {
-        public Guid OrderId { get; } = orderId;
-    }
+    // Data-less domain event as an immutable record (DomainEventBase supplies CreatedAt/CreatedBy).
+    public record OrderCreatedEvent(Guid OrderId) : DomainEventBase;
 }
