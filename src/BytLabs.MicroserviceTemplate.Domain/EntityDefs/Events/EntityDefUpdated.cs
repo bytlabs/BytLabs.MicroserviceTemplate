@@ -3,5 +3,5 @@ using BytLabs.MicroserviceTemplate.Domain.EntityDefs.DataObjects;
 
 namespace BytLabs.MicroserviceTemplate.Domain.EntityDefs.Events
 {
-    public class EntityDefUpdated(Guid id, UpdateEntityDef data) : DomainEventBase<Guid, UpdateEntityDef>(id, data);
+    public record EntityDefUpdated(Guid Id, UpdateEntityDef Data) : DomainEventBase<Guid, UpdateEntityDef>(Id, Data);
 }

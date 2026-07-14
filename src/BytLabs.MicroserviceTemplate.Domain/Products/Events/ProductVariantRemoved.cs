@@ -3,5 +3,5 @@ using BytLabs.MicroserviceTemplate.Domain.Products.DataObjects;
 
 namespace BytLabs.MicroserviceTemplate.Domain.Products.Events
 {
-    public class ProductVariantRemoved(Guid id, RemoveVariant data) : DomainEventBase<Guid, RemoveVariant>(id, data);
+    public record ProductVariantRemoved(Guid Id, RemoveVariant Data) : DomainEventBase<Guid, RemoveVariant>(Id, Data);
 }

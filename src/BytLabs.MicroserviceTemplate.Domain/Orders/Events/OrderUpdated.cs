@@ -3,5 +3,5 @@ using BytLabs.MicroserviceTemplate.Domain.Orders.DataObjects;
 
 namespace BytLabs.MicroserviceTemplate.Domain.Orders.Events
 {
-    public class OrderUpdated(Guid id, UpdateOrder data) : DomainEventBase<Guid, UpdateOrder>(id, data);
+    public record OrderUpdated(Guid Id, UpdateOrder Data) : DomainEventBase<Guid, UpdateOrder>(Id, Data);
 }

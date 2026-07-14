@@ -3,6 +3,5 @@ using BytLabs.MicroserviceTemplate.Domain.Products.DataObjects;
 
 namespace BytLabs.MicroserviceTemplate.Domain.Products.Events
 {
-    // RECIPE: Typed domain event carrying the data that caused it (DomainEventBase<TId, TData>).
-    public class ProductCreated(Guid id, CreateProduct data) : DomainEventBase<Guid, CreateProduct>(id, data);
+    public record ProductCreated(Guid Id, CreateProduct Data) : DomainEventBase<Guid, CreateProduct>(Id, Data);
 }

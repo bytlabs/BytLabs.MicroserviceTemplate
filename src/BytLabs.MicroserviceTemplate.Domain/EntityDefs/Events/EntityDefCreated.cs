@@ -3,5 +3,5 @@ using BytLabs.MicroserviceTemplate.Domain.EntityDefs.DataObjects;
 
 namespace BytLabs.MicroserviceTemplate.Domain.EntityDefs.Events
 {
-    public class EntityDefCreated(Guid id, CreateEntityDef data) : DomainEventBase<Guid, CreateEntityDef>(id, data);
+    public record EntityDefCreated(Guid Id, CreateEntityDef Data) : DomainEventBase<Guid, CreateEntityDef>(Id, Data);
 }
