@@ -12,7 +12,7 @@ public class OrderTests
     private static JsonElement Json(string raw) => JsonDocument.Parse(raw).RootElement;
 
     private static Order NewOrder(params OrderItem[] items)
-        => Order.Create(Guid.NewGuid(), DateTime.UtcNow, items.ToList(), Json("{\"priority\":\"low\"}"));
+        => Order.Create(Guid.NewGuid(), DateTime.UtcNow, items.ToHashSet(), Json("{\"priority\":\"low\"}"));
 
     [Fact]
     public void Update_replaces_items_when_provided()
@@ -20,7 +20,7 @@ public class OrderTests
         var order = NewOrder(new OrderItem(Guid.NewGuid(), 1, 10m));
         var newProduct = Guid.NewGuid();
 
-        order.Update(new UpdateOrder(Json("{\"priority\":\"high\"}"), new[] { new OrderItem(newProduct, 2, 50m) }));
+        order.Update(new UpdateOrder(Json("{\"priority\":\"high\"}"), new[] { new OrderItem(newProduct, 2, 50m) }.ToHashSet()));
 
         order.Items.Should().ContainSingle();
         order.Items.Single().ProductId.Should().Be(newProduct);

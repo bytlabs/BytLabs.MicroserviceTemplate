@@ -56,6 +56,7 @@ public static class ServiceExtensions
     {
         // Custom serializer so Product.Variants (IReadOnlySet<ProductVariant>) round-trips.
         BsonSerializer.TryRegisterSerializer(new IReadOnlySetSerializer<ProductVariant>());
+        BsonSerializer.TryRegisterSerializer(new IReadOnlySetSerializer<OrderItem>());
 
         BsonClassMap.TryRegisterClassMap<OrderItem>(cm =>
         {
