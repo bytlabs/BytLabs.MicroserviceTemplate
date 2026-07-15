@@ -31,5 +31,12 @@
     <PackageVersion Include="xunit.runner.visualstudio" Version="2.4.3" />
     <PackageVersion Include="FluentAssertions" Version="6.2.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="8.0.11" />
+    <!-- EF Core / Postgres -->
+    <PackageVersion Include="BytLabs.DataAccess.EntityFramework" Version="$(BytLabsPackageVersion)" />
+    <PackageVersion Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.10" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10" />
+    <!-- OData -->
+    <PackageVersion Include="Microsoft.AspNetCore.OData" Version="8.2.5" />
+    <PackageVersion Include="Microsoft.OData.Client" Version="8.2.3" />
   </ItemGroup>
 </Project>
