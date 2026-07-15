@@ -27,6 +27,7 @@ namespace BytLabs.MicroserviceTemplate.Domain.Products
         {
             var product = new Product(details.Id, details.Name, details.Data);
             product.AddDomainEvent(new ProductCreated(product.Id, details));
+            if (details.Variants is not null) product.Variants = details.Variants.Select(ToVariant).ToHashSet();
             return product;
         }
 
@@ -35,8 +36,12 @@ namespace BytLabs.MicroserviceTemplate.Domain.Products
         {
             Name = value.Name;
             Data = Data.Merge(value.Data);
+            if (value.Variants is not null) Variants = value.Variants.Select(ToVariant).ToHashSet();
             AddDomainEvent(new ProductUpdated(Id, value));
         }
+
+        private static ProductVariant ToVariant(VariantData v) => ProductVariant.Create(new CreateVariant(Guid.NewGuid(), v.Sku, v.Price));
+
 
         public void AddVariant(AddVariant value)
         {

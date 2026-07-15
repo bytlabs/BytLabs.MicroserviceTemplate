@@ -21,7 +21,7 @@ namespace BytLabs.MicroserviceTemplate.Application.Products.Commands.UpdateProdu
         public async Task<ProductDto> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
         {
             var product = await productRepository.GetByIdAsync(request.Id, cancellationToken);
-            product.Update(new(request.Name, request.Data));
+            product.Update(new(request.Name, request.Data, request.Variants?.ToList()));
             var result = await productRepository.UpdateAsync(product, cancellationToken);
             return mapper.Map<ProductDto>(result);
         }

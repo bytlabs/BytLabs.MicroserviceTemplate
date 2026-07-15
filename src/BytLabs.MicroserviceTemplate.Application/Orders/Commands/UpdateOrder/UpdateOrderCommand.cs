@@ -1,8 +1,11 @@
 using System.Text.Json;
 using BytLabs.Application.CQS.Commands;
 using BytLabs.MicroserviceTemplate.Application.Orders.Dtos;
+using BytLabs.MicroserviceTemplate.Domain.Orders;
 
 namespace BytLabs.MicroserviceTemplate.Application.Orders.Commands.UpdateOrder
 {
-    public record UpdateOrderCommand(Guid Id, JsonElement Data) : ICommand<OrderDto>;
+    // Items is optional: when supplied it replaces the order's line items (reuses OrderItemInput,
+    // already generated for CreateOrder); null leaves the existing items untouched.
+    public record UpdateOrderCommand(Guid Id, JsonElement Data, IEnumerable<OrderItem>? Items = null) : ICommand<OrderDto>;
 }

@@ -20,7 +20,7 @@ namespace BytLabs.MicroserviceTemplate.Application.Products.Commands.CreateProdu
 
         public async Task<ProductDto> Handle(CreateProductCommand request, CancellationToken cancellationToken)
         {
-            var product = Product.Create(new(request.Id, request.Name, request.Data));
+            var product = Product.Create(new(request.Id, request.Name, request.Data, request.Variants?.ToList()));
             var result = await productRepository.InsertAsync(product, cancellationToken);
             return mapper.Map<ProductDto>(result);
         }

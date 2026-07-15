@@ -21,7 +21,7 @@ namespace BytLabs.MicroserviceTemplate.Application.Orders.Commands.UpdateOrder
         public async Task<OrderDto> Handle(UpdateOrderCommand request, CancellationToken cancellationToken)
         {
             var order = await orderRepository.GetByIdAsync(request.Id, cancellationToken);
-            order.Update(new OrderDataObjects.UpdateOrder(request.Data));
+            order.Update(new OrderDataObjects.UpdateOrder(request.Data, request.Items?.ToList()));
             var result = await orderRepository.UpdateAsync(order, cancellationToken);
             return mapper.Map<OrderDto>(result);
         }

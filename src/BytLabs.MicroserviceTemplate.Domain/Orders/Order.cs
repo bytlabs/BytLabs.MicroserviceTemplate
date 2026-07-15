@@ -57,6 +57,7 @@ namespace BytLabs.MicroserviceTemplate.Domain.Orders
         public void Update(UpdateOrder value)
         {
             Data = Data.Merge(value.Data);
+            if (value.Items is not null) Items = value.Items.ToList();
             AddDomainEvent(new OrderUpdated(Id, value));
         }
 

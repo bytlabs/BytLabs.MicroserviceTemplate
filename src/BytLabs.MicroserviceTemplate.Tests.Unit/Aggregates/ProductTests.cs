@@ -67,4 +67,25 @@ public class ProductTests
         product.DomainEvents.Should().Contain(e => e is ProductVariantRemoved);
     }
 
+    [Fact]
+    public void Create_with_variants_generates_ids()
+    {
+        var product = Product.Create(new CreateProduct(Guid.NewGuid(), "Widget", Json("{}"),
+            new[] { new VariantData("SKU-A", 10m), new VariantData("SKU-B", 20m) }));
+
+        product.Variants.Should().HaveCount(2);
+        product.Variants.Select(v => v.Sku).Should().BeEquivalentTo(new[] { "SKU-A", "SKU-B" });
+        product.Variants.Should().OnlyContain(v => v.Id != Guid.Empty); // domain-generated ids
+    }
+
+    [Fact]
+    public void Update_replaces_variants_when_provided()
+    {
+        var product = Product.Create(new CreateProduct(Guid.NewGuid(), "Widget", Json("{}"),
+            new[] { new VariantData("OLD", 1m) }));
+
+        product.Update(new UpdateProduct("Widget", Json("{}"), new[] { new VariantData("NEW", 2m) }));
+
+        product.Variants.Should().ContainSingle(v => v.Sku == "NEW");
+    }
 }
