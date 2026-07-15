@@ -3,11 +3,18 @@ using BytLabs.DataAccess.MongoDB.Configuration;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using BytLabs.DataAccess.MongoDB;
+using BytLabs.DataAccess.MongoDB.Extensions;
+using BytLabs.DataAccess.EntityFramework;
+using BytLabs.DataAccess.EntityFramework.Configuration;
 using BytLabs.Application;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Bson;
+using MongoDB.Driver;
+using MongoDB.Driver.Linq;
+using Microsoft.EntityFrameworkCore;
 using BytLabs.MicroserviceTemplate.Infrastructure.MongoDB;
+using BytLabs.MicroserviceTemplate.Infrastructure.Postgres;
 using BytLabs.MicroserviceTemplate.Application.Orders.Commands.CreateOrder;
 using BytLabs.MicroserviceTemplate.Application.Common.Services;
 using BytLabs.MicroserviceTemplate.Application.Products.Mapping;
@@ -26,21 +33,45 @@ namespace BytLabs.MicroserviceTemplate.Infrastructure;
 public static class ServiceExtensions
 {
     /// <summary>
-    /// Adds infrastructure related services to the provided service collection.
+    /// Adds infrastructure services. The persistence store is selected by
+    /// <c>DataStore:Provider</c> in configuration ("Mongo" [default] or "Postgres").
+    /// Both transports (GraphQL + REST) run on whichever store is wired.
     /// </summary>
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, ConfigurationManager configuration)
     {
         if (services == null) throw new ArgumentNullException(nameof(services));
         if (configuration == null) throw new ArgumentNullException(nameof(configuration));
 
-        // Setup Application (CQS scans the whole Application assembly, so Product commands are included)
+        services.AddApplicationCore();
+
+        var store = configuration.GetSection("DataStore").Get<DataStoreConfiguration>() ?? new DataStoreConfiguration();
+        if (string.Equals(store.Provider, "Postgres", StringComparison.OrdinalIgnoreCase))
+            services.AddPostgresStore(configuration);
+        else
+            services.AddMongoStore(configuration);
+
+        return services;
+    }
+
+    /// <summary>
+    /// Application-layer wiring shared by every store: CQS handlers, AutoMapper profiles,
+    /// and cross-cutting services.
+    /// </summary>
+    private static IServiceCollection AddApplicationCore(this IServiceCollection services)
+    {
+        // CQS scans the whole Application assembly, so Product/EntityDef commands are included.
         services.AddCQS([typeof(CreateOrderCommand).Assembly]);
         services.AddAutoMapper(
-            typeof(OrderMappingProfile), 
-            typeof(ProductMappingProfile), 
+            typeof(OrderMappingProfile),
+            typeof(ProductMappingProfile),
             typeof(EntityDefMappingProfile));
+        services.AddSingleton<IEmailService, MyCustomEmailService>();
+        return services;
+    }
 
-        // Setup Database
+    /// <summary>MongoDB store: repositories + a read-side <see cref="IQueryable{T}"/> per aggregate.</summary>
+    private static IServiceCollection AddMongoStore(this IServiceCollection services, ConfigurationManager configuration)
+    {
         var mongoDatabaseConfiguration = configuration.GetConfiguration<MongoDatabaseConfiguration>();
         services.AddMongoDatabase(mongoDatabaseConfiguration)
             .RegisterMongoDBClassMaps()
@@ -49,8 +80,32 @@ public static class ServiceExtensions
             .AddMongoRepository<Product, Guid>()
             .AddMongoRepository<EntityDef, Guid>();
 
-        // Setup services
-        services.AddSingleton<IEmailService, MyCustomEmailService>();
+        // Unified read handle: a LINQ queryable over the tenant's collection, used by REST/OData and
+        // the queryable GraphQL path. (The Mongo GraphQL recipe keeps using IMongoDatabase directly.)
+        services.AddMongoQueryable<Order>();
+        services.AddMongoQueryable<Product>();
+        services.AddMongoQueryable<EntityDef>();
+
+        return services;
+    }
+
+    private static IServiceCollection AddMongoQueryable<T>(this IServiceCollection services)
+        where T : class, BytLabs.Domain.Entities.IEntity
+        => services.AddScoped<IQueryable<T>>(sp =>
+            sp.GetRequiredService<IMongoDatabase>().GetCollection<T>().AsQueryable());
+
+    /// <summary>PostgreSQL store (EF Core): per-tenant DbContext, repositories, and read-side IQueryable.</summary>
+    private static IServiceCollection AddPostgresStore(this IServiceCollection services, ConfigurationManager configuration)
+    {
+        var efConfig = configuration.GetConfiguration<EfDatabaseConfiguration>();
+        services.AddEntityFrameworkDatabase<AppDbContext>(
+                efConfig,
+                (options, connectionString) => options.UseNpgsql(
+                    connectionString,
+                    npgsql => npgsql.MigrationsAssembly(typeof(AppDbContext).Assembly.GetName().Name)))
+            .AddEfRepository<Order, Guid>()
+            .AddEfRepository<Product, Guid>()
+            .AddEfRepository<EntityDef, Guid>();
 
         return services;
     }
