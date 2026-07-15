@@ -69,4 +69,4 @@ source and the console's vendored copy.
 
 **Reference.** [shadcn registry docs](https://ui.shadcn.com/docs/registry), [shadcn components](https://ui.shadcn.com/docs/components).
 
-**Related recipes.** [Bundled console app](console-app.md), [EntityDef aggregate](entity-def.md), [EntityDef schema flow (define → store → render)](entity-def-schema-flow.md), [GraphQL EntityDef contract](graphql-entity-def.md), [Dynamic table](dynamic-table.md).
+**Related recipes.** [Entity associations](entity-associations.md), [Bundled console app](console-app.md), [EntityDef aggregate](entity-def.md), [EntityDef schema flow (define → store → render)](entity-def-schema-flow.md), [GraphQL EntityDef contract](graphql-entity-def.md), [Dynamic table](dynamic-table.md).

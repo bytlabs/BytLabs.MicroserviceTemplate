@@ -13,6 +13,7 @@ schema and rendered by a generic console + shadcn UI registry — no per-entity 
 **Start with the schema flow**, then drill into the backend, GraphQL, and frontend pieces.
 
 - [EntityDef schema flow (define → store → render)](entity-def-schema-flow.md) — **start here:** end-to-end overview, import/export, and the low-code payoff
+- [Entity associations & outer-field integration](entity-associations.md) — reference picker + owned sub-collections (Order↔Product, Product variants)
 - [EntityDef aggregate (dynamic form + table)](entity-def.md) — the aggregate that stores the schema, keyed by `EntityType`
 - [Schema value objects](schema-value-objects.md) — `DataSchema` / `FormDataSchema` / `TableDataSchema`
 - [Dynamic data (schema-less JSON)](dynamic-data.md) — the record's `JsonElement Data` where values live
