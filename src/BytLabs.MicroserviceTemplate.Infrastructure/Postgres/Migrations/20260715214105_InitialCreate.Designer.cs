@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BytLabs.MicroserviceTemplate.Infrastructure.Postgres.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260715212105_InitialCreate")]
+    [Migration("20260715214105_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -99,10 +99,6 @@ namespace BytLabs.MicroserviceTemplate.Infrastructure.Postgres.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("text");
-
-                    b.Property<string>("Variants")
-                        .IsRequired()
-                        .HasColumnType("jsonb");
 
                     b.HasKey("Id");
 
@@ -216,8 +212,35 @@ namespace BytLabs.MicroserviceTemplate.Infrastructure.Postgres.Migrations
                                 .HasForeignKey("ProductId");
                         });
 
+                    b.OwnsMany("BytLabs.MicroserviceTemplate.Domain.Products.Entities.ProductVariant", "Variants", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<decimal>("Price")
+                                .HasColumnType("numeric");
+
+                            b1.Property<Guid>("ProductId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<string>("Sku")
+                                .IsRequired()
+                                .HasColumnType("text");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("ProductId");
+
+                            b1.ToTable("ProductVariants", (string)null);
+
+                            b1.WithOwner()
+                                .HasForeignKey("ProductId");
+                        });
+
                     b.Navigation("AuditInfo")
                         .IsRequired();
+
+                    b.Navigation("Variants");
                 });
 #pragma warning restore 612, 618
         }

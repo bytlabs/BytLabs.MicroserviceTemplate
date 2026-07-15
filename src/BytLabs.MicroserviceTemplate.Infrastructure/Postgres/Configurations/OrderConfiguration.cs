@@ -22,6 +22,9 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
             .HasConversion(EfConverters.JsonElement)
             .Metadata.SetValueComparer(EfConverters.JsonElementComparer);
 
+        // NOTE: Items is mapped as jsonb (not a child table) because Order's only constructor takes
+        // `items`, and EF cannot bind a navigation to a constructor parameter. Switching to a child
+        // table would require a Domain change to Order. See design decision log.
         var itemsConverter = new ValueConverter<IReadOnlySet<OrderItem>, string>(
             v => JsonSerializer.Serialize(v, PostgresJson.Options),
             v => JsonSerializer.Deserialize<HashSet<OrderItem>>(v, PostgresJson.Options) ?? new HashSet<OrderItem>());
