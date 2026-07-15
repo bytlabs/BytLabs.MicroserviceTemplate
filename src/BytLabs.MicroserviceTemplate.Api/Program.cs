@@ -10,6 +10,8 @@ using BytLabs.Api.UserContextResolvers;
 using BytLabs.Api.TenantProvider;
 using Microsoft.AspNetCore.WebSockets;
 using BytLabs.MicroserviceTemplate.Infrastructure.HotChocolate;
+using BytLabs.MicroserviceTemplate.Api.OData;
+using Microsoft.AspNetCore.OData;
 
 try
 {
@@ -46,6 +48,11 @@ try
                     .ModifyCostOptions(o => o.EnforceCostLimits = false)
                     .ModifyOptions(o => o.RemoveUnreachableTypes = true)
                     .ModifyPagingOptions(opt => opt.IncludeTotalCount = true);
+
+                // REST/OData surface (same store as GraphQL, selected by DataStore:Provider).
+                services.AddControllers().AddOData(options => options
+                    .Select().Filter().OrderBy().Expand().Count().SetMaxTop(100)
+                    .AddRouteComponents("odata", EdmModel.GetEdmModel()));
             });
 
     WebApplication app = webAppBuilder.BuildWebApp(app =>
@@ -60,6 +67,7 @@ try
         app.UseAuthorization();
         app.UseWebSockets();
         app.MapGraphQL();
+        app.MapControllers();
         app.MapConsoleEndpoints();
 
         // SPA fallback: client-side routes (e.g. /console/entities/Product) resolve to the console

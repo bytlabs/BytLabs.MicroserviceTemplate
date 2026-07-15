@@ -12,6 +12,7 @@
     <PackageReference Include="BytLabs.Api" />
 	<PackageReference Include="BytLabs.Api.Graphql" />
 	<PackageReference Include="HotChocolate.Data.MongoDb" />
+	<PackageReference Include="Microsoft.AspNetCore.OData" />
 	<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
   </ItemGroup>
