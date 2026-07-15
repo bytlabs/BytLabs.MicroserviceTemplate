@@ -13,7 +13,7 @@ namespace BytLabs.MicroserviceTemplate.Domain.Orders
     {
         public DateTime OrderDate { get; private set; }
         public OrderStatus Status { get; private set; }
-        public IReadOnlyCollection<OrderItem> Items { get; private set; }
+        public IReadOnlySet<OrderItem> Items { get; private set; }
         public bool IsEmailSent { get; private set; }
         public JsonElement Data { get; private set; }
         public bool IsDeleted { get; private set; }
@@ -22,17 +22,17 @@ namespace BytLabs.MicroserviceTemplate.Domain.Orders
         // calling this constructor on every load, so raising a domain event here would re-fire
         // OrderCreatedEvent on every read (see Order.Create). Parameter names/types match the members
         // so the Mongo creator can be configured automatically.
-        public Order(Guid id, DateTime orderDate, IReadOnlyCollection<OrderItem> items, JsonElement data) : base(id)
+        public Order(Guid id, DateTime orderDate, IReadOnlySet<OrderItem> items, JsonElement data) : base(id)
         {
             Id = id;
             OrderDate = orderDate;
             Status = OrderStatus.Pending;
-            Items = items.ToList();
+            Items = items.ToHashSet();
             Data = data;
         }
 
         // Factory: the ONLY place OrderCreatedEvent is raised (not the constructor).
-        public static Order Create(Guid id, DateTime orderDate, IReadOnlyCollection<OrderItem> items, JsonElement data)
+        public static Order Create(Guid id, DateTime orderDate, IReadOnlySet<OrderItem> items, JsonElement data)
         {
             var order = new Order(id, orderDate, items, data);
             order.AddDomainEvent(new OrderCreatedEvent(id));
@@ -57,7 +57,7 @@ namespace BytLabs.MicroserviceTemplate.Domain.Orders
         public void Update(UpdateOrder value)
         {
             Data = Data.Merge(value.Data);
-            if (value.Items is not null) Items = value.Items.ToList();
+            if (value.Items is not null) Items = value.Items.ToHashSet();
             AddDomainEvent(new OrderUpdated(Id, value));
         }
 
