@@ -50,9 +50,14 @@ try
                     .ModifyPagingOptions(opt => opt.IncludeTotalCount = true);
 
                 // REST/OData surface (same store as GraphQL, selected by DataStore:Provider).
-                services.AddControllers().AddOData(options => options
-                    .Select().Filter().OrderBy().Expand().Count().SetMaxTop(100)
-                    .AddRouteComponents("odata", EdmModel.GetEdmModel()));
+                services.AddControllers().AddOData(options =>
+                {
+                    // Bind/serialize date-times in UTC (don't convert 'Z' inputs to the server's local
+                    // zone), so OrderDate round-trips identically on Mongo and Postgres.
+                    options.TimeZone = TimeZoneInfo.Utc;
+                    options.Select().Filter().OrderBy().Expand().Count().SetMaxTop(100)
+                        .AddRouteComponents("odata", EdmModel.GetEdmModel());
+                });
             });
 
     WebApplication app = webAppBuilder.BuildWebApp(app =>

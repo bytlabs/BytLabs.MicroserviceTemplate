@@ -32,7 +32,7 @@ public class ProductsController : ODataController
     [EnableQuery]
     public ActionResult<ProductResource> Get([FromRoute] Guid key)
     {
-        var product = _products.ToList().FirstOrDefault(p => p.Id == key);
+        var product = _products.Where(p => p.Id == key).ToList().FirstOrDefault();
         return product is null ? NotFound() : Ok(Map(product));
     }
 
@@ -45,7 +45,7 @@ public class ProductsController : ODataController
             resource.Variants.Select(v => new VariantData(v.Sku, v.Price)));
 
         var dto = await _mediator.Send(command, ct);
-        var created = _products.ToList().First(p => p.Id == dto.Id);
+        var created = _products.Where(p => p.Id == dto.Id).ToList().First();
         return Created(Map(created));
     }
 
@@ -58,7 +58,7 @@ public class ProductsController : ODataController
             resource.Variants.Select(v => new VariantData(v.Sku, v.Price)));
 
         var dto = await _mediator.Send(command, ct);
-        var updated = _products.ToList().First(p => p.Id == dto.Id);
+        var updated = _products.Where(p => p.Id == dto.Id).ToList().First();
         return Updated(Map(updated));
     }
 
@@ -77,7 +77,7 @@ public class ProductsController : ODataController
             variant.Sku,
             variant.Price), ct);
 
-        var updated = _products.ToList().First(p => p.Id == key);
+        var updated = _products.Where(p => p.Id == key).ToList().First();
         return Ok(Map(updated));
     }
 
@@ -85,7 +85,7 @@ public class ProductsController : ODataController
     public async Task<IActionResult> RemoveVariant([FromRoute] Guid key, [FromBody] ProductVariantResource variant, CancellationToken ct)
     {
         await _mediator.Send(new RemoveVariantCommand(key, variant.Id), ct);
-        var updated = _products.ToList().First(p => p.Id == key);
+        var updated = _products.Where(p => p.Id == key).ToList().First();
         return Ok(Map(updated));
     }
 

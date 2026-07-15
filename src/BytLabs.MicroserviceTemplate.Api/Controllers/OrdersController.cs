@@ -31,7 +31,7 @@ public class OrdersController : ODataController
     [EnableQuery]
     public ActionResult<OrderResource> Get([FromRoute] Guid key)
     {
-        var order = _orders.ToList().FirstOrDefault(o => o.Id == key);
+        var order = _orders.Where(o => o.Id == key).ToList().FirstOrDefault();
         return order is null ? NotFound() : Ok(Map(order));
     }
 
@@ -39,14 +39,16 @@ public class OrdersController : ODataController
     {
         var command = new CreateOrderCommand(
             resource.Id == Guid.Empty ? Guid.NewGuid() : resource.Id,
-            resource.OrderDate,
+            // OData binds date-times as UTC (see Program TimeZone); stamp Kind=Utc so both stores
+            // persist the same instant (Mongo would otherwise treat Unspecified as local).
+            DateTime.SpecifyKind(resource.OrderDate, DateTimeKind.Utc),
             resource.Items.Select(i => new OrderItem(
                 i.Id == Guid.Empty ? Guid.NewGuid() : i.Id, i.ProductId, i.Quantity, i.Price)),
             ParseData(resource.Data));
 
         var result = await _mediator.Send(command, ct);
 
-        var created = _orders.ToList().First(o => o.Id == result.OrderId);
+        var created = _orders.Where(o => o.Id == result.OrderId).ToList().First();
         return Created(Map(created));
     }
 
@@ -59,7 +61,7 @@ public class OrdersController : ODataController
                 i.Id == Guid.Empty ? Guid.NewGuid() : i.Id, i.ProductId, i.Quantity, i.Price)));
 
         var dto = await _mediator.Send(command, ct);
-        var updated = _orders.ToList().First(o => o.Id == dto.Id);
+        var updated = _orders.Where(o => o.Id == dto.Id).ToList().First();
         return Updated(Map(updated));
     }
 

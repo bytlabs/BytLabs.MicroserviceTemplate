@@ -34,7 +34,7 @@ public class EntityDefsController : ODataController
     [EnableQuery]
     public ActionResult<EntityDefResource> Get([FromRoute] Guid key)
     {
-        var def = _entityDefs.ToList().FirstOrDefault(d => d.Id == key);
+        var def = _entityDefs.Where(d => d.Id == key).ToList().FirstOrDefault();
         return def is null ? NotFound() : Ok(Map(def));
     }
 
@@ -47,7 +47,7 @@ public class EntityDefsController : ODataController
             ParseTable(resource.Table));
 
         var dto = await _mediator.Send(command, ct);
-        var created = _entityDefs.ToList().First(d => d.Id == dto.Id);
+        var created = _entityDefs.Where(d => d.Id == dto.Id).ToList().First();
         return Created(Map(created));
     }
 
@@ -55,7 +55,7 @@ public class EntityDefsController : ODataController
     {
         var command = new UpdateEntityDefCommand(key, ParseForm(resource.Form), ParseTable(resource.Table));
         var dto = await _mediator.Send(command, ct);
-        var updated = _entityDefs.ToList().First(d => d.Id == dto.Id);
+        var updated = _entityDefs.Where(d => d.Id == dto.Id).ToList().First();
         return Updated(Map(updated));
     }
 

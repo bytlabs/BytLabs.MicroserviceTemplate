@@ -7,6 +7,7 @@ using BytLabs.DataAccess.MongoDB.Extensions;
 using BytLabs.DataAccess.EntityFramework;
 using BytLabs.DataAccess.EntityFramework.Configuration;
 using BytLabs.Application;
+using BytLabs.Application.DataAccess;
 using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Bson;
@@ -90,9 +91,11 @@ public static class ServiceExtensions
     }
 
     private static IServiceCollection AddMongoQueryable<T>(this IServiceCollection services)
-        where T : class, BytLabs.Domain.Entities.IEntity
+        where T : class, BytLabs.Domain.Entities.IEntity, BytLabs.Domain.Entities.ISoftDeletable
+        // Exclude soft-deleted rows to match EF's global query filter, so REST/OData reads behave
+        // identically on both stores.
         => services.AddScoped<IQueryable<T>>(sp =>
-            sp.GetRequiredService<IMongoDatabase>().GetCollection<T>().AsQueryable());
+            sp.GetRequiredService<IMongoDatabase>().GetCollection<T>().AsQueryable().Where(x => !x.IsDeleted));
 
     /// <summary>PostgreSQL store (EF Core): per-tenant DbContext, repositories, and read-side IQueryable.</summary>
     private static IServiceCollection AddPostgresStore(this IServiceCollection services, ConfigurationManager configuration)
@@ -106,6 +109,13 @@ public static class ServiceExtensions
             .AddEfRepository<Order, Guid>()
             .AddEfRepository<Product, Guid>()
             .AddEfRepository<EntityDef, Guid>();
+
+        // Flush pending EF changes before repository reads so inline domain-event handlers that re-read
+        // the just-written aggregate work the same as on MongoDB (which writes eagerly). Outermost
+        // decorator, wrapping the domain-event dispatcher.
+        services.Decorate<IRepository<Order, Guid>, FlushOnReadRepository<Order, Guid>>();
+        services.Decorate<IRepository<Product, Guid>, FlushOnReadRepository<Product, Guid>>();
+        services.Decorate<IRepository<EntityDef, Guid>, FlushOnReadRepository<EntityDef, Guid>>();
 
         return services;
     }
