@@ -145,4 +145,4 @@ frontend build, and no redeploy:
 - [`entities.ts`](../../src/BytLabs.MicroserviceTemplate.Console/src/lib/entities.ts) — per-entity ops + `toCreateInput`/`toUpdateInput`/`rowToFormData`
 - [`FormDataSchema.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Common/DynamicData/FormDataSchema.cs), [`TableDataSchema.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Common/DynamicData/TableDataSchema.cs) — the schema value objects
 
-**Related recipes.** [EntityDef aggregate](entity-def.md), [Schema value objects](schema-value-objects.md), [Dynamic data](dynamic-data.md), [GraphQL EntityDef contract](graphql-entity-def.md), [Dynamic table](dynamic-table.md), [UI registry integration](ui-registry-integration.md), [Bundled console app](console-app.md).
+**Related recipes.** [Entity associations & outer-field integration](entity-associations.md), [EntityDef aggregate](entity-def.md), [Schema value objects](schema-value-objects.md), [Dynamic data](dynamic-data.md), [GraphQL EntityDef contract](graphql-entity-def.md), [Dynamic table](dynamic-table.md), [UI registry integration](ui-registry-integration.md), [Bundled console app](console-app.md).
