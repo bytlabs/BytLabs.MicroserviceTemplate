@@ -1,6 +1,7 @@
 using System.Text.Json;
-using BytLabs.MicroserviceTemplate.Domain.Products;
-using BytLabs.MicroserviceTemplate.Domain.Products.DataObjects;
+using BytLabs.MicroserviceTemplate.Domain.Products.Aggregates;
+using BytLabs.MicroserviceTemplate.Domain.Products.Entities;
+using BytLabs.MicroserviceTemplate.Domain.Products.Inputs;
 using BytLabs.MicroserviceTemplate.Domain.Products.Events;
 using FluentAssertions;
 using Xunit;

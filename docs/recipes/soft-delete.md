@@ -22,7 +22,7 @@ public void Remove()
 ```
 
 **Sample code in this template.**
-- [`Product.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Products/Product.cs) — `IsDeleted` + `Remove()`
+- [`Product.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Products/Aggregates/Product.cs) — `IsDeleted` + `Remove()`
 - [`RemoveProductCommandHandler.cs`](../../src/BytLabs.MicroserviceTemplate.Application/Products/Commands/RemoveProduct/RemoveProductCommandHandler.cs) — soft delete via update
 - [`ProductQueries.cs`](../../src/BytLabs.MicroserviceTemplate.Api/Graphql/Queries/ProductQueries.cs) — `.ExcludeSoftDeletedEntites()`
 

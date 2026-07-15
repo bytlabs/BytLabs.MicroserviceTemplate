@@ -17,9 +17,12 @@ using Microsoft.Extensions.DependencyInjection;
 using BytLabs.MicroserviceTemplate.Application.Orders.Dtos;
 using BytLabs.MicroserviceTemplate.Application.Products.Dtos;
 using BytLabs.MicroserviceTemplate.Application.EntityDefs.Dtos;
-using BytLabs.MicroserviceTemplate.Domain.Orders;
-using BytLabs.MicroserviceTemplate.Domain.Products;
-using BytLabs.MicroserviceTemplate.Domain.EntityDefs;
+using BytLabs.MicroserviceTemplate.Domain.Orders.Aggregates;
+using BytLabs.MicroserviceTemplate.Domain.Orders.Entities;
+using BytLabs.MicroserviceTemplate.Domain.Orders.ValueObjects;
+using BytLabs.MicroserviceTemplate.Domain.Products.Aggregates;
+using BytLabs.MicroserviceTemplate.Domain.Products.Entities;
+using BytLabs.MicroserviceTemplate.Domain.EntityDefs.Aggregates;
 
 namespace BytLabs.MicroserviceTemplate.Infrastructure.HotChocolate
 {

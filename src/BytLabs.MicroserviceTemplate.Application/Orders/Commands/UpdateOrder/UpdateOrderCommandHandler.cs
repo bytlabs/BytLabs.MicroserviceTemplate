@@ -2,8 +2,10 @@ using AutoMapper;
 using BytLabs.Application.CQS.Commands;
 using BytLabs.Application.DataAccess;
 using BytLabs.MicroserviceTemplate.Application.Orders.Dtos;
-using BytLabs.MicroserviceTemplate.Domain.Orders;
-using OrderDataObjects = BytLabs.MicroserviceTemplate.Domain.Orders.DataObjects;
+using BytLabs.MicroserviceTemplate.Domain.Orders.Aggregates;
+using BytLabs.MicroserviceTemplate.Domain.Orders.Entities;
+using BytLabs.MicroserviceTemplate.Domain.Orders.ValueObjects;
+using OrderDataObjects = BytLabs.MicroserviceTemplate.Domain.Orders.Inputs;
 
 namespace BytLabs.MicroserviceTemplate.Application.Orders.Commands.UpdateOrder
 {

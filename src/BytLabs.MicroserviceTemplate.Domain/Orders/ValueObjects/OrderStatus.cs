@@ -1,4 +1,4 @@
-﻿namespace BytLabs.MicroserviceTemplate.Domain.Orders
+﻿namespace BytLabs.MicroserviceTemplate.Domain.Orders.ValueObjects
 {
     public enum OrderStatus
     {

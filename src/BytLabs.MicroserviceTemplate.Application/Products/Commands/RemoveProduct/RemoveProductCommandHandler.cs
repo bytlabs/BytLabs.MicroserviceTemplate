@@ -1,6 +1,7 @@
 using BytLabs.Application.CQS.Commands;
 using BytLabs.Application.DataAccess;
-using BytLabs.MicroserviceTemplate.Domain.Products;
+using BytLabs.MicroserviceTemplate.Domain.Products.Aggregates;
+using BytLabs.MicroserviceTemplate.Domain.Products.Entities;
 
 namespace BytLabs.MicroserviceTemplate.Application.Products.Commands.RemoveProduct
 {

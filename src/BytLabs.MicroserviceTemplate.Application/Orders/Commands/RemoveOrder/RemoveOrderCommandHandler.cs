@@ -2,7 +2,9 @@ using AutoMapper;
 using BytLabs.Application.CQS.Commands;
 using BytLabs.Application.DataAccess;
 using BytLabs.MicroserviceTemplate.Application.Orders.Dtos;
-using BytLabs.MicroserviceTemplate.Domain.Orders;
+using BytLabs.MicroserviceTemplate.Domain.Orders.Aggregates;
+using BytLabs.MicroserviceTemplate.Domain.Orders.Entities;
+using BytLabs.MicroserviceTemplate.Domain.Orders.ValueObjects;
 
 namespace BytLabs.MicroserviceTemplate.Application.Orders.Commands.RemoveOrder
 {

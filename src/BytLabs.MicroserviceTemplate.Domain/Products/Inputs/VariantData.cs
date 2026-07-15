@@ -1,4 +1,4 @@
-namespace BytLabs.MicroserviceTemplate.Domain.Products.DataObjects
+namespace BytLabs.MicroserviceTemplate.Domain.Products.Inputs
 {
     // RECIPE: id-less input for a product variant. Used by Create/UpdateProduct so a client (the
     // console form) can send { sku, price } and let the domain generate the ProductVariant id.

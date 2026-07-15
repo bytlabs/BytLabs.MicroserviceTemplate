@@ -19,7 +19,7 @@ consumer. The `DataSchema.Type` tags tell the frontend which renderer receives e
 
 **Sample code in this template.**
 - [`Common/DynamicData/TableDataSchema.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Common/DynamicData/TableDataSchema.cs)
-- [`EntityDef.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/EntityDefs/EntityDef.cs) — `Table`
+- [`EntityDef.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/EntityDefs/Aggregates/EntityDef.cs) — `Table`
 - [`Infrastructure/MongoDB/DynamicDataExtensions.cs`](../../src/BytLabs.MicroserviceTemplate.Infrastructure/MongoDB/DynamicDataExtensions.cs) — BSON class map
 
 **Reference (BytLabs.BackendPackages).** `BytLabs.Domain.ValueObjects.ValueObject`.

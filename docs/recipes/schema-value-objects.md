@@ -21,7 +21,7 @@ public class DataSchema : ValueObject
 
 **Sample code in this template.**
 - [`Common/DynamicData/`](../../src/BytLabs.MicroserviceTemplate.Domain/Common/DynamicData) — `DataSchema`, `FormDataSchema`, `TableDataSchema`
-- [`EntityDef.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/EntityDefs/EntityDef.cs) — holds `Form` (`FormDataSchema`) + `Table` (`TableDataSchema`) on a definition aggregate, with create/update/remove (see [GraphQL EntityDef contract](graphql-entity-def.md))
+- [`EntityDef.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/EntityDefs/Aggregates/EntityDef.cs) — holds `Form` (`FormDataSchema`) + `Table` (`TableDataSchema`) on a definition aggregate, with create/update/remove (see [GraphQL EntityDef contract](graphql-entity-def.md))
 
 > Note: the render schema lives on the `EntityDef` aggregate (keyed by `EntityType`), not on the
 > entity being described. Flat entities like `Product` carry only their `Data`.
