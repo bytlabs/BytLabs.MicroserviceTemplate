@@ -1,15 +1,18 @@
 'use client';
-import { useMemo, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
+import { useApolloClient } from '@apollo/client';
 import { useEntityDef } from '@/components/dynamic/graphql/useEntityDef';
 import { useDynamicEntity } from '@/components/dynamic/graphql/useDynamicEntity';
 import { DataTable } from '@/components/dynamic/DataTable';
 import { createColumns, ColumnAction } from '@/components/dynamic/CreateColumns';
 import { DynamicForm } from '@/components/dynamic/DynamicForm';
 import { ViewEntity } from '@/components/dynamic/ViewEntity';
+import { EntityOptionsProvider } from '@/components/dynamic/rjsf/EntityOptionsContext';
 import { Button } from '@/components/ui/button';
 import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet';
 import { DropdownMenuItem } from '@/components/ui/dropdown-menu';
 import { ENTITIES } from '@/lib/entities';
+import { buildCreateInput, buildUpdateInput, rowToFormData, toRemoveInput } from '@/lib/inputs';
 
 function parse<T>(raw: string | undefined, fallback: T): T {
   if (!raw) return fallback;
@@ -31,6 +34,17 @@ export function EntityManager({ entityType }: { entityType: string }) {
       : { listQuery: { kind: 'Document', definitions: [] } as any, createMutation: {} as any, updateMutation: {} as any, removeMutation: {} as any, listRoot: '', variables: {} }
   );
 
+  // Loads picker options for a referenced entity (ReferenceWidget). Queries the target entity's list
+  // and maps each node to { value: id, label: <its labelField> }.
+  const apollo = useApolloClient();
+  const loadOptions = useCallback(async (targetType: string) => {
+    const target = ENTITIES[targetType];
+    if (!target) return [];
+    const { data } = await apollo.query({ query: target.listQuery, variables: { first: 100 }, fetchPolicy: 'cache-first' });
+    const nodes = (data as any)?.[target.listRoot]?.nodes ?? [];
+    return nodes.map((n: any) => ({ value: n.id, label: String(n[target.labelField] ?? n.id) }));
+  }, [apollo]);
+
   const formSchema = useMemo(() => parse<any>(def?.form?.formSchema?.data, { type: 'object' }), [def]);
   const uiSchema = useMemo(() => parse<any>(def?.form?.formUi?.data, {}), [def]);
   const columnDefs = useMemo(() => parse<any[]>(def?.table?.columns?.data, []), [def]);
@@ -39,7 +53,7 @@ export function EntityManager({ entityType }: { entityType: string }) {
   const actions: ColumnAction<any>[] = [
     (row) => <DropdownMenuItem key="view" onClick={() => setViewRow(row)}>View</DropdownMenuItem>,
     (row) => <DropdownMenuItem key="edit" onClick={() => setEditRow(row)}>Edit</DropdownMenuItem>,
-    (row) => <DropdownMenuItem key="delete" onClick={() => reg && entity.remove(reg.toRemoveInput(row.id))}>Delete</DropdownMenuItem>,
+    (row) => <DropdownMenuItem key="delete" onClick={() => reg && entity.remove(toRemoveInput(row.id))}>Delete</DropdownMenuItem>,
   ];
 
   const columns = useMemo(() => createColumns({ columns: columnDefs, actions }), [columnDefs]);
@@ -47,6 +61,7 @@ export function EntityManager({ entityType }: { entityType: string }) {
   if (!reg) return <div className="p-8">Unknown entity type: <code>{entityType}</code>. Register it in <code>lib/entities.ts</code>.</div>;
 
   return (
+    <EntityOptionsProvider value={{ loadOptions }}>
     <div className="container mx-auto py-8 space-y-6">
       <div className="flex justify-between items-center">
         <h1 className="text-3xl font-bold">{entityType}</h1>
@@ -83,7 +98,7 @@ export function EntityManager({ entityType }: { entityType: string }) {
               schema={formSchema}
               uiSchema={uiSchema}
               className="space-y-4"
-              onSubmit={async ({ formData }) => { await entity.create(reg.toCreateInput(formData)); setCreateOpen(false); }}
+              onSubmit={async ({ formData }) => { await entity.create(buildCreateInput(reg.idField, formData, reg.rowIdFields)); setCreateOpen(false); }}
             >
               <Button type="submit">Save</Button>
             </DynamicForm>
@@ -101,8 +116,8 @@ export function EntityManager({ entityType }: { entityType: string }) {
                 schema={formSchema}
                 uiSchema={uiSchema}
                 className="space-y-4"
-                formData={reg.rowToFormData(editRow)}
-                onSubmit={async ({ formData }) => { await entity.update(reg.toUpdateInput(editRow.id, formData)); setEditRow(null); }}
+                formData={rowToFormData(editRow, formSchema)}
+                onSubmit={async ({ formData }) => { await entity.update(buildUpdateInput(editRow.id, formData, reg.rowIdFields)); setEditRow(null); }}
               >
                 <Button type="submit">Save</Button>
               </DynamicForm>
@@ -121,5 +136,6 @@ export function EntityManager({ entityType }: { entityType: string }) {
         </SheetContent>
       </Sheet>
     </div>
+    </EntityOptionsProvider>
   );
 }

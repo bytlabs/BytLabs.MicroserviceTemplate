@@ -9,10 +9,11 @@ import TextareaWidget from "./widgets/TextareaWidget";
 import TextWidget from "./widgets/TextWidget";
 import DatePickerWidget from "./widgets/DatePickerWidget";
 import UpDownWidget from "./widgets/UpDownWidget";
+import ReferenceWidget from "./widgets/ReferenceWidget";
 
 // Base theme mapping JSON-Schema fields to shadcn inputs. To add domain-specific widgets, spread
 // `theme.widgets` into your own theme and pass it to <Form/>.
 export const theme: ThemeProps<any, RJSFSchema, UiSchema> = {
   templates: { ArrayFieldTemplate, FieldTemplate, ObjectFieldTemplate },
-  widgets: { TextWidget, TextareaWidget, SelectWidget, CheckboxWidget, DatePickerWidget, UpDownWidget },
+  widgets: { TextWidget, TextareaWidget, SelectWidget, CheckboxWidget, DatePickerWidget, UpDownWidget, ReferenceWidget },
 };
