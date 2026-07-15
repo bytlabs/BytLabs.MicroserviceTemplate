@@ -40,7 +40,6 @@ namespace BytLabs.MicroserviceTemplate.Infrastructure.Postgres.Migrations
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     OrderDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Status = table.Column<int>(type: "integer", nullable: false),
-                    Items = table.Column<string>(type: "jsonb", nullable: false),
                     IsEmailSent = table.Column<bool>(type: "boolean", nullable: false),
                     Data = table.Column<JsonElement>(type: "jsonb", nullable: false),
                     IsDeleted = table.Column<bool>(type: "boolean", nullable: false),
@@ -77,6 +76,27 @@ namespace BytLabs.MicroserviceTemplate.Infrastructure.Postgres.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "OrderItems",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    ProductId = table.Column<Guid>(type: "uuid", nullable: false),
+                    Quantity = table.Column<int>(type: "integer", nullable: false),
+                    Price = table.Column<decimal>(type: "numeric", nullable: false),
+                    OrderId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_OrderItems", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_OrderItems_Orders_OrderId",
+                        column: x => x.OrderId,
+                        principalTable: "Orders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "ProductVariants",
                 columns: table => new
                 {
@@ -97,6 +117,11 @@ namespace BytLabs.MicroserviceTemplate.Infrastructure.Postgres.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_OrderItems_OrderId",
+                table: "OrderItems",
+                column: "OrderId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ProductVariants_ProductId",
                 table: "ProductVariants",
                 column: "ProductId");
@@ -109,10 +134,13 @@ namespace BytLabs.MicroserviceTemplate.Infrastructure.Postgres.Migrations
                 name: "EntityDefs");
 
             migrationBuilder.DropTable(
-                name: "Orders");
+                name: "OrderItems");
 
             migrationBuilder.DropTable(
                 name: "ProductVariants");
+
+            migrationBuilder.DropTable(
+                name: "Orders");
 
             migrationBuilder.DropTable(
                 name: "Products");

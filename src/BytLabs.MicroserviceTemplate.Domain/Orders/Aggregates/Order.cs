@@ -20,6 +20,15 @@ namespace BytLabs.MicroserviceTemplate.Domain.Orders.Aggregates
         public JsonElement Data { get; private set; }
         public bool IsDeleted { get; private set; }
 
+        // EF Core reconstruction ctor: Items is mapped as a child-table navigation, which EF cannot
+        // bind to the parameterized ctor's `items` argument, so EF needs a parameter-less ctor and
+        // populates Items (and the other members) via their backing fields. Kept side-effect free.
+        // The MongoDB path is pinned to the parameterized creator below, so Mongo never uses this.
+        private Order() : base(Guid.Empty)
+        {
+            Items = new HashSet<OrderItem>();
+        }
+
         // IMPORTANT: the constructor MUST stay side-effect free. MongoDB reconstructs the aggregate by
         // calling this constructor on every load, so raising a domain event here would re-fire
         // OrderCreatedEvent on every read (see Order.Create). Parameter names/types match the members

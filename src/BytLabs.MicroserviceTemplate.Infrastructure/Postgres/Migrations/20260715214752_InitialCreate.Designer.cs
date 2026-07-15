@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BytLabs.MicroserviceTemplate.Infrastructure.Postgres.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260715214105_InitialCreate")]
+    [Migration("20260715214752_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -67,10 +67,6 @@ namespace BytLabs.MicroserviceTemplate.Infrastructure.Postgres.Migrations
 
                     b.Property<bool>("IsEmailSent")
                         .HasColumnType("boolean");
-
-                    b.Property<string>("Items")
-                        .IsRequired()
-                        .HasColumnType("jsonb");
 
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("timestamp with time zone");
@@ -175,8 +171,37 @@ namespace BytLabs.MicroserviceTemplate.Infrastructure.Postgres.Migrations
                                 .HasForeignKey("OrderId");
                         });
 
+                    b.OwnsMany("BytLabs.MicroserviceTemplate.Domain.Orders.Entities.OrderItem", "Items", b1 =>
+                        {
+                            b1.Property<Guid>("Id")
+                                .HasColumnType("uuid");
+
+                            b1.Property<Guid>("OrderId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<decimal>("Price")
+                                .HasColumnType("numeric");
+
+                            b1.Property<Guid>("ProductId")
+                                .HasColumnType("uuid");
+
+                            b1.Property<int>("Quantity")
+                                .HasColumnType("integer");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("OrderId");
+
+                            b1.ToTable("OrderItems", (string)null);
+
+                            b1.WithOwner()
+                                .HasForeignKey("OrderId");
+                        });
+
                     b.Navigation("AuditInfo")
                         .IsRequired();
+
+                    b.Navigation("Items");
                 });
 
             modelBuilder.Entity("BytLabs.MicroserviceTemplate.Domain.Products.Aggregates.Product", b =>

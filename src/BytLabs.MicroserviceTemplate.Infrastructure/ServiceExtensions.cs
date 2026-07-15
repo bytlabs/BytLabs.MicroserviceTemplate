@@ -116,6 +116,14 @@ public static class ServiceExtensions
         BsonSerializer.TryRegisterSerializer(new IReadOnlySetSerializer<ProductVariant>());
         BsonSerializer.TryRegisterSerializer(new IReadOnlySetSerializer<OrderItem>());
 
+        // Pin Mongo to Order's parameterized creator. Order also has a parameter-less ctor for EF
+        // (child-table Items); without this pin Mongo could pick the wrong creator on deserialization.
+        BsonClassMap.TryRegisterClassMap<Order>(cm =>
+        {
+            cm.AutoMap();
+            cm.MapCreator(o => new Order(o.Id, o.OrderDate, o.Items, o.Data));
+        });
+
         BsonClassMap.TryRegisterClassMap<OrderItem>(cm =>
         {
             cm.AutoMap();
