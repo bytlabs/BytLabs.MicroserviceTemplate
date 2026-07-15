@@ -22,10 +22,10 @@ namespace BytLabs.MicroserviceTemplate.Application.Orders.Events.OrderCreatedEve
 
         protected async override Task HandleDomainEvent(OrderCreatedEvent domainEvent, CancellationToken cancellationToken)
         {
-            var order = await orderRepository.GetByIdAsync(domainEvent.OrderId, cancellationToken);
+            var order = await orderRepository.GetByIdAsync(domainEvent.Id, cancellationToken);
             order.MarkAsEmailSent();
 
-            await emailService.SendEmail("test@test.com", $"#{domainEvent.OrderId} order is placed.", "Welcome message...");
+            await emailService.SendEmail("test@test.com", $"#{domainEvent.Id} order is placed.", "Welcome message...");
 
             await orderRepository.UpdateAsync(order, cancellationToken);
         }
