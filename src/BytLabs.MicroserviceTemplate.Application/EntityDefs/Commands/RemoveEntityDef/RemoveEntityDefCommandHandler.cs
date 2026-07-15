@@ -2,7 +2,7 @@ using AutoMapper;
 using BytLabs.Application.CQS.Commands;
 using BytLabs.Application.DataAccess;
 using BytLabs.MicroserviceTemplate.Application.EntityDefs.Dtos;
-using BytLabs.MicroserviceTemplate.Domain.EntityDefs;
+using BytLabs.MicroserviceTemplate.Domain.EntityDefs.Aggregates;
 
 namespace BytLabs.MicroserviceTemplate.Application.EntityDefs.Commands.RemoveEntityDef
 {

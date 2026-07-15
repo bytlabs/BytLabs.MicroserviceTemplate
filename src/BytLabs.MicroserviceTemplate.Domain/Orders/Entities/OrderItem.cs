@@ -1,6 +1,6 @@
 ﻿using BytLabs.Domain.Entities;
 
-namespace BytLabs.MicroserviceTemplate.Domain.Orders
+namespace BytLabs.MicroserviceTemplate.Domain.Orders.Entities
 {
     public class OrderItem : Entity<Guid>
     {

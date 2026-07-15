@@ -1,5 +1,5 @@
 using BytLabs.Domain.DomainEvents;
-using BytLabs.MicroserviceTemplate.Domain.EntityDefs.DataObjects;
+using BytLabs.MicroserviceTemplate.Domain.EntityDefs.Inputs;
 
 namespace BytLabs.MicroserviceTemplate.Domain.EntityDefs.Events
 {

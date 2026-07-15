@@ -1,6 +1,6 @@
 using AutoMapper;
 using BytLabs.MicroserviceTemplate.Application.EntityDefs.Dtos;
-using BytLabs.MicroserviceTemplate.Domain.EntityDefs;
+using BytLabs.MicroserviceTemplate.Domain.EntityDefs.Aggregates;
 
 namespace BytLabs.MicroserviceTemplate.Application.EntityDefs.Mapping
 {

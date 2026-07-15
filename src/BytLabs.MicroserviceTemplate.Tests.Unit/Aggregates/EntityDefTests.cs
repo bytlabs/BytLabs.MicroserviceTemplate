@@ -1,5 +1,5 @@
-using BytLabs.MicroserviceTemplate.Domain.EntityDefs;
-using BytLabs.MicroserviceTemplate.Domain.EntityDefs.DataObjects;
+using BytLabs.MicroserviceTemplate.Domain.EntityDefs.Aggregates;
+using BytLabs.MicroserviceTemplate.Domain.EntityDefs.Inputs;
 using BytLabs.MicroserviceTemplate.Domain.EntityDefs.Events;
 using BytLabs.MicroserviceTemplate.Domain.Common.DynamicData;
 using FluentAssertions;

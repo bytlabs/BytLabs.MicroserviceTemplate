@@ -14,7 +14,7 @@ public record CreateProduct(Guid Id, string Name, JsonElement Data);
 ```
 
 **Sample code in this template.**
-- [`DataObjects/`](../../src/BytLabs.MicroserviceTemplate.Domain/Products/DataObjects) — `CreateProduct`, `UpdateProduct`, `AddVariant`, `RemoveVariant`, `CreateVariant`
+- [`Inputs/`](../../src/BytLabs.MicroserviceTemplate.Domain/Products/Inputs) — `CreateProduct`, `UpdateProduct`, `AddVariant`, `RemoveVariant`, `CreateVariant`
 
 **Reference (BytLabs.BackendPackages).** n/a (a plain DDD convention).
 

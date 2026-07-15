@@ -23,7 +23,7 @@ public async Task<ProductVariantDto> Handle(AddVariantCommand request, Cancellat
 **Sample code in this template.**
 - [`Products/Commands/AddVariant/`](../../src/BytLabs.MicroserviceTemplate.Application/Products/Commands/AddVariant)
 - [`Products/Commands/RemoveVariant/`](../../src/BytLabs.MicroserviceTemplate.Application/Products/Commands/RemoveVariant)
-- [`Product.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Products/Product.cs) — `AddVariant`/`RemoveVariant`
+- [`Product.cs`](../../src/BytLabs.MicroserviceTemplate.Domain/Products/Aggregates/Product.cs) — `AddVariant`/`RemoveVariant`
 
 **Reference (BytLabs.BackendPackages).** `BytLabs.Application.DataAccess.IRepository<,>`.
 

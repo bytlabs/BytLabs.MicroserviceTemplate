@@ -1,11 +1,12 @@
 using System.Text.Json;
+using BytLabs.MicroserviceTemplate.Domain.Products.Entities;
 using BytLabs.Domain.DynamicData;
 using BytLabs.Domain.Entities;
-using BytLabs.MicroserviceTemplate.Domain.Products.DataObjects;
+using BytLabs.MicroserviceTemplate.Domain.Products.Inputs;
 using BytLabs.MicroserviceTemplate.Domain.Products.Events;
 using BytLabs.MicroserviceTemplate.Domain.Common.Utils;
 
-namespace BytLabs.MicroserviceTemplate.Domain.Products
+namespace BytLabs.MicroserviceTemplate.Domain.Products.Aggregates
 {
     // RECIPE HUB: dynamic data (IHaveDynamicData) + soft-delete (ISoftDeletable) +
     // schema value object + sub-entity set + specialized update methods + domain events.

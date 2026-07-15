@@ -1,7 +1,7 @@
 using System.Text.Json;
 using BytLabs.Application.CQS.Commands;
 using BytLabs.MicroserviceTemplate.Application.Products.Dtos;
-using BytLabs.MicroserviceTemplate.Domain.Products.DataObjects;
+using BytLabs.MicroserviceTemplate.Domain.Products.Inputs;
 
 namespace BytLabs.MicroserviceTemplate.Application.Products.Commands.UpdateProduct
 {

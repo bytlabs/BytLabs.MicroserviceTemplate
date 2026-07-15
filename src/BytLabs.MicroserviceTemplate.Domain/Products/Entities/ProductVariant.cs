@@ -1,7 +1,7 @@
 using BytLabs.Domain.Entities;
-using BytLabs.MicroserviceTemplate.Domain.Products.DataObjects;
+using BytLabs.MicroserviceTemplate.Domain.Products.Inputs;
 
-namespace BytLabs.MicroserviceTemplate.Domain.Products
+namespace BytLabs.MicroserviceTemplate.Domain.Products.Entities
 {
     // RECIPE: Sub-entity inside an aggregate. ProductVariant is owned by Product (it is not an
     // aggregate root). Created via a static factory from a CreateVariant data object.

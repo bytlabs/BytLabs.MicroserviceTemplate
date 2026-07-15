@@ -13,9 +13,12 @@ using BytLabs.MicroserviceTemplate.Application.Common.Services;
 using BytLabs.MicroserviceTemplate.Application.Products.Mapping;
 using BytLabs.MicroserviceTemplate.Application.Orders.Mapping;
 using BytLabs.MicroserviceTemplate.Application.EntityDefs.Mapping;
-using BytLabs.MicroserviceTemplate.Domain.EntityDefs;
-using BytLabs.MicroserviceTemplate.Domain.Products;
-using BytLabs.MicroserviceTemplate.Domain.Orders;
+using BytLabs.MicroserviceTemplate.Domain.EntityDefs.Aggregates;
+using BytLabs.MicroserviceTemplate.Domain.Products.Aggregates;
+using BytLabs.MicroserviceTemplate.Domain.Products.Entities;
+using BytLabs.MicroserviceTemplate.Domain.Orders.Aggregates;
+using BytLabs.MicroserviceTemplate.Domain.Orders.Entities;
+using BytLabs.MicroserviceTemplate.Domain.Orders.ValueObjects;
 using BytLabs.MicroserviceTemplate.Infrastructure.Common.Services;
 
 namespace BytLabs.MicroserviceTemplate.Infrastructure;

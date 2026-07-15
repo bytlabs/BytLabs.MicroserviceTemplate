@@ -1,6 +1,6 @@
 using System.Text.Json;
 
-namespace BytLabs.MicroserviceTemplate.Domain.Products.DataObjects
+namespace BytLabs.MicroserviceTemplate.Domain.Products.Inputs
 {
     // RECIPE: DataObject (factory parameter object) for creating a Product. The form/table schema
     // that describes how to render a Product lives on the EntityDef aggregate, not here.

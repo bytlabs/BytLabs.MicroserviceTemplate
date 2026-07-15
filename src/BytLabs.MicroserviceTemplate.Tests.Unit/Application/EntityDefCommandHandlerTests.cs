@@ -4,7 +4,7 @@ using BytLabs.MicroserviceTemplate.Application.EntityDefs.Commands.CreateEntityD
 using BytLabs.MicroserviceTemplate.Application.EntityDefs.Commands.RemoveEntityDef;
 using BytLabs.MicroserviceTemplate.Application.EntityDefs.Commands.UpdateEntityDef;
 using BytLabs.MicroserviceTemplate.Application.EntityDefs.Mapping;
-using BytLabs.MicroserviceTemplate.Domain.EntityDefs;
+using BytLabs.MicroserviceTemplate.Domain.EntityDefs.Aggregates;
 using BytLabs.MicroserviceTemplate.Domain.Common.DynamicData;
 using FluentAssertions;
 using Moq;

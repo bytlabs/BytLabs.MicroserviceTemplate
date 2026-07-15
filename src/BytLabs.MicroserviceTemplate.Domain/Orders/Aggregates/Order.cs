@@ -1,11 +1,13 @@
 using System.Text.Json;
+using BytLabs.MicroserviceTemplate.Domain.Orders.Entities;
+using BytLabs.MicroserviceTemplate.Domain.Orders.ValueObjects;
 using BytLabs.Domain.DynamicData;
 using BytLabs.Domain.Entities;
-using BytLabs.MicroserviceTemplate.Domain.Orders.DataObjects;
+using BytLabs.MicroserviceTemplate.Domain.Orders.Inputs;
 using BytLabs.MicroserviceTemplate.Domain.Orders.Events;
 using BytLabs.MicroserviceTemplate.Domain.Common.Utils;
 
-namespace BytLabs.MicroserviceTemplate.Domain.Orders
+namespace BytLabs.MicroserviceTemplate.Domain.Orders.Aggregates
 {
     // A flat dynamic entity: structured fields (OrderDate/Status/Items) plus a schema-less `Data`
     // JSON (IHaveDynamicData) rendered by an EntityDef. Soft-deletable, with create/update/remove.
