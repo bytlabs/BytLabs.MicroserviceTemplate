@@ -40,7 +40,7 @@ export function EntityManager({ entityType }: { entityType: string }) {
   const loadOptions = useCallback(async (targetType: string) => {
     const target = ENTITIES[targetType];
     if (!target) return [];
-    const { data } = await apollo.query({ query: target.listQuery, variables: { first: 100 }, fetchPolicy: 'cache-first' });
+    const { data } = await apollo.query({ query: target.listQuery, variables: { first: 50 }, fetchPolicy: 'cache-first' });
     const nodes = (data as any)?.[target.listRoot]?.nodes ?? [];
     return nodes.map((n: any) => ({ value: n.id, label: String(n[target.labelField] ?? n.id) }));
   }, [apollo]);
