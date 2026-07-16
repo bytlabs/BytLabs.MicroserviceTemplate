@@ -2,7 +2,7 @@ using BytLabs.Api.Graphql;
 using BytLabs.Api;
 using BytLabs.MicroserviceTemplate.Infrastructure;
 using BytLabs.MicroserviceTemplate.Api.Graphql.Mutations;
-using BytLabs.MicroserviceTemplate.Api.Graphql.Queries;
+using BytLabs.MicroserviceTemplate.Api.Graphql.Queries.Mongo;
 using BytLabs.MicroserviceTemplate.Api.Utils;
 using BytLabs.MicroserviceTemplate.Api.Extensions;
 using BytLabs.MicroserviceTemplate.Api.ConsoleApp;

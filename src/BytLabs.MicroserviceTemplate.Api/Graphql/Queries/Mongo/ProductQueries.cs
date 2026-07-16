@@ -12,7 +12,7 @@ using BytLabs.DataAccess.MongoDB.DynamicData;
 using BytLabs.Application.DynamicData;
 using HotChocolate.Authorization;
 
-namespace BytLabs.MicroserviceTemplate.Api.Graphql.Queries
+namespace BytLabs.MicroserviceTemplate.Api.Graphql.Queries.Mongo
 {
     public partial class Query
     {

@@ -12,7 +12,7 @@ using BytLabs.Application.DynamicData;
 using BytLabs.MicroserviceTemplate.Api.Utils;
 using BytLabs.MicroserviceTemplate.Application.Orders.Dtos;
 
-namespace BytLabs.MicroserviceTemplate.Api.Graphql.Queries
+namespace BytLabs.MicroserviceTemplate.Api.Graphql.Queries.Mongo
 {
     public partial class Query
     {

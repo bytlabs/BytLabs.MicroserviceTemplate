@@ -8,7 +8,7 @@ using HotChocolate.Data;
 using HotChocolate.Types;
 using MongoDB.Driver;
 
-namespace BytLabs.MicroserviceTemplate.Api.Graphql.Queries
+namespace BytLabs.MicroserviceTemplate.Api.Graphql.Queries.Mongo
 {
     public partial class Query
     {
