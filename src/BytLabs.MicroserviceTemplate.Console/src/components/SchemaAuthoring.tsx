@@ -1,7 +1,8 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { SchemaEditor } from '@/components/dynamic/SchemaEditor';
-import { useEntityDef, EntityDefFormData } from '@/components/dynamic/graphql/useEntityDef';
+import type { EntityDefFormData } from '@/components/dynamic/graphql/useEntityDef';
+import { useDataClient } from '@/lib/data/context';
 
 function parse<T>(raw: string | undefined, fallback: T): T {
   if (!raw) return fallback;
@@ -9,7 +10,8 @@ function parse<T>(raw: string | undefined, fallback: T): T {
 }
 
 export function SchemaAuthoring({ entityType }: { entityType: string }) {
-  const { def, loading, handleCreate, handleUpdate, handleDelete } = useEntityDef(entityType);
+  const client = useDataClient();
+  const { def, loading, handleCreate, handleUpdate, handleDelete } = client.useEntityDef(entityType);
 
   const [formSchema, setFormSchema] = useState<any>({ type: 'object', properties: {} });
   const [uiSchema, setUiSchema] = useState<any>({});

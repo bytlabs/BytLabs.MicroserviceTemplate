@@ -18,13 +18,18 @@ import { NavUser } from './nav-user';
 export function AppSidebar() {
   const { pathname } = useLocation();
   const types = Object.keys(ENTITIES);
+  // Current transport mode from the first path segment; links are prefixed so nav stays within it.
+  const mode = pathname.split('/')[1] === 'rest' ? 'rest' : 'graphql';
+  const home = `/${mode}`;
+  const entityPath = (t: string) => `/${mode}/entities/${t}`;
+  const schemaPath = (t: string) => `/${mode}/schema/${t}`;
 
   return (
     <Sidebar collapsible="icon">
       <SidebarHeader>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton size="lg" render={<Link to="/" />}>
+            <SidebarMenuButton size="lg" render={<Link to={home} />}>
               <div className="flex aspect-square size-8 items-center justify-center rounded-lg bg-sidebar-primary text-sidebar-primary-foreground">
                 <Boxes className="size-4" />
               </div>
@@ -42,7 +47,7 @@ export function AppSidebar() {
           <SidebarGroupLabel>Platform</SidebarGroupLabel>
           <SidebarMenu>
             <SidebarMenuItem>
-              <SidebarMenuButton isActive={pathname === '/'} tooltip="Home" render={<Link to="/" />}>
+              <SidebarMenuButton isActive={pathname === home} tooltip="Home" render={<Link to={home} />}>
                 <Home />
                 <span>Home</span>
               </SidebarMenuButton>
@@ -56,9 +61,9 @@ export function AppSidebar() {
             {types.map((t) => (
               <SidebarMenuItem key={t}>
                 <SidebarMenuButton
-                  isActive={pathname === `/entities/${t}`}
+                  isActive={pathname === entityPath(t)}
                   tooltip={t}
-                  render={<Link to={`/entities/${t}`} />}
+                  render={<Link to={entityPath(t)} />}
                 >
                   <Table2 />
                   <span>{t}</span>
@@ -74,9 +79,9 @@ export function AppSidebar() {
             {types.map((t) => (
               <SidebarMenuItem key={t}>
                 <SidebarMenuButton
-                  isActive={pathname === `/schema/${t}`}
+                  isActive={pathname === schemaPath(t)}
                   tooltip={`${t} schema`}
-                  render={<Link to={`/schema/${t}`} />}
+                  render={<Link to={schemaPath(t)} />}
                 >
                   <FileCog />
                   <span>{t}</span>
