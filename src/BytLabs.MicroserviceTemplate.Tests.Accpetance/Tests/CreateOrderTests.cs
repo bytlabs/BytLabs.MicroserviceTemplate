@@ -23,7 +23,9 @@ public class CreateOrderTests
             {
                 new OrderItemInputBuilder()
                     .WithProductId(GuidExtensions.GUID_0002)
-                    .WithQuantity(1).WithPrice(100).WithId(GuidExtensions.GUID_0003).Build()
+                    // Unique per run: on Postgres, OrderItems is a relational table whose PK is the item
+                    // id, so a fixed id collides across runs / parallel tests sharing the same database.
+                    .WithQuantity(1).WithPrice(100).WithId(Guid.NewGuid().ToString()).Build()
             })
             .WithOrderDate(DateTimeExtensions.DDMMYYYY_01_01_2000)
             .Build();

@@ -23,7 +23,8 @@ public class MarkOrderAsShippedTests
             {
                 new OrderItemInputBuilder()
                     .WithProductId(GuidExtensions.GUID_0002)
-                    .WithQuantity(1).WithPrice(100).WithId(GuidExtensions.GUID_0003).Build()
+                    // Unique per run so the relational OrderItems PK does not collide across runs.
+                    .WithQuantity(1).WithPrice(100).WithId(Guid.NewGuid().ToString()).Build()
             })
             .WithOrderDate(DateTimeExtensions.DDMMYYYY_01_01_2000)
             .Build();

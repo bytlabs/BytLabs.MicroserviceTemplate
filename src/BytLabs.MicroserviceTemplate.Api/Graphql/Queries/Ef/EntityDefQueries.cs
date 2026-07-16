@@ -12,9 +12,10 @@ namespace BytLabs.MicroserviceTemplate.Api.Graphql.Queries.Ef;
 
 public partial class EfQuery
 {
+    // No [UseProjection]: AutoMapper's ProjectTo already projects to the DTO, and HotChocolate's
+    // queryable projection cannot member-init the DataSchema value objects (no parameterless ctor).
     [Authorize]
     [UsePaging]
-    [UseProjection]
     [UseFiltering(Type = typeof(EntityDef))]
     [UseSorting(Type = typeof(EntityDef))]
     public IQueryable<EntityDefDto> GetEntityDefs(
