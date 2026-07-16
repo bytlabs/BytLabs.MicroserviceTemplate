@@ -14,10 +14,11 @@ internal sealed class ProductConfiguration : IEntityTypeConfiguration<Product>
         builder.HasQueryFilter(x => !x.IsDeleted);
         builder.Property(x => x.Name);
 
-        // Dynamic data stays jsonb (schema-less).
+        // Dynamic data as NATIVE jsonb (JsonElement, no string converter) so Npgsql can translate
+        // jsonb LINQ (data->>'x') for GraphQL dynamic-data filtering/sorting.
         builder.Property(x => x.Data)
-            .HasColumnType("jsonb")
-            .HasConversion(EfConverters.JsonElement)
+            .HasColumnType("jsonb");
+        builder.Property(x => x.Data)
             .Metadata.SetValueComparer(EfConverters.JsonElementComparer);
 
         // Variants is a relational child table (not jsonb) so GraphQL/OData can project/filter/sort it

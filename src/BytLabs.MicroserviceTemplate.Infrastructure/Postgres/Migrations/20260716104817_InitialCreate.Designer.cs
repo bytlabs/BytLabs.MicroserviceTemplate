@@ -13,7 +13,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace BytLabs.MicroserviceTemplate.Infrastructure.Postgres.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260715214752_InitialCreate")]
+    [Migration("20260716104817_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -58,8 +58,7 @@ namespace BytLabs.MicroserviceTemplate.Infrastructure.Postgres.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Data")
-                        .IsRequired()
+                    b.Property<JsonElement>("Data")
                         .HasColumnType("jsonb");
 
                     b.Property<bool>("IsDeleted")
@@ -85,8 +84,7 @@ namespace BytLabs.MicroserviceTemplate.Infrastructure.Postgres.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Data")
-                        .IsRequired()
+                    b.Property<JsonElement>("Data")
                         .HasColumnType("jsonb");
 
                     b.Property<bool>("IsDeleted")

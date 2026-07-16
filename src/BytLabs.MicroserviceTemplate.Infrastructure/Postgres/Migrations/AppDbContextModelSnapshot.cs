@@ -55,8 +55,7 @@ namespace BytLabs.MicroserviceTemplate.Infrastructure.Postgres.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Data")
-                        .IsRequired()
+                    b.Property<JsonElement>("Data")
                         .HasColumnType("jsonb");
 
                     b.Property<bool>("IsDeleted")
@@ -82,8 +81,7 @@ namespace BytLabs.MicroserviceTemplate.Infrastructure.Postgres.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid");
 
-                    b.Property<string>("Data")
-                        .IsRequired()
+                    b.Property<JsonElement>("Data")
                         .HasColumnType("jsonb");
 
                     b.Property<bool>("IsDeleted")

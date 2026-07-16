@@ -11,6 +11,7 @@ using BytLabs.Api.TenantProvider;
 using Microsoft.AspNetCore.WebSockets;
 using BytLabs.MicroserviceTemplate.Infrastructure.HotChocolate;
 using BytLabs.MicroserviceTemplate.Api.OData;
+using BytLabs.MicroserviceTemplate.Api.Graphql.Queries.Ef;
 using Microsoft.AspNetCore.OData;
 
 try
@@ -37,14 +38,24 @@ try
 
                 services.AddWebSockets(op => op.KeepAliveInterval = TimeSpan.FromSeconds(30));
 
-                services.AddGraphQLService()
-                    .AddMongoDbQuerySettings()
+                // The read resolvers + query middleware are store-selected, but they register the SAME
+                // schema types (commands/DTOs/aggregate filter+sort), so the schema is identical on both
+                // stores and one client works against either.
+                var isPostgres = string.Equals(
+                    builder.Configuration["DataStore:Provider"], "Postgres", StringComparison.OrdinalIgnoreCase);
+
+                var graphql = services.AddGraphQLService();
+                if (isPostgres)
+                    graphql.AddQueryableQuerySettings().AddQueryType<EfQuery>();
+                else
+                    graphql.AddMongoDbQuerySettings().AddQueryType<Query>();
+
+                graphql
                     .AddDynamicDataTypes()
                     .AddCommandTypes()
                     .AddDtoTypes()
                     .AddAggregateTypes()
                     .AddMutationType<Mutation>()
-                    .AddQueryType<Query>()
                     .ModifyCostOptions(o => o.EnforceCostLimits = false)
                     .ModifyOptions(o => o.RemoveUnreachableTypes = true)
                     .ModifyPagingOptions(opt => opt.IncludeTotalCount = true);

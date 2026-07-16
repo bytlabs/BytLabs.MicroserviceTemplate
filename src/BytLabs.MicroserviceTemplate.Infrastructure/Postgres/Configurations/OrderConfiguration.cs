@@ -13,10 +13,11 @@ internal sealed class OrderConfiguration : IEntityTypeConfiguration<Order>
         builder.OwnsOne(x => x.AuditInfo);
         builder.HasQueryFilter(x => !x.IsDeleted);
 
-        // Dynamic data stays jsonb (schema-less); filtered via Npgsql JSON query on Postgres.
+        // Dynamic data as NATIVE jsonb (JsonElement, no string converter) so Npgsql can translate
+        // jsonb LINQ (data->>'x') for GraphQL dynamic-data filtering/sorting.
         builder.Property(x => x.Data)
-            .HasColumnType("jsonb")
-            .HasConversion(EfConverters.JsonElement)
+            .HasColumnType("jsonb");
+        builder.Property(x => x.Data)
             .Metadata.SetValueComparer(EfConverters.JsonElementComparer);
 
         // Items is a relational child table (Order has a parameter-less EF ctor so the navigation can
