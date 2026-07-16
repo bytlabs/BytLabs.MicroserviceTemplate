@@ -1,5 +1,5 @@
 using BytLabs.Domain.Audit;
-using BytLabs.MicroserviceTemplate.Domain.Common.DynamicData;
+using BytLabs.Domain.DynamicData;
 
 namespace BytLabs.MicroserviceTemplate.Application.EntityDefs.Dtos
 {

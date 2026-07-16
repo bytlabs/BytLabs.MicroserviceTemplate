@@ -9,7 +9,7 @@ using HotChocolate.Authorization;
 using HotChocolate.Data;
 using HotChocolate.Resolvers;
 using HotChocolate.Types;
-using BytLabs.MicroserviceTemplate.Api.Querying;
+using BytLabs.DataAccess.EntityFramework;
 
 namespace BytLabs.MicroserviceTemplate.Api.Graphql.Queries.Ef;
 

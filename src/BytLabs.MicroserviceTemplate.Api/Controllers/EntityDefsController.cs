@@ -2,14 +2,14 @@ using System.Text.Json;
 using BytLabs.MicroserviceTemplate.Application.EntityDefs.Commands.CreateEntityDef;
 using BytLabs.MicroserviceTemplate.Application.EntityDefs.Commands.RemoveEntityDef;
 using BytLabs.MicroserviceTemplate.Application.EntityDefs.Commands.UpdateEntityDef;
-using BytLabs.MicroserviceTemplate.Domain.Common.DynamicData;
 using BytLabs.MicroserviceTemplate.Domain.EntityDefs.Aggregates;
 using BytLabs.MicroserviceTemplate.Api.OData.Resources;
-using BytLabs.MicroserviceTemplate.Api.Querying;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
+using BytLabs.Domain.DynamicData;
+using BytLabs.DataAccess.EntityFramework;
 
 namespace BytLabs.MicroserviceTemplate.Api.Controllers;
 

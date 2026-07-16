@@ -1,7 +1,7 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using BytLabs.Application.DynamicData;
-using BytLabs.MicroserviceTemplate.Api.Querying;
+using BytLabs.DataAccess.EntityFramework;
 using BytLabs.MicroserviceTemplate.Application.Orders.Dtos;
 using BytLabs.MicroserviceTemplate.Domain.Orders.Aggregates;
 using BytLabs.MicroserviceTemplate.Infrastructure.Postgres.DynamicData;

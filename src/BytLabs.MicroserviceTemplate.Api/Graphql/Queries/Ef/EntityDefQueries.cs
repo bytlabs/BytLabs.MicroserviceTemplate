@@ -1,6 +1,6 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using BytLabs.MicroserviceTemplate.Api.Querying;
+using BytLabs.DataAccess.EntityFramework;
 using BytLabs.MicroserviceTemplate.Application.EntityDefs.Dtos;
 using BytLabs.MicroserviceTemplate.Domain.EntityDefs.Aggregates;
 using HotChocolate;

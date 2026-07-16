@@ -1,5 +1,5 @@
 using System.Text.Json;
-using BytLabs.MicroserviceTemplate.Domain.Common.DynamicData;
+using BytLabs.Domain.DynamicData;
 using BytLabs.MicroserviceTemplate.Domain.EntityDefs.Aggregates;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;

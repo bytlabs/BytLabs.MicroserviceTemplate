@@ -4,7 +4,6 @@ using BytLabs.MicroserviceTemplate.Infrastructure;
 using BytLabs.MicroserviceTemplate.Infrastructure.Postgres;
 using BytLabs.MicroserviceTemplate.Api.Graphql.Mutations;
 using BytLabs.MicroserviceTemplate.Api.Graphql.Queries.Mongo;
-using BytLabs.MicroserviceTemplate.Api.Utils;
 using BytLabs.MicroserviceTemplate.Api.Extensions;
 using BytLabs.MicroserviceTemplate.Api.ConsoleApp;
 using BytLabs.Api.UserContextResolvers;
@@ -38,20 +37,9 @@ try
                 services.AddJwtAuthentication(builder.Configuration);
 
                 services.AddWebSockets(op => op.KeepAliveInterval = TimeSpan.FromSeconds(30));
-
-                // The read resolvers + query middleware are store-selected, but they register the SAME
-                // schema types (commands/DTOs/aggregate filter+sort), so the schema is identical on both
-                // stores and one client works against either.
-                var isPostgres = string.Equals(
-                    builder.Configuration["DataStore:Provider"], "Postgres", StringComparison.OrdinalIgnoreCase);
-
-                var graphql = services.AddGraphQLService();
-                if (isPostgres)
-                    graphql.AddQueryableQuerySettings().AddQueryType<EfQuery>();
-                else
-                    graphql.AddMongoDbQuerySettings().AddQueryType<Query>();
-
-                graphql
+                
+                var graphql = services.AddGraphQLService()
+                    .AddQueryType(builder.Configuration)
                     .AddDynamicDataTypes()
                     .AddCommandTypes()
                     .AddDtoTypes()

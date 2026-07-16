@@ -7,11 +7,11 @@ using BytLabs.MicroserviceTemplate.Application.Products.Commands.UpdateProduct;
 using BytLabs.MicroserviceTemplate.Domain.Products.Aggregates;
 using BytLabs.MicroserviceTemplate.Domain.Products.Inputs;
 using BytLabs.MicroserviceTemplate.Api.OData.Resources;
-using BytLabs.MicroserviceTemplate.Api.Querying;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
+using BytLabs.DataAccess.EntityFramework;
 
 namespace BytLabs.MicroserviceTemplate.Api.Controllers;
 

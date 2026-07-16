@@ -7,10 +7,11 @@ using HotChocolate.Authorization;
 using HotChocolate.Data;
 using HotChocolate.Types;
 using MongoDB.Driver;
+using BytLabs.DataAccess.MongoDB;
 
 namespace BytLabs.MicroserviceTemplate.Api.Graphql.Queries.Mongo
 {
-    public partial class Query
+    public partial class MongoQuery
     {
         // RECIPE: definition query — excludes soft-deleted rows and projects to a DTO. Clients
         // filter by entityType via `where`. Not dynamic-data (the def has structured fields), so it

@@ -7,14 +7,15 @@ using HotChocolate;
 using MongoDB.Driver;
 using BytLabs.DataAccess.MongoDB.Extensions;
 using HotChocolate.Resolvers;
-using BytLabs.MicroserviceTemplate.Api.Utils;
 using BytLabs.DataAccess.MongoDB.DynamicData;
 using BytLabs.Application.DynamicData;
 using HotChocolate.Authorization;
+using BytLabs.MicroserviceTemplate.Api.HotChocolate;
+using BytLabs.DataAccess.MongoDB;
 
 namespace BytLabs.MicroserviceTemplate.Api.Graphql.Queries.Mongo
 {
-    public partial class Query
+    public partial class MongoQuery
     {
         // RECIPE: advanced query — excludes soft-deleted rows, supports dynamic-data `where`
         // filtering and sorting, projects to a DTO, and is protected by [Authorize]

@@ -9,12 +9,13 @@ using BytLabs.MicroserviceTemplate.Domain.Orders.ValueObjects;
 using BytLabs.DataAccess.MongoDB.Extensions;
 using BytLabs.DataAccess.MongoDB.DynamicData;
 using BytLabs.Application.DynamicData;
-using BytLabs.MicroserviceTemplate.Api.Utils;
 using BytLabs.MicroserviceTemplate.Application.Orders.Dtos;
+using BytLabs.MicroserviceTemplate.Api.HotChocolate;
+using BytLabs.DataAccess.MongoDB;
 
 namespace BytLabs.MicroserviceTemplate.Api.Graphql.Queries.Mongo
 {
-    public partial class Query
+    public partial class MongoQuery
     {
         // Order is the "open" dynamic entity (no [Authorize], unlike Product): excludes soft-deleted
         // rows and supports dynamic-data filtering/sorting so the console can browse it out of the box.

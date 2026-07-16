@@ -1,33 +1,76 @@
-using HotChocolate.Execution.Configuration;
-using HotChocolate.Data.Filters;
 using BytLabs.Api.Graphql;
+using BytLabs.MicroserviceTemplate.Api.Graphql.Queries.Ef;
+using BytLabs.MicroserviceTemplate.Api.Graphql.Queries.Mongo;
+using BytLabs.MicroserviceTemplate.Api.HotChocolate;
+using BytLabs.MicroserviceTemplate.Application.EntityDefs.Commands.CreateEntityDef;
+using BytLabs.MicroserviceTemplate.Application.EntityDefs.Commands.RemoveEntityDef;
+using BytLabs.MicroserviceTemplate.Application.EntityDefs.Commands.UpdateEntityDef;
+using BytLabs.MicroserviceTemplate.Application.EntityDefs.Dtos;
 using BytLabs.MicroserviceTemplate.Application.Orders.Commands.CreateOrder;
+using BytLabs.MicroserviceTemplate.Application.Orders.Commands.RemoveOrder;
 using BytLabs.MicroserviceTemplate.Application.Orders.Commands.ShipOrder;
 using BytLabs.MicroserviceTemplate.Application.Orders.Commands.UpdateOrder;
-using BytLabs.MicroserviceTemplate.Application.Orders.Commands.RemoveOrder;
-using BytLabs.MicroserviceTemplate.Application.Products.Commands.CreateProduct;
-using BytLabs.MicroserviceTemplate.Application.Products.Commands.UpdateProduct;
-using BytLabs.MicroserviceTemplate.Application.Products.Commands.RemoveProduct;
-using BytLabs.MicroserviceTemplate.Application.Products.Commands.AddVariant;
-using BytLabs.MicroserviceTemplate.Application.Products.Commands.RemoveVariant;
-using BytLabs.MicroserviceTemplate.Application.EntityDefs.Commands.CreateEntityDef;
-using BytLabs.MicroserviceTemplate.Application.EntityDefs.Commands.UpdateEntityDef;
-using BytLabs.MicroserviceTemplate.Application.EntityDefs.Commands.RemoveEntityDef;
-using Microsoft.Extensions.DependencyInjection;
 using BytLabs.MicroserviceTemplate.Application.Orders.Dtos;
+using BytLabs.MicroserviceTemplate.Application.Products.Commands.AddVariant;
+using BytLabs.MicroserviceTemplate.Application.Products.Commands.CreateProduct;
+using BytLabs.MicroserviceTemplate.Application.Products.Commands.RemoveProduct;
+using BytLabs.MicroserviceTemplate.Application.Products.Commands.RemoveVariant;
+using BytLabs.MicroserviceTemplate.Application.Products.Commands.UpdateProduct;
 using BytLabs.MicroserviceTemplate.Application.Products.Dtos;
-using BytLabs.MicroserviceTemplate.Application.EntityDefs.Dtos;
-using BytLabs.MicroserviceTemplate.Domain.Orders.Aggregates;
-using BytLabs.MicroserviceTemplate.Domain.Orders.Entities;
-using BytLabs.MicroserviceTemplate.Domain.Orders.ValueObjects;
-using BytLabs.MicroserviceTemplate.Domain.Products.Aggregates;
-using BytLabs.MicroserviceTemplate.Domain.Products.Entities;
 using BytLabs.MicroserviceTemplate.Domain.EntityDefs.Aggregates;
+using BytLabs.MicroserviceTemplate.Domain.Orders.Aggregates;
+using BytLabs.MicroserviceTemplate.Domain.Products.Aggregates;
+using HotChocolate.Data;
+using HotChocolate.Data.Filters.Expressions;
+using HotChocolate.Execution.Configuration;
 
 namespace BytLabs.MicroserviceTemplate.Infrastructure.HotChocolate
 {
     public static class RequestExecutorBuilderExtensions
     {
+
+        public static IRequestExecutorBuilder AddQueryType(this IRequestExecutorBuilder builder, IConfiguration configuration)
+        {
+            // The read resolvers + query middleware are store-selected, but they register the SAME
+            // schema types (commands/DTOs/aggregate filter+sort), so the schema is identical on both
+            // stores and one client works against either.
+            var isPostgres = string.Equals(
+                configuration["DataStore:Provider"], "Postgres", StringComparison.OrdinalIgnoreCase);
+
+
+            if (isPostgres)
+                builder.AddQueryableQuerySettings().AddQueryType<EfQuery>();
+            else
+                builder.AddMongoDbQuerySettings().AddQueryType<MongoQuery>();
+
+            return builder;
+        }
+
+
+        // RECIPE: enable MongoDB-aware filtering/projection/sorting/paging for GraphQL queries.
+        public static IRequestExecutorBuilder AddMongoDbQuerySettings(this IRequestExecutorBuilder builder)
+        {
+            return builder
+                    .AddMongoDbFiltering()
+                    .AddMongoDbProjections()
+                    .AddMongoDbSorting()
+                    .AddMongoDbPagingProviders();
+        }
+
+        // Provider-agnostic (IQueryable/EF) filtering/projection/sorting. Paging uses HotChocolate's
+        // default queryable cursor provider. Used for the PostgreSQL GraphQL query root.
+        public static IRequestExecutorBuilder AddQueryableQuerySettings(this IRequestExecutorBuilder builder)
+        {
+            return builder
+                    .AddFiltering(d => d
+                        .AddDefaults()
+                        .AddProviderExtension(new QueryableFilterProviderExtension(x =>
+                            x.AddFieldHandler<DataPassThroughFilterFieldHandler>())))
+                    .AddProjections()
+                    .AddSorting()
+                    .AddQueryableCursorPagingProvider();
+        }
+
         public static IRequestExecutorBuilder AddCommandTypes(this IRequestExecutorBuilder requestExecutorBuilder)
         {
             return requestExecutorBuilder

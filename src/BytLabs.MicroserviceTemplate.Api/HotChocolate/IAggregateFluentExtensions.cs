@@ -1,10 +1,11 @@
 using BytLabs.Application.DynamicData;
 using BytLabs.DataAccess.MongoDB.DynamicData;
 using BytLabs.Domain.DynamicData;
+using BytLabs.MicroserviceTemplate.Api.HotChocolate;
 using HotChocolate.Resolvers;
 using MongoDB.Driver;
 
-namespace BytLabs.MicroserviceTemplate.Api.Utils
+namespace BytLabs.MicroserviceTemplate.Api.HotChocolate
 {
     public static class IAggregateFluentExtensions
     {

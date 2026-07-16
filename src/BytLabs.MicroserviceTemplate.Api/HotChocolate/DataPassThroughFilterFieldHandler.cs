@@ -7,7 +7,7 @@ using HotChocolate.Language;
 using HotChocolate.Language.Visitors;
 using HotChocolate.Types.Descriptors.Definitions;
 
-namespace BytLabs.MicroserviceTemplate.Api.Graphql.Filtering;
+namespace BytLabs.MicroserviceTemplate.Api.HotChocolate;
 
 /// <summary>
 /// Lets the queryable (EF) filter provider accept the custom dynamic-data <c>data</c> field on

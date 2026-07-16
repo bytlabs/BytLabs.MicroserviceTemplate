@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-    <BytLabsPackageVersion>4.2.0-alpha.115</BytLabsPackageVersion>
+    <BytLabsPackageVersion>4.2.0-alpha.118</BytLabsPackageVersion>
   </PropertyGroup>
   <ItemGroup>
     <!-- Bytlabs packages -->

@@ -4,7 +4,7 @@ using BytLabs.Domain.DynamicData;
 using BytLabs.Domain.Entities;
 using BytLabs.MicroserviceTemplate.Domain.Products.Inputs;
 using BytLabs.MicroserviceTemplate.Domain.Products.Events;
-using BytLabs.MicroserviceTemplate.Domain.Common.Utils;
+using BytLabs.Domain.Utils;
 
 namespace BytLabs.MicroserviceTemplate.Domain.Products.Aggregates
 {
