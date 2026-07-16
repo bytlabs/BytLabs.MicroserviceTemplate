@@ -5,6 +5,7 @@ using BytLabs.MicroserviceTemplate.Application.EntityDefs.Commands.UpdateEntityD
 using BytLabs.MicroserviceTemplate.Domain.Common.DynamicData;
 using BytLabs.MicroserviceTemplate.Domain.EntityDefs.Aggregates;
 using BytLabs.MicroserviceTemplate.Api.OData.Resources;
+using BytLabs.MicroserviceTemplate.Api.Querying;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
@@ -24,7 +25,7 @@ public class EntityDefsController : ODataController
     public EntityDefsController(IMediator mediator, IQueryable<EntityDef> entityDefs)
     {
         _mediator = mediator;
-        _entityDefs = entityDefs;
+        _entityDefs = entityDefs.ExcludeSoftDeletedEntities();
     }
 
     [EnableQuery]

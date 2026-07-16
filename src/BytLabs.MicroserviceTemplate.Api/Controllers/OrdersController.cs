@@ -6,6 +6,7 @@ using BytLabs.MicroserviceTemplate.Application.Orders.Commands.UpdateOrder;
 using BytLabs.MicroserviceTemplate.Domain.Orders.Aggregates;
 using BytLabs.MicroserviceTemplate.Domain.Orders.Entities;
 using BytLabs.MicroserviceTemplate.Api.OData.Resources;
+using BytLabs.MicroserviceTemplate.Api.Querying;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
@@ -21,7 +22,7 @@ public class OrdersController : ODataController
     public OrdersController(IMediator mediator, IQueryable<Order> orders)
     {
         _mediator = mediator;
-        _orders = orders;
+        _orders = orders.ExcludeSoftDeletedEntities();
     }
 
     [EnableQuery]

@@ -74,6 +74,10 @@ public static class ServiceExtensions
     private static IServiceCollection AddMongoStore(this IServiceCollection services, ConfigurationManager configuration)
     {
         var mongoDatabaseConfiguration = configuration.GetConfiguration<MongoDatabaseConfiguration>();
+        // AddMongoRepository also registers a read-side IQueryable<T> over the tenant's collection,
+        // used by REST/OData and the queryable GraphQL path. (The Mongo GraphQL recipe keeps using
+        // IMongoDatabase directly.) Soft-deleted rows are excluded at the read site via
+        // ExcludeSoftDeletedEntities, mirroring EF's global query filter.
         services.AddMongoDatabase(mongoDatabaseConfiguration)
             .RegisterMongoDBClassMaps()
             .RegisterDynamicDataClassMaps()
@@ -81,21 +85,8 @@ public static class ServiceExtensions
             .AddMongoRepository<Product, Guid>()
             .AddMongoRepository<EntityDef, Guid>();
 
-        // Unified read handle: a LINQ queryable over the tenant's collection, used by REST/OData and
-        // the queryable GraphQL path. (The Mongo GraphQL recipe keeps using IMongoDatabase directly.)
-        services.AddMongoQueryable<Order>();
-        services.AddMongoQueryable<Product>();
-        services.AddMongoQueryable<EntityDef>();
-
         return services;
     }
-
-    private static IServiceCollection AddMongoQueryable<T>(this IServiceCollection services)
-        where T : class, BytLabs.Domain.Entities.IEntity, BytLabs.Domain.Entities.ISoftDeletable
-        // Exclude soft-deleted rows to match EF's global query filter, so REST/OData reads behave
-        // identically on both stores.
-        => services.AddScoped<IQueryable<T>>(sp =>
-            sp.GetRequiredService<IMongoDatabase>().GetCollection<T>().AsQueryable().Where(x => !x.IsDeleted));
 
     /// <summary>PostgreSQL store (EF Core): per-tenant DbContext, repositories, and read-side IQueryable.</summary>
     private static IServiceCollection AddPostgresStore(this IServiceCollection services, ConfigurationManager configuration)
@@ -110,12 +101,8 @@ public static class ServiceExtensions
             .AddEfRepository<Product, Guid>()
             .AddEfRepository<EntityDef, Guid>();
 
-        // Flush pending EF changes before repository reads so inline domain-event handlers that re-read
-        // the just-written aggregate work the same as on MongoDB (which writes eagerly). Outermost
-        // decorator, wrapping the domain-event dispatcher.
-        services.Decorate<IRepository<Order, Guid>, FlushOnReadRepository<Order, Guid>>();
-        services.Decorate<IRepository<Product, Guid>, FlushOnReadRepository<Product, Guid>>();
-        services.Decorate<IRepository<EntityDef, Guid>, FlushOnReadRepository<EntityDef, Guid>>();
+        // EfRepository flushes each write via SaveChangesAsync, so inline domain-event handlers that
+        // re-read the just-written aggregate work the same as on MongoDB (which writes eagerly).
 
         return services;
     }

@@ -7,6 +7,7 @@ using BytLabs.MicroserviceTemplate.Application.Products.Commands.UpdateProduct;
 using BytLabs.MicroserviceTemplate.Domain.Products.Aggregates;
 using BytLabs.MicroserviceTemplate.Domain.Products.Inputs;
 using BytLabs.MicroserviceTemplate.Api.OData.Resources;
+using BytLabs.MicroserviceTemplate.Api.Querying;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Query;
@@ -22,7 +23,7 @@ public class ProductsController : ODataController
     public ProductsController(IMediator mediator, IQueryable<Product> products)
     {
         _mediator = mediator;
-        _products = products;
+        _products = products.ExcludeSoftDeletedEntities();
     }
 
     [EnableQuery]
