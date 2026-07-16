@@ -37,6 +37,8 @@
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.10" />
     <!-- OData -->
     <PackageVersion Include="Microsoft.AspNetCore.OData" Version="8.2.5" />
-    <PackageVersion Include="Microsoft.OData.Client" Version="8.2.3" />
+    <!-- Must track Microsoft.AspNetCore.OData's Microsoft.OData.Core (7.x); the 8.x client pulls
+         OData.Core 8.x which conflicts with the ASP.NET Core OData 8 server packages. -->
+    <PackageVersion Include="Microsoft.OData.Client" Version="7.20.0" />
   </ItemGroup>
 </Project>

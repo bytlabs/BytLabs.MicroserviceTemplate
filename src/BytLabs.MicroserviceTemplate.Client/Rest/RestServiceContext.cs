@@ -15,7 +15,8 @@ public class RestServiceContext : DataServiceContext
         : base(serviceRoot, ODataProtocolVersion.V4)
     {
         // Route every OData request through the supplied HttpClient (test server or real host).
-        HttpClientFactory = new SingleHttpClientFactory(httpClient);
+        Configurations.RequestPipeline.OnMessageCreating =
+            args => new HttpClientRequestMessage(args, httpClient);
 
         Format.LoadServiceModel = () =>
         {
@@ -31,11 +32,4 @@ public class RestServiceContext : DataServiceContext
     public DataServiceQuery<OrderResource> Orders => CreateQuery<OrderResource>("Orders");
     public DataServiceQuery<ProductResource> Products => CreateQuery<ProductResource>("Products");
     public DataServiceQuery<EntityDefResource> EntityDefs => CreateQuery<EntityDefResource>("EntityDefs");
-
-    private sealed class SingleHttpClientFactory : IHttpClientFactory
-    {
-        private readonly HttpClient _httpClient;
-        public SingleHttpClientFactory(HttpClient httpClient) => _httpClient = httpClient;
-        public HttpClient CreateClient(string name) => _httpClient;
-    }
 }
