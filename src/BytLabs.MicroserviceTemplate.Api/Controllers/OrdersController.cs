@@ -27,12 +27,12 @@ public class OrdersController : ODataController
 
     [EnableQuery]
     public ActionResult<IEnumerable<OrderResource>> Get()
-        => Ok(_orders.ToList().Select(Map));
+        => Ok(_orders.Select(Map));
 
     [EnableQuery]
     public ActionResult<OrderResource> Get([FromRoute] Guid key)
     {
-        var order = _orders.Where(o => o.Id == key).ToList().FirstOrDefault();
+        var order = _orders.Where(o => o.Id == key).FirstOrDefault();
         return order is null ? NotFound() : Ok(Map(order));
     }
 
@@ -49,7 +49,7 @@ public class OrdersController : ODataController
 
         var result = await _mediator.Send(command, ct);
 
-        var created = _orders.Where(o => o.Id == result.OrderId).ToList().First();
+        var created = _orders.First(o => o.Id == result.OrderId);
         return Created(Map(created));
     }
 
@@ -62,7 +62,7 @@ public class OrdersController : ODataController
                 i.Id == Guid.Empty ? Guid.NewGuid() : i.Id, i.ProductId, i.Quantity, i.Price)));
 
         var dto = await _mediator.Send(command, ct);
-        var updated = _orders.Where(o => o.Id == dto.Id).ToList().First();
+        var updated = _orders.First(o => o.Id == dto.Id);
         return Updated(Map(updated));
     }
 

@@ -1,5 +1,6 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using BytLabs.MicroserviceTemplate.Api.Querying;
 using BytLabs.MicroserviceTemplate.Application.EntityDefs.Dtos;
 using BytLabs.MicroserviceTemplate.Domain.EntityDefs.Aggregates;
 using HotChocolate;
@@ -20,5 +21,7 @@ public partial class EfQuery
         [Service] IQueryable<EntityDef> entityDefs,
         [Service] IMapper mapper,
         CancellationToken cancellationToken)
-        => entityDefs.ProjectTo<EntityDefDto>(mapper.ConfigurationProvider);
+        => entityDefs
+        .ExcludeSoftDeletedEntities()
+        .ProjectTo<EntityDefDto>(mapper.ConfigurationProvider);
 }

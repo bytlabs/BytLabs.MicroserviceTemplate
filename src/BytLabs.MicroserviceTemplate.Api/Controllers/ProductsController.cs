@@ -28,12 +28,12 @@ public class ProductsController : ODataController
 
     [EnableQuery]
     public ActionResult<IEnumerable<ProductResource>> Get()
-        => Ok(_products.ToList().Select(Map));
+        => Ok(_products.Select(Map));
 
     [EnableQuery]
     public ActionResult<ProductResource> Get([FromRoute] Guid key)
     {
-        var product = _products.Where(p => p.Id == key).ToList().FirstOrDefault();
+        var product = _products.Where(p => p.Id == key).FirstOrDefault();
         return product is null ? NotFound() : Ok(Map(product));
     }
 
@@ -46,7 +46,7 @@ public class ProductsController : ODataController
             resource.Variants.Select(v => new VariantData(v.Sku, v.Price)));
 
         var dto = await _mediator.Send(command, ct);
-        var created = _products.Where(p => p.Id == dto.Id).ToList().First();
+        var created = _products.First(p => p.Id == dto.Id);
         return Created(Map(created));
     }
 
@@ -59,7 +59,7 @@ public class ProductsController : ODataController
             resource.Variants.Select(v => new VariantData(v.Sku, v.Price)));
 
         var dto = await _mediator.Send(command, ct);
-        var updated = _products.Where(p => p.Id == dto.Id).ToList().First();
+        var updated = _products.First(p => p.Id == dto.Id);
         return Updated(Map(updated));
     }
 
@@ -78,7 +78,7 @@ public class ProductsController : ODataController
             variant.Sku,
             variant.Price), ct);
 
-        var updated = _products.Where(p => p.Id == key).ToList().First();
+        var updated = _products.First(p => p.Id == key);
         return Ok(Map(updated));
     }
 
@@ -86,7 +86,7 @@ public class ProductsController : ODataController
     public async Task<IActionResult> RemoveVariant([FromRoute] Guid key, [FromBody] ProductVariantResource variant, CancellationToken ct)
     {
         await _mediator.Send(new RemoveVariantCommand(key, variant.Id), ct);
-        var updated = _products.Where(p => p.Id == key).ToList().First();
+        var updated = _products.First(p => p.Id == key);
         return Ok(Map(updated));
     }
 

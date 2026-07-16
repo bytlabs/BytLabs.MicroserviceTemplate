@@ -1,9 +1,10 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using BytLabs.Application.DynamicData;
-using BytLabs.MicroserviceTemplate.Infrastructure.Postgres.DynamicData;
+using BytLabs.MicroserviceTemplate.Api.Querying;
 using BytLabs.MicroserviceTemplate.Application.Orders.Dtos;
 using BytLabs.MicroserviceTemplate.Domain.Orders.Aggregates;
+using BytLabs.MicroserviceTemplate.Infrastructure.Postgres.DynamicData;
 using HotChocolate;
 using HotChocolate.Data;
 using HotChocolate.Resolvers;
@@ -31,6 +32,7 @@ public partial class EfQuery
         List<SortInput<Order>>? order,
         CancellationToken cancellationToken)
         => orders
+            .ExcludeSoftDeletedEntities()
             .ApplyDynamicDataFilteration(context.ArgumentValue<InputFilteringDynamicData?>("where"))
             .ApplyDynamicDataSorting(order)
             .ProjectTo<OrderDto>(mapper.ConfigurationProvider);

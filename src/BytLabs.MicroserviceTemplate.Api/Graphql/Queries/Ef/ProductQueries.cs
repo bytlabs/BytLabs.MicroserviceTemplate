@@ -9,6 +9,7 @@ using HotChocolate.Authorization;
 using HotChocolate.Data;
 using HotChocolate.Resolvers;
 using HotChocolate.Types;
+using BytLabs.MicroserviceTemplate.Api.Querying;
 
 namespace BytLabs.MicroserviceTemplate.Api.Graphql.Queries.Ef;
 
@@ -25,6 +26,7 @@ public partial class EfQuery
         List<SortInput<Product>>? order,
         CancellationToken cancellationToken)
         => products
+            .ExcludeSoftDeletedEntities()
             .ApplyDynamicDataFilteration(context.ArgumentValue<InputFilteringDynamicData?>("where"))
             .ApplyDynamicDataSorting(order)
             .ProjectTo<ProductDto>(mapper.ConfigurationProvider);
