@@ -1,6 +1,7 @@
 using BytLabs.Api.Graphql;
 using BytLabs.Api;
 using BytLabs.MicroserviceTemplate.Infrastructure;
+using BytLabs.MicroserviceTemplate.Infrastructure.Postgres;
 using BytLabs.MicroserviceTemplate.Api.Graphql.Mutations;
 using BytLabs.MicroserviceTemplate.Api.Graphql.Queries.Mongo;
 using BytLabs.MicroserviceTemplate.Api.Utils;
@@ -93,6 +94,9 @@ try
         app.MapFallbackToFile("/console/{*path:nonfile}", "console/index.html");
         app.MapFallbackToFile("/console", "console/index.html");
     });
+
+    // On Postgres, create each tenant's database if missing and apply pending migrations before serving.
+    app.Services.MigratePostgresTenantDatabases();
 
     app.Run();
 }
