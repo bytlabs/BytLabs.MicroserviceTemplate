@@ -10,6 +10,10 @@ namespace BytLabs.MicroserviceTemplate.Infrastructure.Postgres.Configurations;
 
 internal sealed class EntityDefConfiguration : IEntityTypeConfiguration<EntityDef>
 {
+    // PascalCase to match the stored jsonb. The DataSchema value objects round-trip via their public
+    // constructors (System.Text.Json ctor binding), so no custom converters are needed.
+    private static readonly JsonSerializerOptions SchemaJson = new() { PropertyNamingPolicy = null };
+
     public void Configure(EntityTypeBuilder<EntityDef> builder)
     {
         builder.ToTable("EntityDefs");
@@ -21,8 +25,8 @@ internal sealed class EntityDefConfiguration : IEntityTypeConfiguration<EntityDe
         builder.Property(x => x.Form)
             .HasColumnType("jsonb")
             .HasConversion(
-                v => JsonSerializer.Serialize(v, PostgresJson.Options),
-                v => JsonSerializer.Deserialize<FormDataSchema>(v, PostgresJson.Options)!)
+                v => JsonSerializer.Serialize(v, SchemaJson),
+                v => JsonSerializer.Deserialize<FormDataSchema>(v, SchemaJson)!)
             .Metadata.SetValueComparer(new ValueComparer<FormDataSchema>(
                 (a, b) => a!.Equals(b),
                 v => v.GetHashCode(),
@@ -31,8 +35,8 @@ internal sealed class EntityDefConfiguration : IEntityTypeConfiguration<EntityDe
         builder.Property(x => x.Table)
             .HasColumnType("jsonb")
             .HasConversion(
-                v => JsonSerializer.Serialize(v, PostgresJson.Options),
-                v => JsonSerializer.Deserialize<TableDataSchema>(v, PostgresJson.Options)!)
+                v => JsonSerializer.Serialize(v, SchemaJson),
+                v => JsonSerializer.Deserialize<TableDataSchema>(v, SchemaJson)!)
             .Metadata.SetValueComparer(new ValueComparer<TableDataSchema>(
                 (a, b) => a!.Equals(b),
                 v => v.GetHashCode(),
