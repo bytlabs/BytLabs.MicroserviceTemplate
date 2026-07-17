@@ -69,16 +69,19 @@ public abstract class DynamicDataQueryTestsBase
     }
 
     // Five isolated orders keyed by category: a→price 10 … e→price 50, name = a Greek word per category.
+    // Seeded in a scrambled order (c, a, e, b, d) that matches neither ascending nor descending category,
+    // so the order-by tests can only pass by actually sorting on data.category (the ids are random GUIDs,
+    // so id/insertion order cannot coincidentally produce the expected sequence).
     private async Task<(string run, Dictionary<string, Guid> byCategory)> SeedFiveAsync()
     {
         var run = Guid.NewGuid().ToString("N");
         var byCategory = new Dictionary<string, Guid>
         {
-            ["a"] = await SeedAsync(run, "alpha", "a", 10),
-            ["b"] = await SeedAsync(run, "beta", "b", 20),
             ["c"] = await SeedAsync(run, "gamma", "c", 30),
-            ["d"] = await SeedAsync(run, "delta", "d", 40),
+            ["a"] = await SeedAsync(run, "alpha", "a", 10),
             ["e"] = await SeedAsync(run, "epsilon", "e", 50),
+            ["b"] = await SeedAsync(run, "beta", "b", 20),
+            ["d"] = await SeedAsync(run, "delta", "d", 40),
         };
         return (run, byCategory);
     }
