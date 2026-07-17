@@ -38,15 +38,17 @@ public abstract class DynamicDataQueryTestsBase
 
     private static OrderFilterInput DataFilter(DataOperationFilterInput leaf) => new() { Data = leaf };
 
+    private static OrderFilterInput And(params OrderFilterInput[] nodes) => new() { And = nodes.ToList() };
+
+    private static OrderFilterInput Or(params OrderFilterInput[] nodes) => new() { Or = nodes.ToList() };
+
+    // A leaf that matches only this test's five rows (data.run == run).
+    private static OrderFilterInput RunNode(string run) =>
+        DataFilter(Leaf("run", FilterOperation.Eq, ValueKind.String, run));
+
     // where = (data.run == run) AND (leaf), so only this test's five rows are considered.
-    private static OrderFilterInput RunScoped(string run, DataOperationFilterInput leaf) => new()
-    {
-        And = new List<OrderFilterInput>
-        {
-            DataFilter(Leaf("run", FilterOperation.Eq, ValueKind.String, run)),
-            DataFilter(leaf),
-        },
-    };
+    private static OrderFilterInput RunScoped(string run, DataOperationFilterInput leaf) =>
+        And(RunNode(run), DataFilter(leaf));
 
     private async Task<Guid> SeedAsync(string run, string name, string category, int price)
     {
@@ -129,6 +131,52 @@ public abstract class DynamicDataQueryTestsBase
         var matched = await QueryAsync(RunScoped(run, Leaf("price", FilterOperation.Lt, ValueKind.Number, "30")));
 
         matched.Should().BeEquivalentTo(new[] { ids["a"], ids["b"] });
+    }
+
+    [Fact]
+    public async Task Where_and_across_data_properties_returns_the_intersection()
+    {
+        var (run, ids) = await SeedFiveAsync();
+
+        // run AND price > 15 AND price < 45  ->  20, 30, 40.
+        var matched = await QueryAsync(And(
+            RunNode(run),
+            DataFilter(Leaf("price", FilterOperation.Gt, ValueKind.Number, "15")),
+            DataFilter(Leaf("price", FilterOperation.Lt, ValueKind.Number, "45"))));
+
+        matched.Should().BeEquivalentTo(new[] { ids["b"], ids["c"], ids["d"] });
+    }
+
+    [Fact]
+    public async Task Where_or_across_data_properties_returns_the_union()
+    {
+        var (run, ids) = await SeedFiveAsync();
+
+        // run AND (category == "a" OR category == "c")  ->  a, c.
+        var matched = await QueryAsync(And(
+            RunNode(run),
+            Or(
+                DataFilter(Leaf("category", FilterOperation.Eq, ValueKind.String, "a")),
+                DataFilter(Leaf("category", FilterOperation.Eq, ValueKind.String, "c")))));
+
+        matched.Should().BeEquivalentTo(new[] { ids["a"], ids["c"] });
+    }
+
+    [Fact]
+    public async Task Where_nested_and_or_conditions_are_evaluated()
+    {
+        var (run, ids) = await SeedFiveAsync();
+
+        // run AND ( price >= 20 AND (category == "b" OR category == "d") )  ->  b, d.
+        var matched = await QueryAsync(And(
+            RunNode(run),
+            And(
+                DataFilter(Leaf("price", FilterOperation.Gte, ValueKind.Number, "20")),
+                Or(
+                    DataFilter(Leaf("category", FilterOperation.Eq, ValueKind.String, "b")),
+                    DataFilter(Leaf("category", FilterOperation.Eq, ValueKind.String, "d"))))));
+
+        matched.Should().BeEquivalentTo(new[] { ids["b"], ids["d"] });
     }
 
     [Fact]
