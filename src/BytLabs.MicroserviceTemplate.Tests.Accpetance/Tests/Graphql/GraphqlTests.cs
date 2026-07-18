@@ -1,3 +1,4 @@
+using System.Text.Json;
 using BytLabs.MicroserviceTemplate.Client;
 using BytLabs.MicroserviceTemplate.Tests.Accpetance.Support;
 using FluentAssertions;
@@ -57,6 +58,64 @@ public abstract class GraphqlTestsBase
         query.EnsureNoErrors();
         query.Data!.Orders!.TotalCount.Should().BeGreaterThan(0);
         query.Data!.Orders!.Nodes.Should().NotBeNull();
+    }
+
+    [Fact]
+    public async Task Pending_order_can_be_marked_shipped()
+    {
+        var orderId = Guid.NewGuid();
+        var create = await Client.CreateOrder.ExecuteAsync(
+            new CreateOrderInputBuilder()
+                .WithOrderId(orderId.ToString())
+                .WithItems(new List<OrderItemInput>
+                {
+                    new OrderItemInputBuilder()
+                        .WithProductId(Guid.NewGuid().ToString())
+                        .WithQuantity(1).WithPrice(100).WithId(Guid.NewGuid().ToString()).Build()
+                })
+                .WithOrderDate(new DateTimeOffset(2001, 1, 1, 0, 0, 0, TimeSpan.Zero))
+                .Build(),
+            CancellationToken.None);
+        create.Data!.CreateOrder.Errors.Should().BeNullOrEmpty();
+
+        var result = await Client.MarkOrderAsShipped.ExecuteAsync(
+            new ShipOrderInput { OrderId = orderId.ToString() }, CancellationToken.None);
+
+        result.Data.Should().NotBeNull();
+        result.Data!.MarkOrderAsShipped.Errors.Should().BeNullOrEmpty();
+        Guid.Parse(result.Data.MarkOrderAsShipped.ShipOrderResult!.OrderId).Should().Be(orderId);
+    }
+
+    [Fact]
+    public async Task Product_lifecycle_create_add_variant_query_remove()
+    {
+        var productId = Guid.NewGuid();
+        // Unique name so the list query filters to exactly this product (deterministic against other rows).
+        var name = "Widget-" + Guid.NewGuid().ToString("N");
+
+        var created = await Client.CreateProduct.ExecuteAsync(
+            new CreateProductInput { Id = productId.ToString(), Name = name, Data = JsonDocument.Parse("{\"color\":\"red\"}").RootElement },
+            CancellationToken.None);
+        created.Data!.CreateProduct.Errors.Should().BeNullOrEmpty();
+        created.Data.CreateProduct.Product!.Name.Should().Be(name);
+
+        var variant = await Client.AddVariant.ExecuteAsync(
+            new AddVariantInput { ProductId = productId.ToString(), VariantId = Guid.NewGuid().ToString(), Sku = "SKU-1", Price = 9.99m },
+            CancellationToken.None);
+        variant.Data!.AddVariant.Errors.Should().BeNullOrEmpty();
+
+        var where = new ProductFilterInput { Name = new StringOperationFilterInput { Eq = name } };
+
+        var products = await Client.GetProducts.ExecuteAsync(50, null, null, where, CancellationToken.None);
+        products.Data!.Products!.Nodes!.Should().ContainSingle(p => Guid.Parse(p!.Id) == productId);
+
+        var removed = await Client.RemoveProduct.ExecuteAsync(
+            new RemoveProductInput { Id = productId.ToString() }, CancellationToken.None);
+        removed.Data!.RemoveProduct.Errors.Should().BeNullOrEmpty();
+
+        // Soft-deleted rows are excluded from reads.
+        var after = await Client.GetProducts.ExecuteAsync(50, null, null, where, CancellationToken.None);
+        after.Data!.Products!.Nodes!.Should().NotContain(p => Guid.Parse(p!.Id) == productId);
     }
 }
 
