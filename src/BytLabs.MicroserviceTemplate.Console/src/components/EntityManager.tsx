@@ -1,8 +1,6 @@
 'use client';
 import { useCallback, useMemo, useState } from 'react';
-import { useApolloClient } from '@apollo/client';
-import { useEntityDef } from '@/components/dynamic/graphql/useEntityDef';
-import { useDynamicEntity } from '@/components/dynamic/graphql/useDynamicEntity';
+import { useDataClient } from '@/lib/data/context';
 import { DataTable } from '@/components/dynamic/DataTable';
 import { createColumns, ColumnAction } from '@/components/dynamic/CreateColumns';
 import { DynamicForm } from '@/components/dynamic/DynamicForm';
@@ -21,29 +19,18 @@ function parse<T>(raw: string | undefined, fallback: T): T {
 
 export function EntityManager({ entityType }: { entityType: string }) {
   const reg = ENTITIES[entityType];
-  const { def, loading: defLoading } = useEntityDef(entityType);
+  const client = useDataClient();
+  const { def, loading: defLoading } = client.useEntityDef(entityType);
 
   const [createOpen, setCreateOpen] = useState(false);
   const [editRow, setEditRow] = useState<any | null>(null);
   const [viewRow, setViewRow] = useState<any | null>(null);
   const [vars, setVars] = useState<Record<string, any>>({ first: 10 });
 
-  const entity = useDynamicEntity(
-    reg
-      ? { listQuery: reg.listQuery, createMutation: reg.createMutation, updateMutation: reg.updateMutation, removeMutation: reg.removeMutation, listRoot: reg.listRoot, variables: vars }
-      : { listQuery: { kind: 'Document', definitions: [] } as any, createMutation: {} as any, updateMutation: {} as any, removeMutation: {} as any, listRoot: '', variables: {} }
-  );
+  const entity = client.useEntity(entityType, vars);
 
-  // Loads picker options for a referenced entity (ReferenceWidget). Queries the target entity's list
-  // and maps each node to { value: id, label: <its labelField> }.
-  const apollo = useApolloClient();
-  const loadOptions = useCallback(async (targetType: string) => {
-    const target = ENTITIES[targetType];
-    if (!target) return [];
-    const { data } = await apollo.query({ query: target.listQuery, variables: { first: 50 }, fetchPolicy: 'cache-first' });
-    const nodes = (data as any)?.[target.listRoot]?.nodes ?? [];
-    return nodes.map((n: any) => ({ value: n.id, label: String(n[target.labelField] ?? n.id) }));
-  }, [apollo]);
+  // Picker options for a referenced entity (ReferenceWidget) come from the active data client.
+  const loadOptions = useCallback((targetType: string) => client.loadOptions(targetType), [client]);
 
   const formSchema = useMemo(() => parse<any>(def?.form?.formSchema?.data, { type: 'object' }), [def]);
   const uiSchema = useMemo(() => parse<any>(def?.form?.formUi?.data, {}), [def]);

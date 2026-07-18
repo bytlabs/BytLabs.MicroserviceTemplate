@@ -10,6 +10,12 @@
     <PackageReference Include="BytLabs.Api" />
     <PackageReference Include="BytLabs.Api.Graphql" />
     <PackageReference Include="BytLabs.DataAccess.MongoDB" />
+    <PackageReference Include="BytLabs.DataAccess.EntityFramework" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
 

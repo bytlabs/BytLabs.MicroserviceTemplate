@@ -58,8 +58,10 @@ jobs:
     name: Acceptance tests
     runs-on: ubuntu-latest
 
-    # The acceptance tests drive the API in-process (WebApplicationFactory) and hit MongoDB at
-    # localhost:27017 (see appsettings.json). A service container provides that MongoDB.
+    # The acceptance tests drive the API in-process (WebApplicationFactory) and run the full store
+    # matrix, hitting MongoDB at localhost:27017 and PostgreSQL at localhost:5432 (see appsettings.json).
+    # Service containers provide both. Postgres uses the postgres/postgres superuser so the app can
+    # create + migrate the per-tenant databases on startup.
     services:
       mongo:
         image: mongo:7.0
@@ -67,6 +69,20 @@ jobs:
           - 27017:27017
         options: >-
           --health-cmd "mongosh --quiet --eval 'db.runCommand({ ping: 1 }).ok' || mongo --quiet --eval 'db.runCommand({ ping: 1 }).ok'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 10
+
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: microservicetemplate
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 10

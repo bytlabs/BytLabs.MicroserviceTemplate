@@ -1,0 +1,29 @@
+using BytLabs.DataAccess.EntityFramework;
+using BytLabs.MicroserviceTemplate.Domain.Orders.Aggregates;
+using Microsoft.EntityFrameworkCore;
+
+namespace BytLabs.MicroserviceTemplate.Infrastructure.Postgres;
+
+public class AppDbContext : DbContext
+{
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+    {
+    }
+
+    protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+    {
+        // All DateTime columns are UTC (see UtcDateTimeConverter) so timestamptz round-trips exactly.
+        configurationBuilder.Properties<DateTime>().HaveConversion<UtcDateTimeConverter>();
+        base.ConfigureConventions(configurationBuilder);
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(AppDbContext).Assembly);
+
+        // Unmap DomainEvents on every aggregate root in the Domain assembly.
+        modelBuilder.IgnoreDomainEvents(typeof(Order).Assembly);
+
+        base.OnModelCreating(modelBuilder);
+    }
+}

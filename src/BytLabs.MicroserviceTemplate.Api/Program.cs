@@ -1,15 +1,17 @@
 using BytLabs.Api.Graphql;
 using BytLabs.Api;
 using BytLabs.MicroserviceTemplate.Infrastructure;
+using BytLabs.MicroserviceTemplate.Infrastructure.Postgres;
 using BytLabs.MicroserviceTemplate.Api.Graphql.Mutations;
-using BytLabs.MicroserviceTemplate.Api.Graphql.Queries;
-using BytLabs.MicroserviceTemplate.Api.Utils;
 using BytLabs.MicroserviceTemplate.Api.Extensions;
 using BytLabs.MicroserviceTemplate.Api.ConsoleApp;
 using BytLabs.Api.UserContextResolvers;
 using BytLabs.Api.TenantProvider;
 using Microsoft.AspNetCore.WebSockets;
 using BytLabs.MicroserviceTemplate.Infrastructure.HotChocolate;
+using BytLabs.MicroserviceTemplate.Api.OData;
+using BytLabs.MicroserviceTemplate.Api.Graphql.Queries.Ef;
+using Microsoft.AspNetCore.OData;
 
 try
 {
@@ -35,17 +37,29 @@ try
 
                 services.AddWebSockets(op => op.KeepAliveInterval = TimeSpan.FromSeconds(30));
 
-                services.AddGraphQLService()
-                    .AddMongoDbQuerySettings()
+                services.AddNitro();
+                
+                var graphql = services.AddGraphQLService()
+                    .AddAggregateTypes()
                     .AddDynamicDataTypes()
+                    .AddStoreQueryType(builder.Configuration)
                     .AddCommandTypes()
                     .AddDtoTypes()
-                    .AddAggregateTypes()
                     .AddMutationType<Mutation>()
-                    .AddQueryType<Query>()
                     .ModifyCostOptions(o => o.EnforceCostLimits = false)
                     .ModifyOptions(o => o.RemoveUnreachableTypes = true)
-                    .ModifyPagingOptions(opt => opt.IncludeTotalCount = true);
+                    .ModifyPagingOptions(opt => opt.IncludeTotalCount = true)
+                    ;
+
+                // REST/OData surface (same store as GraphQL, selected by DataStore:Provider).
+                services.AddControllers().AddOData(options =>
+                {
+                    // Bind/serialize date-times in UTC (don't convert 'Z' inputs to the server's local
+                    // zone), so OrderDate round-trips identically on Mongo and Postgres.
+                    options.TimeZone = TimeZoneInfo.Utc;
+                    options.Select().Filter().OrderBy().Expand().Count().SetMaxTop(100)
+                        .AddRouteComponents("odata", EdmModel.GetEdmModel());
+                });
             });
 
     WebApplication app = webAppBuilder.BuildWebApp(app =>
@@ -60,6 +74,7 @@ try
         app.UseAuthorization();
         app.UseWebSockets();
         app.MapGraphQL();
+        app.MapControllers();
         app.MapConsoleEndpoints();
 
         // SPA fallback: client-side routes (e.g. /console/entities/Product) resolve to the console
@@ -69,6 +84,9 @@ try
         app.MapFallbackToFile("/console/{*path:nonfile}", "console/index.html");
         app.MapFallbackToFile("/console", "console/index.html");
     });
+
+    // On Postgres, create each tenant's database if missing and apply pending migrations before serving.
+    app.Services.MigratePostgresTenantDatabases();
 
     app.Run();
 }

@@ -11,7 +11,10 @@
   <ItemGroup>
     <PackageReference Include="BytLabs.Api" />
 	<PackageReference Include="BytLabs.Api.Graphql" />
+	<PackageReference Include="ChilliCream.Nitro" />
+	<PackageReference Include="ChilliCream.Nitro.HotChocolate" />
 	<PackageReference Include="HotChocolate.Data.MongoDb" />
+	<PackageReference Include="Microsoft.AspNetCore.OData" />
 	<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" />
   </ItemGroup>
@@ -38,24 +41,18 @@
   </PropertyGroup>
 
   <ItemGroup Condition="'$(BuildConsoleUi)' == 'true'">
-    <ConsoleInputs Include="$(ConsoleDir)\**\*"
-                   Exclude="$(ConsoleDir)\node_modules\**;$(ConsoleDir)\dist\**" />
+    <ConsoleInputs Include="$(ConsoleDir)\**\*" Exclude="$(ConsoleDir)\node_modules\**;$(ConsoleDir)\dist\**" />
   </ItemGroup>
 
-  <Target Name="BuildConsoleUi"
-          BeforeTargets="Build"
-          Condition="'$(BuildConsoleUi)' == 'true'"
-          Inputs="@(ConsoleInputs)"
-          Outputs="$(ConsoleBuildStamp)">
-    <Message Importance="high" Text="[console] Building console (Vite) -> $(ConsoleWwwroot)" />
+  <Target Name="BuildConsoleUi" BeforeTargets="Build" Condition="'$(BuildConsoleUi)' == 'true'" Inputs="@(ConsoleInputs)" Outputs="$(ConsoleBuildStamp)">
+    <Message Importance="high" Text="[console] Building console (Vite) -&gt; $(ConsoleWwwroot)" />
     <Exec Command="npm ci" WorkingDirectory="$(ConsoleDir)" Condition="!Exists('$(ConsoleDir)\node_modules')" />
     <Exec Command="npm run build" WorkingDirectory="$(ConsoleDir)" />
     <RemoveDir Directories="$(ConsoleWwwroot)" />
     <ItemGroup>
       <ConsoleExport Include="$(ConsoleOutDir)\**\*" />
     </ItemGroup>
-    <Copy SourceFiles="@(ConsoleExport)"
-          DestinationFiles="@(ConsoleExport->'$(ConsoleWwwroot)\%(RecursiveDir)%(Filename)%(Extension)')" />
+    <Copy SourceFiles="@(ConsoleExport)" DestinationFiles="@(ConsoleExport->'$(ConsoleWwwroot)\%(RecursiveDir)%(Filename)%(Extension)')" />
     <Touch Files="$(ConsoleBuildStamp)" AlwaysCreate="true" />
     <Message Importance="high" Text="[console] Published console (dist) to wwwroot/console" />
   </Target>

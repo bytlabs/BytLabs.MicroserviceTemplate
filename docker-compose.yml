@@ -13,6 +13,22 @@ services:
     networks:
       - local_network
 
+  # PostgreSQL backing store (used when DataStore:Provider=Postgres and by the acceptance matrix).
+  bytlabs-postgres:
+    image: postgres:16
+    container_name: bytlabs-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: microservicetemplate
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - local_network
+
   bytlabs-microservice-template-service:
     build:
       context: .
@@ -47,6 +63,7 @@ services:
 
 volumes:
   mongo_data:
+  postgres_data:
 
 networks:
   local_network:

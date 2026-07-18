@@ -1,4 +1,4 @@
-using BytLabs.MicroserviceTemplate.Domain.Common.DynamicData;
+using BytLabs.Domain.DynamicData;
 
 namespace BytLabs.MicroserviceTemplate.Domain.EntityDefs.Inputs
 {

@@ -1,7 +1,7 @@
 using BytLabs.Domain.Entities;
 using BytLabs.MicroserviceTemplate.Domain.EntityDefs.Inputs;
 using BytLabs.MicroserviceTemplate.Domain.EntityDefs.Events;
-using BytLabs.MicroserviceTemplate.Domain.Common.DynamicData;
+using BytLabs.Domain.DynamicData;
 
 namespace BytLabs.MicroserviceTemplate.Domain.EntityDefs.Aggregates
 {

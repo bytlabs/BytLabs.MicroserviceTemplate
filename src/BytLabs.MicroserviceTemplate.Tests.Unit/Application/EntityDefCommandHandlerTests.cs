@@ -1,14 +1,13 @@
 using AutoMapper;
 using BytLabs.Application.DataAccess;
+using BytLabs.Domain.DynamicData;
 using BytLabs.MicroserviceTemplate.Application.EntityDefs.Commands.CreateEntityDef;
 using BytLabs.MicroserviceTemplate.Application.EntityDefs.Commands.RemoveEntityDef;
 using BytLabs.MicroserviceTemplate.Application.EntityDefs.Commands.UpdateEntityDef;
 using BytLabs.MicroserviceTemplate.Application.EntityDefs.Mapping;
 using BytLabs.MicroserviceTemplate.Domain.EntityDefs.Aggregates;
-using BytLabs.MicroserviceTemplate.Domain.Common.DynamicData;
 using FluentAssertions;
 using Moq;
-using Xunit;
 
 namespace BytLabs.MicroserviceTemplate.Tests.Unit.Application;
 
