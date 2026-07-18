@@ -6,7 +6,6 @@ using HotChocolate.Data;
 using HotChocolate.Data.Filters.Expressions;
 using HotChocolate.Data.MongoDb;
 using HotChocolate.Data.MongoDb.Filters;
-using Microsoft.Extensions.Configuration;
 using BytLabs.MicroserviceTemplate.Application.EntityDefs.Commands.CreateEntityDef;
 using BytLabs.MicroserviceTemplate.Application.EntityDefs.Commands.RemoveEntityDef;
 using BytLabs.MicroserviceTemplate.Application.EntityDefs.Commands.UpdateEntityDef;
@@ -103,17 +102,18 @@ namespace BytLabs.MicroserviceTemplate.Infrastructure.HotChocolate
 
         public static IRequestExecutorBuilder AddAggregateTypes(this IRequestExecutorBuilder requestExecutorBuilder)
         {
-            // Only the dynamic-data Product aggregate needs the BytLabs aggregate filter/sort
-            // input types. Order uses HotChocolate's built-in [UseFiltering]/[UseSorting].
+            // Product and Order aggregates implements DynamicData and thus
+            // needs the BytLabs aggregate filter/sort input types
+            // to handle operations on this dynamic data.
             return requestExecutorBuilder
                 .AddAggregateSortType<Order, Guid>()
                 .AddAggregateFilterType<Order, Guid>()
                 .AddAggregateSortType<Product, Guid>()
                 .AddAggregateFilterType<Product, Guid>()
+                
                 // EntityDef query uses [UseSorting(Type=typeof(EntityDef))] which generates the sort
-                // input itself, so only the aggregate filter type is registered here (mirrors
-                // CandidateManagement's OrganizationSubEntityDef). Registering the sort type too
-                // would duplicate `EntityDefSortInput`.
+                // input itself, so only the aggregate filter type is registered here.
+                // Registering the sort type too would duplicate `EntityDefSortInput`.
                 .AddAggregateFilterType<EntityDef, Guid>();
         }
     }

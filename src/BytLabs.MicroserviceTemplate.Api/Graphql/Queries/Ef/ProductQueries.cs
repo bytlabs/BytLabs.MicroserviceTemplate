@@ -17,11 +17,9 @@ namespace BytLabs.MicroserviceTemplate.Api.Graphql.Queries.Ef;
 
 public partial class EfQuery
 {
-   
-    // No [UseProjection]: AutoMapper's ProjectTo already projects to the DTO; HotChocolate's queryable
-    // projection can't member-init ProductVariantDto (no parameterless ctor).
     [Authorize]
     [UsePaging]
+    [UseProjection]
     [UseFiltering(Type = typeof(Product))]
     public IQueryable<ProductDto> GetProducts(
         [Service] IQueryable<Product> products,
@@ -30,14 +28,8 @@ public partial class EfQuery
         List<SortInput<Product>>? order,
         CancellationToken cancellationToken)
     {
-        var query = products.ExcludeSoftDeletedEntities();
-
-        var filter = context.GetFilterContext();
-        if (filter?.AsPredicate<Product>() is { } predicate)
-            query = query.Where(predicate);
-        filter?.Handled(true);
-
-        return query
+        return products.ExcludeSoftDeletedEntities()
+            .PatchForEfDynamicFilter(context)
             .AppySortingWithDynamicData(order)
             .ProjectTo<ProductDto>(mapper.ConfigurationProvider);
     }

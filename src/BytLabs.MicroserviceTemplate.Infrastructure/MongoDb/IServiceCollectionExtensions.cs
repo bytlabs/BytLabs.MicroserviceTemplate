@@ -1,6 +1,7 @@
 ﻿using BytLabs.Api.Configuration;
 using BytLabs.DataAccess.MongoDB;
 using BytLabs.DataAccess.MongoDB.Configuration;
+using BytLabs.DataAccess.MongoDB.Serializers;
 using BytLabs.MicroserviceTemplate.Domain.EntityDefs.Aggregates;
 using BytLabs.MicroserviceTemplate.Domain.Orders.Aggregates;
 using BytLabs.MicroserviceTemplate.Domain.Orders.Entities;
@@ -57,6 +58,11 @@ namespace BytLabs.MicroserviceTemplate.Infrastructure.MongoDb
                 cm.AutoMap();
                 cm.MapMember(c => c.ProductId)
                     .SetSerializer(new GuidSerializer(BsonType.String));
+            });
+
+            BsonClassMap.TryRegisterClassMap<ProductVariant>(cm =>
+            {
+                cm.AutoMap();
             });
 
             BsonClassMap.TryRegisterClassMap<ProductVariant>(cm =>
