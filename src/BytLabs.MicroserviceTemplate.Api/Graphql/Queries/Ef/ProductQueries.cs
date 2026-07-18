@@ -1,7 +1,6 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using BytLabs.Application.DynamicData;
-using BytLabs.MicroserviceTemplate.Infrastructure.Postgres.DynamicData;
 using BytLabs.MicroserviceTemplate.Application.Products.Dtos;
 using BytLabs.MicroserviceTemplate.Domain.Products.Aggregates;
 using HotChocolate;
@@ -12,6 +11,7 @@ using HotChocolate.Resolvers;
 using HotChocolate.Types;
 using BytLabs.DataAccess.EntityFramework;
 using BytLabs.MicroserviceTemplate.Api.HotChocolate;
+using BytLabs.DataAccess.EntityFramework.DynamicData;
 
 namespace BytLabs.MicroserviceTemplate.Api.Graphql.Queries.Ef;
 
