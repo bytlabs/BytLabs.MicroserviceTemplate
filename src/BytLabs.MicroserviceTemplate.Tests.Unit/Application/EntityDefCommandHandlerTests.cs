@@ -6,6 +6,7 @@ using BytLabs.MicroserviceTemplate.Application.EntityDefs.Commands.RemoveEntityD
 using BytLabs.MicroserviceTemplate.Application.EntityDefs.Commands.UpdateEntityDef;
 using BytLabs.MicroserviceTemplate.Application.EntityDefs.Mapping;
 using BytLabs.MicroserviceTemplate.Domain.EntityDefs.Aggregates;
+using FluentAssertions;
 using Moq;
 
 namespace BytLabs.MicroserviceTemplate.Tests.Unit.Application;
