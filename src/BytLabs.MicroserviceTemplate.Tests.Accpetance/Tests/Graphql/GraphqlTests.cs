@@ -117,6 +117,56 @@ public abstract class GraphqlTestsBase
         var after = await Client.GetProducts.ExecuteAsync(50, null, null, where, CancellationToken.None);
         after.Data!.Products!.Nodes!.Should().NotContain(p => Guid.Parse(p!.Id) == productId);
     }
+
+    [Fact]
+    public async Task EntityDef_lifecycle_create_query_update_remove()
+    {
+        var id = Guid.NewGuid();
+
+        var created = await Client.CreateEntityDef.ExecuteAsync(
+            new CreateEntityDefInput { Id = id.ToString(), EntityType = "Product", Form = Form(), Table = Table() },
+            CancellationToken.None);
+        created.Data!.CreateEntityDef.Errors.Should().BeNullOrEmpty();
+        created.Data.CreateEntityDef.EntityDef!.EntityType.Should().Be("Product");
+
+        // Filter by id so the list assertions are deterministic against accumulated rows.
+        var where = new EntityDefFilterInput { Id = new UuidOperationFilterInput { Eq = id } };
+
+        var list = await Client.GetEntityDefs.ExecuteAsync(50, null, null, where, CancellationToken.None);
+        list.Data!.EntityDefs!.Nodes!.Should().ContainSingle(d => Guid.Parse(d!.Id) == id);
+
+        var updated = await Client.UpdateEntityDef.ExecuteAsync(
+            new UpdateEntityDefInput { Id = id.ToString(), Form = Form(), Table = Table("[{\"accessorKey\":\"name\"}]") },
+            CancellationToken.None);
+        updated.Data!.UpdateEntityDef.Errors.Should().BeNullOrEmpty();
+        updated.Data.UpdateEntityDef.EntityDef!.Table!.Columns!.Data.Should().Contain("accessorKey");
+
+        var removed = await Client.RemoveEntityDef.ExecuteAsync(
+            new RemoveEntityDefInput { Id = id.ToString() }, CancellationToken.None);
+        removed.Data!.RemoveEntityDef.Errors.Should().BeNullOrEmpty();
+
+        // Soft-deleted rows are excluded from reads.
+        var after = await Client.GetEntityDefs.ExecuteAsync(50, null, null, where, CancellationToken.None);
+        after.Data!.EntityDefs!.Nodes!.Should().NotContain(d => Guid.Parse(d!.Id) == id);
+    }
+
+    private static DataSchemaInput Ds(string type, string data) => new() { Type = type, Data = data };
+
+    private static FormDataSchemaInput Form() => new()
+    {
+        Key = "product",
+        SampleData = Ds("json", "{}"),
+        FormSchema = Ds("rjsf/formSchema", "{\"type\":\"object\"}"),
+        FormUi = Ds("rjsf/uiSchema", "{}")
+    };
+
+    private static TableDataSchemaInput Table(string columns = "[]") => new()
+    {
+        SampleData = Ds("json", "{}"),
+        Columns = Ds("tanstack/columnDef", columns),
+        Filter = Ds("json", "{}"),
+        Details = Ds("cms/view", "{}")
+    };
 }
 
 [Collection("Mongo")]
