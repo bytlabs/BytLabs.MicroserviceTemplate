@@ -28,10 +28,11 @@ namespace BytLabs.MicroserviceTemplate.Api.Graphql.Queries.Mongo
             List<SortInput<Order>>? order,
             CancellationToken cancellationToken)
         {
+            // Dynamic-data `data` filtering is applied by MongoDynamicDataFilterFieldHandler via the
+            // filter middleware (not inline). Sorting stays inline.
             return db.GetCollection<Order>()
                      .Aggregate()
                      .ExcludeSoftDeletedEntites()
-                     .ApplyDynamicDataFilteration(context)
                      .AppySortingWithDynamicData(order)
                      .Project(Builders<Order>.Projection.As<OrderDto>())
                      .AsExecutable();

@@ -33,7 +33,6 @@ namespace BytLabs.MicroserviceTemplate.Api.Graphql.Queries.Mongo
             return db.GetCollection<Product>()
                      .Aggregate()
                      .ExcludeSoftDeletedEntites()
-                     .ApplyDynamicDataFilteration(context)
                      .AppySortingWithDynamicData(order)
                      .Project(Builders<Product>.Projection.As<ProductDto>())
                      .AsExecutable();

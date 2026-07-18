@@ -3,7 +3,6 @@ using BytLabs.Api;
 using BytLabs.MicroserviceTemplate.Infrastructure;
 using BytLabs.MicroserviceTemplate.Infrastructure.Postgres;
 using BytLabs.MicroserviceTemplate.Api.Graphql.Mutations;
-using BytLabs.MicroserviceTemplate.Api.Graphql.Queries.Mongo;
 using BytLabs.MicroserviceTemplate.Api.Extensions;
 using BytLabs.MicroserviceTemplate.Api.ConsoleApp;
 using BytLabs.Api.UserContextResolvers;
@@ -37,17 +36,20 @@ try
                 services.AddJwtAuthentication(builder.Configuration);
 
                 services.AddWebSockets(op => op.KeepAliveInterval = TimeSpan.FromSeconds(30));
+
+                services.AddNitro();
                 
                 var graphql = services.AddGraphQLService()
-                    .AddQueryType(builder.Configuration)
+                    .AddAggregateTypes()
                     .AddDynamicDataTypes()
+                    .AddStoreQueryType(builder.Configuration)
                     .AddCommandTypes()
                     .AddDtoTypes()
-                    .AddAggregateTypes()
                     .AddMutationType<Mutation>()
                     .ModifyCostOptions(o => o.EnforceCostLimits = false)
                     .ModifyOptions(o => o.RemoveUnreachableTypes = true)
-                    .ModifyPagingOptions(opt => opt.IncludeTotalCount = true);
+                    .ModifyPagingOptions(opt => opt.IncludeTotalCount = true)
+                    ;
 
                 // REST/OData surface (same store as GraphQL, selected by DataStore:Provider).
                 services.AddControllers().AddOData(options =>

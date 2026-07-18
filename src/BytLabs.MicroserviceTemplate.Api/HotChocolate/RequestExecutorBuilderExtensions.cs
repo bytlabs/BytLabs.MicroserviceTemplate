@@ -1,7 +1,12 @@
 using BytLabs.Api.Graphql;
+using BytLabs.MicroserviceTemplate.Api.HotChocolate;
 using BytLabs.MicroserviceTemplate.Api.Graphql.Queries.Ef;
 using BytLabs.MicroserviceTemplate.Api.Graphql.Queries.Mongo;
-using BytLabs.MicroserviceTemplate.Api.HotChocolate;
+using HotChocolate.Data;
+using HotChocolate.Data.Filters.Expressions;
+using HotChocolate.Data.MongoDb;
+using HotChocolate.Data.MongoDb.Filters;
+using Microsoft.Extensions.Configuration;
 using BytLabs.MicroserviceTemplate.Application.EntityDefs.Commands.CreateEntityDef;
 using BytLabs.MicroserviceTemplate.Application.EntityDefs.Commands.RemoveEntityDef;
 using BytLabs.MicroserviceTemplate.Application.EntityDefs.Commands.UpdateEntityDef;
@@ -20,8 +25,6 @@ using BytLabs.MicroserviceTemplate.Application.Products.Dtos;
 using BytLabs.MicroserviceTemplate.Domain.EntityDefs.Aggregates;
 using BytLabs.MicroserviceTemplate.Domain.Orders.Aggregates;
 using BytLabs.MicroserviceTemplate.Domain.Products.Aggregates;
-using HotChocolate.Data;
-using HotChocolate.Data.Filters.Expressions;
 using HotChocolate.Execution.Configuration;
 
 namespace BytLabs.MicroserviceTemplate.Infrastructure.HotChocolate
@@ -29,47 +32,47 @@ namespace BytLabs.MicroserviceTemplate.Infrastructure.HotChocolate
     public static class RequestExecutorBuilderExtensions
     {
 
-        public static IRequestExecutorBuilder AddQueryType(this IRequestExecutorBuilder builder, IConfiguration configuration)
-        {
-            // The read resolvers + query middleware are store-selected, but they register the SAME
-            // schema types (commands/DTOs/aggregate filter+sort), so the schema is identical on both
-            // stores and one client works against either.
-            var isPostgres = string.Equals(
-                configuration["DataStore:Provider"], "Postgres", StringComparison.OrdinalIgnoreCase);
-
-
-            if (isPostgres)
-                builder.AddQueryableQuerySettings().AddQueryType<EfQuery>();
-            else
-                builder.AddMongoDbQuerySettings().AddQueryType<MongoQuery>();
-
-            return builder;
-        }
-
-
-        // RECIPE: enable MongoDB-aware filtering/projection/sorting/paging for GraphQL queries.
-        public static IRequestExecutorBuilder AddMongoDbQuerySettings(this IRequestExecutorBuilder builder)
-        {
-            return builder
-                    .AddMongoDbFiltering()
-                    .AddMongoDbProjections()
-                    .AddMongoDbSorting()
-                    .AddMongoDbPagingProviders();
-        }
-
         // Provider-agnostic (IQueryable/EF) filtering/projection/sorting. Paging uses HotChocolate's
-        // default queryable cursor provider. Used for the PostgreSQL GraphQL query root.
+        // default queryable cursor provider. Used for the PostgreSQL/MongoDB GraphQL query root.
         public static IRequestExecutorBuilder AddQueryableQuerySettings(this IRequestExecutorBuilder builder)
         {
             return builder
+                    .AddQueryableCursorPagingProvider()
+                    .AddProjections()
+                    // Register the dynamic-data `data` field handler on the queryable (EF) filter
+                    // provider so it translates DataOperationFilter to a jsonb predicate (and the schema
+                    // can build). AddDefaults keeps the built-in scalar/and/or handlers.
                     .AddFiltering(d => d
                         .AddDefaults()
                         .AddProviderExtension(new QueryableFilterProviderExtension(x =>
-                            x.AddFieldHandler<DataPassThroughFilterFieldHandler>())))
-                    .AddProjections()
-                    .AddSorting()
-                    .AddQueryableCursorPagingProvider();
+                            x.AddFieldHandler(ctx => new QueryableDynamicDataFilterFieldHandler(ctx.InputParser)))))
+                    .AddSorting();
         }
+
+        // MongoDB filtering/projection/sorting/paging. The dynamic-data `data` filter is applied in the
+        // MongoQuery resolver (as a $match before the projection, which a post-resolver filter handler
+        // cannot do); the default MongoDB filter provider handles scalar fields.
+        public static IRequestExecutorBuilder AddMongoDbQuerySettings(this IRequestExecutorBuilder builder)
+        {
+            return builder
+                    .AddMongoDbPagingProviders()
+                    .AddMongoDbProjections()
+                    .AddMongoDbSorting()
+                    .AddFiltering(descriptor => descriptor
+                        .AddMongoDbDefaults()
+                        .Provider(new MongoDbFilterProvider(p => p
+                            .AddFieldHandler(ctx => new MongoDynamicDataFilterFieldHandler(ctx.InputParser))
+                            .AddDefaultMongoDbFieldHandlers())));
+        }
+
+        // Selects the filter/projection/sorting provider AND the query root for the configured store:
+        // Postgres = queryable/EF (EfQuery, filtered via the queryable dynamic-data handler + AsPredicate),
+        // otherwise MongoDB (MongoQuery, filtered in the aggregate). The schema is identical on both.
+        public static IRequestExecutorBuilder AddStoreQueryType(
+            this IRequestExecutorBuilder builder, IConfiguration configuration)
+            => string.Equals(configuration["DataStore:Provider"], "Postgres", StringComparison.OrdinalIgnoreCase)
+                ? builder.AddQueryableQuerySettings().AddQueryType<EfQuery>()
+                : builder.AddMongoDbQuerySettings().AddQueryType<MongoQuery>();
 
         public static IRequestExecutorBuilder AddCommandTypes(this IRequestExecutorBuilder requestExecutorBuilder)
         {

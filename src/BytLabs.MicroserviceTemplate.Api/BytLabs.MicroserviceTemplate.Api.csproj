@@ -11,6 +11,8 @@
   <ItemGroup>
     <PackageReference Include="BytLabs.Api" />
 	<PackageReference Include="BytLabs.Api.Graphql" />
+	<PackageReference Include="ChilliCream.Nitro" />
+	<PackageReference Include="ChilliCream.Nitro.HotChocolate" />
 	<PackageReference Include="HotChocolate.Data.MongoDb" />
 	<PackageReference Include="Microsoft.AspNetCore.OData" />
 	<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />

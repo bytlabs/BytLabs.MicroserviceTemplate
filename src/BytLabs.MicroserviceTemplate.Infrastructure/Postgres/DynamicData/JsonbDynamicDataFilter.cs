@@ -23,7 +23,7 @@ public static class JsonbDynamicDataFilter
     /// a <c>data.&lt;key&gt;</c> path (or an unmatched name) sorts by the jsonb sub-value. Mirrors the
     /// MongoDB <c>AppySortingWithDynamicData</c>.
     /// </summary>
-    public static IQueryable<T> ApplyDynamicDataSorting<T>(this IQueryable<T> source, List<SortInput<T>>? order)
+    public static IQueryable<T> AppySortingWithDynamicData<T>(this IQueryable<T> source, List<SortInput<T>>? order)
         where T : class, IHaveDynamicData
     {
         if (order is null || order.Count == 0) return source;
@@ -70,10 +70,9 @@ public static class JsonbDynamicDataFilter
         return Expression.Call(element, nameof(JsonElement.GetString), Type.EmptyTypes);
     }
 
-    public static IQueryable<T> ApplyDynamicDataFilteration<T>(this IQueryable<T> source, InputFilteringDynamicData? filter)
+    public static IQueryable<T> ApplyDynamicDataFilteration<T>(this IQueryable<T> source, InputFilteringDynamicData filter)
         where T : class, IHaveDynamicData
     {
-        if (filter is null) return source;
         var param = Expression.Parameter(typeof(T), "e");
         var body = BuildNode<T>(filter, param);
         return body is null ? source : source.Where(Expression.Lambda<Func<T, bool>>(body, param));
@@ -106,12 +105,17 @@ public static class JsonbDynamicDataFilter
         return parts.Count == 0 ? null : parts.Aggregate(Expression.AndAlso);
     }
 
-    private static Expression? BuildLeaf(DataOperationFilter op, ParameterExpression param)
+    /// <summary>
+    /// Builds the EF-translatable predicate for a single dynamic-data leaf against the given entity
+    /// instance expression (e.g. the filter parameter <c>e</c>). Exposed so the HotChocolate queryable
+    /// filter field handler can reuse it during visitation. Returns null for an empty path.
+    /// </summary>
+    public static Expression? BuildLeaf(DataOperationFilter op, Expression instance)
     {
         if (string.IsNullOrWhiteSpace(op.Path)) return null;
 
         // e.Data, then GetProperty(segment) for each dotted path segment: data.a.b -> data->'a'->'b'
-        Expression element = Expression.Property(param, nameof(IHaveDynamicData.Data));
+        Expression element = Expression.Property(instance, nameof(IHaveDynamicData.Data));
         foreach (var segment in op.Path.Split('.', StringSplitOptions.RemoveEmptyEntries))
             element = Expression.Call(element, GetPropertyMethod, Expression.Constant(segment));
 
