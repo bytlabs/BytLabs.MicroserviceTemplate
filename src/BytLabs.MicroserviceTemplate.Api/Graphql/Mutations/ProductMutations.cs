@@ -1,5 +1,3 @@
-using BytLabs.Api.Graphql.ErrorTypes.Business;
-using BytLabs.Api.Graphql.ErrorTypes.Validation;
 using BytLabs.MicroserviceTemplate.Application.Products.Commands.CreateProduct;
 using BytLabs.MicroserviceTemplate.Application.Products.Commands.UpdateProduct;
 using BytLabs.MicroserviceTemplate.Application.Products.Commands.RemoveProduct;
@@ -10,6 +8,8 @@ using HotChocolate;
 using HotChocolate.Authorization;
 using HotChocolate.Types;
 using MediatR;
+using BytLabs.Hotchocolate.ErrorTypes.Validation;
+using BytLabs.Hotchocolate.ErrorTypes.Business;
 
 namespace BytLabs.MicroserviceTemplate.Api.Graphql.Mutations
 {

@@ -17,19 +17,6 @@ namespace BytLabs.MicroserviceTemplate.Api.HotChocolate;
 
 public static class DynamicDataFilterExtensions
 {
-    public static IQueryable<T> PatchForEfDynamicFilter<T>(this IQueryable<T> query, IResolverContext context)
-       where T : class
-    {
-        // Apply the whole `where` (scalar + dynamic-data `data`, via the registered field handlers) to
-        // the entity queryable before projecting, then tell the middleware it's handled so it doesn't
-        // try to re-apply it to the projected DTO queryable.
-        var filter = context.GetFilterContext();
-        if (filter?.AsPredicate<T>() is { } predicate)
-            query = query.Where(predicate);
-        filter?.Handled(true);
-        return query;
-    }
-}
 
 /// <summary>
 /// Translates the custom dynamic-data <c>data</c> filter field (<see cref="DataOperationFilter"/>) into an

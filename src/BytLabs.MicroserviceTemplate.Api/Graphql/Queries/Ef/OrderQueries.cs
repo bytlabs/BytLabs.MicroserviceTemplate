@@ -29,18 +29,17 @@ public partial class EfQuery
     [Authorize]
     [UsePaging]
     [UseProjection]
-    [UseFiltering(Type = typeof(Order))]
+    [UseFiltering]
     public IQueryable<OrderDto> GetOrders(
         [Service] IQueryable<Order> orders,
         [Service] IMapper mapper,
         IResolverContext context,
-        List<SortInput<Order>>? order,
+        List<SortInput<OrderDto>>? order,
         CancellationToken cancellationToken)
     {
-        return orders.ExcludeSoftDeletedEntities()
-            .PatchForEfDynamicFilter(context)
-            .AppySortingWithDynamicData(order)
-            .ProjectTo<OrderDto>(mapper.ConfigurationProvider);
+        return orders.ExcludeSoftDeletedEntities()            
+            .ProjectTo<OrderDto>(mapper.ConfigurationProvider)
+            .AppySortingWithDynamicData(order);
     }
 
    

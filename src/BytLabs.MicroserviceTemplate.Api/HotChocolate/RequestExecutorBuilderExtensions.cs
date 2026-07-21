@@ -1,4 +1,3 @@
-using BytLabs.Api.Graphql;
 using BytLabs.MicroserviceTemplate.Api.HotChocolate;
 using BytLabs.MicroserviceTemplate.Api.Graphql.Queries.Ef;
 using BytLabs.MicroserviceTemplate.Api.Graphql.Queries.Mongo;
@@ -21,10 +20,8 @@ using BytLabs.MicroserviceTemplate.Application.Products.Commands.RemoveProduct;
 using BytLabs.MicroserviceTemplate.Application.Products.Commands.RemoveVariant;
 using BytLabs.MicroserviceTemplate.Application.Products.Commands.UpdateProduct;
 using BytLabs.MicroserviceTemplate.Application.Products.Dtos;
-using BytLabs.MicroserviceTemplate.Domain.EntityDefs.Aggregates;
-using BytLabs.MicroserviceTemplate.Domain.Orders.Aggregates;
-using BytLabs.MicroserviceTemplate.Domain.Products.Aggregates;
 using HotChocolate.Execution.Configuration;
+using BytLabs.Hotchocolate;
 
 namespace BytLabs.MicroserviceTemplate.Infrastructure.HotChocolate
 {
@@ -93,28 +90,13 @@ namespace BytLabs.MicroserviceTemplate.Infrastructure.HotChocolate
         public static IRequestExecutorBuilder AddDtoTypes(this IRequestExecutorBuilder requestExecutorBuilder)
         {
             return requestExecutorBuilder
-                .AddDtoType<OrderDto>()
-                .AddDtoType<OrderItemDto>()
-                .AddType<ProductDtoType>()          // custom DtoType for Product
-                .AddDtoType<ProductVariantDto>()
-                .AddDtoType<EntityDefDto>();
+                .AddDtoType<OrderDto>(isDynamicSorting: true)
+                .AddDtoType<OrderItemDto>(isDynamicSorting: true)
+                .AddDtoType<ProductDto>(isDynamicSorting: true)
+                .AddDtoType<ProductVariantDto>(isDynamicSorting: true)
+                .AddDtoType<EntityDefDto>()
+                ;
         }
 
-        public static IRequestExecutorBuilder AddAggregateTypes(this IRequestExecutorBuilder requestExecutorBuilder)
-        {
-            // Product and Order aggregates implements DynamicData and thus
-            // needs the BytLabs aggregate filter/sort input types
-            // to handle operations on this dynamic data.
-            return requestExecutorBuilder
-                .AddAggregateSortType<Order, Guid>()
-                .AddAggregateFilterType<Order, Guid>()
-                .AddAggregateSortType<Product, Guid>()
-                .AddAggregateFilterType<Product, Guid>()
-                
-                // EntityDef query uses [UseSorting(Type=typeof(EntityDef))] which generates the sort
-                // input itself, so only the aggregate filter type is registered here.
-                // Registering the sort type too would duplicate `EntityDefSortInput`.
-                .AddAggregateFilterType<EntityDef, Guid>();
-        }
     }
 }

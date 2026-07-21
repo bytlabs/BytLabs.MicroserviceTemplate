@@ -1,5 +1,5 @@
-using BytLabs.Api.Graphql.ErrorTypes.Business;
-using BytLabs.Api.Graphql.ErrorTypes.Validation;
+using BytLabs.Hotchocolate.ErrorTypes.Business;
+using BytLabs.Hotchocolate.ErrorTypes.Validation;
 using BytLabs.MicroserviceTemplate.Application.EntityDefs.Commands.CreateEntityDef;
 using BytLabs.MicroserviceTemplate.Application.EntityDefs.Commands.RemoveEntityDef;
 using BytLabs.MicroserviceTemplate.Application.EntityDefs.Commands.UpdateEntityDef;

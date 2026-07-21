@@ -23,18 +23,18 @@ namespace BytLabs.MicroserviceTemplate.Api.Graphql.Queries.Mongo
         [Authorize]
         [UsePaging]
         [UseProjection]
-        [UseFiltering(Type = typeof(Product))]
+        [UseFiltering]
         public IExecutable<ProductDto> GetProducts(
             [Service] IMongoDatabase db,
             IResolverContext context,
-            List<SortInput<Product>>? order,
+            List<SortInput<ProductDto>>? order,
             CancellationToken cancellationToken)
         {
             return db.GetCollection<Product>()
                      .Aggregate()
                      .ExcludeSoftDeletedEntites()
-                     .AppySortingWithDynamicData(order)
                      .Project(Builders<Product>.Projection.As<ProductDto>())
+                     .AppySortingWithDynamicData(order)
                      .AsExecutable();
         }
     }

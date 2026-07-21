@@ -1,4 +1,4 @@
-using BytLabs.Api.Graphql.ObjectTypes;
+using BytLabs.Hotchocolate.ObjectTypes;
 using BytLabs.MicroserviceTemplate.Application.Products.Dtos;
 using HotChocolate.Types;
 

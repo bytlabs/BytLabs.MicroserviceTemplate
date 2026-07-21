@@ -1,4 +1,3 @@
-using BytLabs.Api.Graphql;
 using BytLabs.Api;
 using BytLabs.MicroserviceTemplate.Infrastructure;
 using BytLabs.MicroserviceTemplate.Infrastructure.Postgres;
@@ -10,8 +9,8 @@ using BytLabs.Api.TenantProvider;
 using Microsoft.AspNetCore.WebSockets;
 using BytLabs.MicroserviceTemplate.Infrastructure.HotChocolate;
 using BytLabs.MicroserviceTemplate.Api.OData;
-using BytLabs.MicroserviceTemplate.Api.Graphql.Queries.Ef;
 using Microsoft.AspNetCore.OData;
+using BytLabs.Hotchocolate;
 
 try
 {
@@ -40,7 +39,6 @@ try
                 services.AddNitro();
                 
                 var graphql = services.AddGraphQLService()
-                    .AddAggregateTypes()
                     .AddDynamicDataTypes()
                     .AddStoreQueryType(builder.Configuration)
                     .AddCommandTypes()

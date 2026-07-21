@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <PackageReference Include="BytLabs.Api" />
-    <PackageReference Include="BytLabs.Api.Graphql" />
     <PackageReference Include="BytLabs.DataAccess.MongoDB" />
     <PackageReference Include="BytLabs.DataAccess.EntityFramework" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />

@@ -17,8 +17,8 @@ public partial class EfQuery
 {
     [Authorize]
     [UsePaging]
-    [UseFiltering(Type = typeof(EntityDef))]
-    [UseSorting(Type = typeof(EntityDef))]
+    [UseFiltering]
+    [UseSorting]
     public IQueryable<EntityDefDto> GetEntityDefs(
         [Service] IQueryable<EntityDef> entityDefs,
         [Service] IMapper mapper,
@@ -27,7 +27,6 @@ public partial class EfQuery
     {
         return entityDefs
             .ExcludeSoftDeletedEntities()
-            .PatchForEfDynamicFilter(context)
             .ProjectTo<EntityDefDto>(mapper.ConfigurationProvider);
     }
 }

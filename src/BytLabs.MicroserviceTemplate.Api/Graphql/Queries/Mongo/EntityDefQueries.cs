@@ -19,8 +19,8 @@ namespace BytLabs.MicroserviceTemplate.Api.Graphql.Queries.Mongo
         [Authorize]
         [UsePaging]
         [UseProjection]
-        [UseFiltering(Type = typeof(EntityDef))]
-        [UseSorting(Type = typeof(EntityDef))]
+        [UseFiltering]
+        [UseSorting]
         public IExecutable<EntityDefDto> GetEntityDefs(
             [Service] IMongoDatabase db,
             CancellationToken cancellationToken)
