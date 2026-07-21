@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="BytLabs.Api" />
-	<PackageReference Include="BytLabs.Api.Graphql" />
+	<PackageReference Include="BytLabs.Hotchocolate" />
 	<PackageReference Include="ChilliCream.Nitro" />
 	<PackageReference Include="ChilliCream.Nitro.HotChocolate" />
 	<PackageReference Include="HotChocolate.Data.MongoDb" />

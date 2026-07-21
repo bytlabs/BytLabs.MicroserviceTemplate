@@ -1,7 +1,7 @@
 <Project>
   <PropertyGroup>
     <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
-    <BytLabsPackageVersion>5.1.0-alpha.122</BytLabsPackageVersion>
+    <BytLabsPackageVersion>5.2.0-alpha.125</BytLabsPackageVersion>
   </PropertyGroup>
   <ItemGroup>
     <!-- Bytlabs packages -->
@@ -12,7 +12,7 @@
     <PackageVersion Include="BytLabs.Application" Version="$(BytLabsPackageVersion)" />
     <PackageVersion Include="BytLabs.DataAccess" Version="$(BytLabsPackageVersion)" />
     <PackageVersion Include="BytLabs.Api" Version="$(BytLabsPackageVersion)" />
-    <PackageVersion Include="BytLabs.Api.Graphql" Version="$(BytLabsPackageVersion)" />
+    <PackageVersion Include="BytLabs.Hotchocolate" Version="$(BytLabsPackageVersion)" />
     <PackageVersion Include="ChilliCream.Nitro" Version="16.3.0" />
     <PackageVersion Include="ChilliCream.Nitro.HotChocolate" Version="16.3.0" />
     <!-- Microsoft packages -->

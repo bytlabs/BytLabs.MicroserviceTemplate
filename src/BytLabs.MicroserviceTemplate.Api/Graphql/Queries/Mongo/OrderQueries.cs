@@ -21,11 +21,11 @@ namespace BytLabs.MicroserviceTemplate.Api.Graphql.Queries.Mongo
         // rows and supports dynamic-data filtering/sorting so the console can browse it out of the box.
         [UsePaging]
         [UseProjection]
-        [UseFiltering(Type = typeof(Order))]
+        [UseFiltering]
         public IExecutable<OrderDto> GetOrders(
             [Service] IMongoDatabase db,
             IResolverContext context,
-            List<SortInput<Order>>? order,
+            List<SortInput<OrderDto>>? order,
             CancellationToken cancellationToken)
         {
             // Dynamic-data `data` filtering is applied by MongoDynamicDataFilterFieldHandler via the
@@ -33,8 +33,8 @@ namespace BytLabs.MicroserviceTemplate.Api.Graphql.Queries.Mongo
             return db.GetCollection<Order>()
                      .Aggregate()
                      .ExcludeSoftDeletedEntites()
-                     .AppySortingWithDynamicData(order)
                      .Project(Builders<Order>.Projection.As<OrderDto>())
+                     .AppySortingWithDynamicData(order)
                      .AsExecutable();
         }
     }

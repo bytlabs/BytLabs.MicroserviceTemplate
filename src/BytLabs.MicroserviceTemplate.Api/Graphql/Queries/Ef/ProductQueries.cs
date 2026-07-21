@@ -20,17 +20,16 @@ public partial class EfQuery
     [Authorize]
     [UsePaging]
     [UseProjection]
-    [UseFiltering(Type = typeof(Product))]
+    [UseFiltering]
     public IQueryable<ProductDto> GetProducts(
         [Service] IQueryable<Product> products,
         [Service] IMapper mapper,
         IResolverContext context,
-        List<SortInput<Product>>? order,
+        List<SortInput<ProductDto>>? order,
         CancellationToken cancellationToken)
     {
         return products.ExcludeSoftDeletedEntities()
-            .PatchForEfDynamicFilter(context)
-            .AppySortingWithDynamicData(order)
-            .ProjectTo<ProductDto>(mapper.ConfigurationProvider);
+            .ProjectTo<ProductDto>(mapper.ConfigurationProvider)
+            .AppySortingWithDynamicData(order);
     }
 }
