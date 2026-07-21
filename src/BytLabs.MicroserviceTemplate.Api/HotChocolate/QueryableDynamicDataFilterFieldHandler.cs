@@ -15,8 +15,6 @@ using ValueKind = BytLabs.Application.DynamicData.ValueKind;
 
 namespace BytLabs.MicroserviceTemplate.Api.HotChocolate;
 
-public static class DynamicDataFilterExtensions
-{
 
 /// <summary>
 /// Translates the custom dynamic-data <c>data</c> filter field (<see cref="DataOperationFilter"/>) into an
